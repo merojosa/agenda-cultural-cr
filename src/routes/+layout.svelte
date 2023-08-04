@@ -1,14 +1,9 @@
 <script>
 </script>
 
-<svelte:head>
-	<title>Agenda Cultural CR - Teatro🎭</title>
-	<meta name="description" content="Cartelera de teatro para Costa Rica" />
-</svelte:head>
-
 <div class="app">
 	<header>
-		<h1>Agenda Cultural CR - Teatro🎭</h1>
+		<h1>Agenda Cultural CR</h1>
 	</header>
 
 	<main>
