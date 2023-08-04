@@ -2,6 +2,20 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	function formatDatetime(date: Date) {
+		return new Intl.DateTimeFormat('es-ES', {
+			weekday: 'short',
+			day: 'numeric',
+			month: 'short',
+			hour: 'numeric',
+			hour12: true,
+			minute: 'numeric'
+		})
+			.format(date)
+			.toUpperCase()
+			.replaceAll(',', '');
+	}
 </script>
 
 <svelte:head>
@@ -18,6 +32,7 @@
 			<div class="card-body">
 				<h3>{mockData.name}</h3>
 				<p>{mockData.description}</p>
+				<time datetime={mockData.date.toISOString()}>{formatDatetime(mockData.date)}</time>
 				<button>Sitio oficial</button>
 			</div>
 		</article>
@@ -27,7 +42,7 @@
 <style>
 	.content-container {
 		display: grid;
-		gap: 2rem;
+		gap: 3rem;
 	}
 
 	.content-container > h2 {
@@ -41,6 +56,7 @@
 		border-style: solid;
 		border-color: black;
 		border-width: 1px;
+		position: relative;
 	}
 
 	article > img {
@@ -62,5 +78,15 @@
 
 	article > .card-body > p {
 		flex: 1;
+	}
+
+	article > .card-body > time {
+		position: absolute;
+		right: -22px;
+		top: -21px;
+		background-color: black;
+		color: white;
+		padding: 0.8rem 1rem;
+		border-radius: 3px;
 	}
 </style>
