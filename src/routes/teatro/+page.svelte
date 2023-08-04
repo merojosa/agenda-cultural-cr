@@ -15,8 +15,11 @@
 	{#each data.mockData as mockData}
 		<article>
 			<img src={mockData.image} alt="Testing" />
-			<h3>{mockData.name}</h3>
-			<p>{mockData.description}</p>
+			<div class="card-body">
+				<h3>{mockData.name}</h3>
+				<p>{mockData.description}</p>
+				<button>Sitio oficial</button>
+			</div>
 		</article>
 	{/each}
 </section>
@@ -34,11 +37,30 @@
 	article {
 		display: flex;
 		flex-direction: column;
+		height: 40rem;
+		border-style: solid;
+		border-color: black;
+		border-width: 1px;
 	}
 
-	img {
+	article > img {
+		flex: 1.5;
 		width: 100%;
-		height: 25rem;
 		object-fit: cover;
+	}
+
+	article > .card-body {
+		padding: 1rem;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	article > .card-body > h3 {
+		margin: 0;
+	}
+
+	article > .card-body > p {
+		flex: 1;
 	}
 </style>
