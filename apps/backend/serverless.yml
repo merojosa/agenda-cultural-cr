@@ -1,0 +1,16 @@
+service: agenda-cultural-cr-backend
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  timeout: 300
+
+functions:
+  update-theater-data:
+    handler: dist/index.updateTheaterDataLambda
+    layers:
+      - ${env:CHROMIUM_LAYER_VERSION_ARN}
