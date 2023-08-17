@@ -6,7 +6,7 @@
 	"scripts": {
 		"start:theater": "yarn build && sls invoke local --function update-theater-data",
 		"build": "rm -rf dist && esbuild src/index.ts --bundle --platform=node --packages=external --target=node18 --outdir=dist",
-		"deploy:dev": "yarn build && sls deploy --stage dev"
+		"deploy:dev": "tsc && yarn run build && sls deploy --stage dev"
 	},
 	"dependencies": {
 		"luxon": "^3.4.0",

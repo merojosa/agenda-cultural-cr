@@ -12,8 +12,8 @@
 		"target": "es2022",
 		"sourceMap": true,
 		"paths": {
-			"@scraping/*": ["./src/scraping/*"],
-			"@utils/*": ["./src/utils/*"]
+			"#scraping/*": ["./src/scraping/*"],
+			"#utils/*": ["./src/utils/*"]
 		}
 	},
 	"include": ["src/**/*"],

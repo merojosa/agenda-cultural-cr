@@ -1,7 +1,7 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
-import { escapeXpathString, spanishMonths } from '@utils/util.scraping';
-import type { ActivityEntity } from '@scraping/activity-entity.type';
+import { escapeXpathString, spanishMonths } from '#utils/util.scraping';
+import type { ActivityEntity } from '#scraping/activity-entity.type';
 
 type TeatroNacionalDay = {
 	day: number;
