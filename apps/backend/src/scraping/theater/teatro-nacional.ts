@@ -111,7 +111,7 @@ async function getTeatroNacionalBasicData(page: Page, year: number, month: numbe
 			return playDays;
 		},
 		year,
-		month,
+		month
 	);
 
 	return teatroNacionalDays;
@@ -120,15 +120,15 @@ async function getTeatroNacionalBasicData(page: Page, year: number, month: numbe
 async function getDescriptionAndSource(
 	page: Page,
 	titlePlay: string,
-	datetimePlay: DateTime,
+	datetimePlay: DateTime
 ): Promise<{ description: string; source: string } | null> {
 	// xPath selectors explanation: https://devhints.io/xpath
 	const xPathElementsHandle = await page.$x(
 		`//ul[@id="calendar"]/li[text()[contains(., ${escapeXpathString(
-			datetimePlay.day.toString(),
+			datetimePlay.day.toString()
 		)})]]/article/em[text()[contains(., ${escapeXpathString(
-			datetimePlay.toFormat('h:mm a'),
-		)})]]/following-sibling::h3[text()[contains(., ${escapeXpathString(titlePlay)})]]`,
+			datetimePlay.toFormat('h:mm a')
+		)})]]/following-sibling::h3[text()[contains(., ${escapeXpathString(titlePlay)})]]`
 	);
 
 	if (!xPathElementsHandle.length) {
@@ -179,40 +179,33 @@ export async function getTeatroNacionalData(page: Page) {
 		return;
 	}
 
-	const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(
-		async (seed, curr) => {
-			const awaitedSeed = await seed;
+	const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(async (seed, curr) => {
+		const awaitedSeed = await seed;
 
-			for (const play of curr.plays) {
-				const datetime = DateTime.fromObject({
-					year: curr.year,
-					month: curr.month,
-					day: curr.day,
-					hour: play.hours,
-					minute: play.minutes,
-				});
-				const descriptionAndSourceResult = await getDescriptionAndSource(
-					page,
-					play.title,
-					datetime,
-				);
-				awaitedSeed.push({
-					title: play.title,
-					datetime,
-					description: 'a',
-					...(descriptionAndSourceResult
-						? {
-								description: descriptionAndSourceResult.description,
-								source: descriptionAndSourceResult.source,
-						  }
-						: {}),
-				});
-			}
+		for (const play of curr.plays) {
+			const datetime = DateTime.fromObject({
+				year: curr.year,
+				month: curr.month,
+				day: curr.day,
+				hour: play.hours,
+				minute: play.minutes,
+			});
+			const descriptionAndSourceResult = await getDescriptionAndSource(page, play.title, datetime);
+			awaitedSeed.push({
+				title: play.title,
+				datetime,
+				description: 'a',
+				...(descriptionAndSourceResult
+					? {
+							description: descriptionAndSourceResult.description,
+							source: descriptionAndSourceResult.source,
+					  }
+					: {}),
+			});
+		}
 
-			return awaitedSeed;
-		},
-		Promise.resolve([] as TheaterEntity[]),
-	);
+		return awaitedSeed;
+	}, Promise.resolve([] as TheaterEntity[]));
 
 	const teatroNacionalPlaysDb = await teatroNacionalPlaysDbPromise;
 	console.log('BREAKPOINT', teatroNacionalPlaysDb);

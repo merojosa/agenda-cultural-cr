@@ -10,7 +10,7 @@
 			month: 'short',
 			hour: 'numeric',
 			hour12: true,
-			minute: 'numeric'
+			minute: 'numeric',
 		})
 			.format(date)
 			.toUpperCase()
