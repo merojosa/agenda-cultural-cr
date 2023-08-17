@@ -4,8 +4,7 @@
 	"private": true,
 	"main": "dist/index.js",
 	"scripts": {
-		"start:dev": "tsx watch src/index.ts",
-		"start": "node dist/index.js",
+		"start:theater": "yarn build && sls invoke local --function update-theater-data",
 		"build": "rm -rf dist && esbuild src/index.ts --bundle --platform=node --packages=external --target=node18 --outdir=dist",
 		"deploy:dev": "yarn build && sls deploy --stage dev"
 	},
@@ -19,7 +18,7 @@
 		"@types/node": "^18.17.4",
 		"esbuild": "^0.19.1",
 		"serverless": "^3.34.0",
-		"tsx": "^3.12.7",
+		"serverless-offline": "^12.0.4",
 		"typescript": "^5.1.6"
 	}
 }

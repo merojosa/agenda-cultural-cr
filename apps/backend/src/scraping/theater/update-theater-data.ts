@@ -7,7 +7,9 @@ export async function updateTheaterData() {
 		headless: chromium.headless,
 		ignoreHTTPSErrors: true,
 		args: [...chromium.args, '--hide-scrollbars', '--disable-web-security', '--use-gl=swiftshader'],
-		executablePath: await chromium.executablePath(),
+		...(process.env.IS_LOCAL === 'true'
+			? { channel: 'chrome' }
+			: { executablePath: await chromium.executablePath() }),
 	});
 	const page = await browser.newPage();
 	await page.setViewport({ width: 1920, height: 1080 });

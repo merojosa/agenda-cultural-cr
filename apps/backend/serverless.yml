@@ -2,6 +2,9 @@ service: agenda-cultural-cr-backend
 
 useDotenv: true
 
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs18.x
