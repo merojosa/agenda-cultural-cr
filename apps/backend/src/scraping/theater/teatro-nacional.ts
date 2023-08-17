@@ -1,23 +1,7 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { escapeXpathString, spanishMonths } from '@utils/util.scraping';
-import { TheaterEntity } from './theater-entity';
-
-// The key will be the source, because is the only prop that may be really unique
-type TeatroNacionalTODO = Map<
-	string,
-	{
-		title: string;
-		description: string;
-		plays: {
-			day: number;
-			month: number;
-			year: number;
-			minute: number;
-			second: number;
-		}[];
-	}
->;
+import type { ActivityEntity } from '@scraping/activity-entity.type';
 
 type TeatroNacionalDay = {
 	day: number;
@@ -191,21 +175,18 @@ export async function getTeatroNacionalData(page: Page) {
 				minute: play.minutes,
 			});
 			const descriptionAndSourceResult = await getDescriptionAndSource(page, play.title, datetime);
-			awaitedSeed.push({
-				title: play.title,
-				datetime,
-				description: 'a',
-				...(descriptionAndSourceResult
-					? {
-							description: descriptionAndSourceResult.description,
-							source: descriptionAndSourceResult.source,
-					  }
-					: {}),
-			});
+			if (descriptionAndSourceResult) {
+				awaitedSeed.push({
+					title: play.title,
+					datetime,
+					description: descriptionAndSourceResult.description,
+					source: descriptionAndSourceResult.source,
+				});
+			}
 		}
 
 		return awaitedSeed;
-	}, Promise.resolve([] as TheaterEntity[]));
+	}, Promise.resolve([] as ActivityEntity[]));
 
 	const teatroNacionalPlaysDb = await teatroNacionalPlaysDbPromise;
 	console.log('BREAKPOINT', teatroNacionalPlaysDb);
