@@ -1,0 +1,15 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"compilerOptions": {
+		"strict": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"noUncheckedIndexedAccess": true,
+		"noEmit": true,
+		"forceConsistentCasingInFileNames": true,
+		"sourceMap": true
+	},
+	"exclude": ["node_modules"]
+}
