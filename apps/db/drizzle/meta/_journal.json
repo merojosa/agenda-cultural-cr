@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1692407353073,
+      "tag": "0000_slippery_ma_gnuci",
+      "breakpoints": true
+    }
+  ]
+}
