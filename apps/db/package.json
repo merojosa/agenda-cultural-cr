@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"generate": "drizzle-kit generate:pg --schema=./src/schema.ts",
-		"migrate:development": "tsx -r dotenv/config src/migrator.ts dotenv_config_path=.env.development"
+		"migrate:development": "tsx -r dotenv/config src/migrator.ts dotenv_config_path=.env.development",
+		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {},
 	"devDependencies": {
