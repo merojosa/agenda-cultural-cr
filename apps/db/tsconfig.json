@@ -2,7 +2,10 @@
 	"extends": "tsconfig/base.json",
 	"compilerOptions": {
 		"module": "CommonJS",
-		"target": "es2022"
+		"target": "es2022",
+		"paths": {
+			"#schema": ["./src/schema.ts"]
+		}
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules"]

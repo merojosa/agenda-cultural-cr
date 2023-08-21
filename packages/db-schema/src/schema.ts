@@ -18,7 +18,7 @@ export const activityTable = pgTable(
 		id: serial('id').primaryKey(),
 		title: varchar('title', { length: NAME_LENGTH }).notNull(),
 		description: text('description'),
-		activityUrl: varchar('activityUrl', { length: URL_LENGTH }),
+		activityUrl: varchar('activity_url', { length: URL_LENGTH }),
 		datetime: timestamp('datetime').notNull(),
 		locationId: integer('location_id')
 			.notNull()
@@ -46,10 +46,10 @@ export const activityTypeTable = pgTable('activity_type', {
 export const locationTable = pgTable('location', {
 	id: serial('id').primaryKey(),
 	name: varchar('name', { length: NAME_LENGTH }).notNull(),
-	gpsLocationUrl: varchar('name', { length: URL_LENGTH }),
+	gpsLocationUrl: varchar('gps_location_url', { length: URL_LENGTH }),
 });
 
-export const backendIdEnum = pgEnum('backendId', [
+export const backendIdEnum = pgEnum('backend_id', [
 	'teatro_nacional',
 	'espressivo',
 	'mcj',
@@ -58,26 +58,26 @@ export const backendIdEnum = pgEnum('backendId', [
 	'memoria_escenica',
 ]);
 
-export const automaticLocationTable = pgTable('automaticLocation', {
+export const automaticLocationTable = pgTable('automatic_location', {
 	locationId: integer('id')
 		.primaryKey()
 		.references(() => locationTable.id, {
 			onUpdate: 'cascade',
 			onDelete: 'cascade',
 		}),
-	backendId: backendIdEnum('backendId').unique(),
+	backendId: backendIdEnum('backend_id').unique(),
 	url: varchar('url', { length: URL_LENGTH }),
 });
 
-export const manualLocationTable = pgTable('manualLocation', {
-	locationId: integer('id')
+export const manualLocationTable = pgTable('manual_location', {
+	locationId: integer('location_id')
 		.primaryKey()
 		.references(() => locationTable.id, {
 			onUpdate: 'cascade',
 			onDelete: 'cascade',
 		}),
 	extraInformation: varchar('extra_information', { length: 400 }),
-	authorEmail: varchar('email', { length: 100 }).references(() => authorTable.email, {
+	authorEmail: varchar('author_email', { length: 100 }).references(() => authorTable.email, {
 		onUpdate: 'cascade',
 		onDelete: 'cascade',
 	}),

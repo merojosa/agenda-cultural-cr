@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1692407353073,
-      "tag": "0000_slippery_ma_gnuci",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1692601917197,
-      "tag": "0001_right_quasimodo",
+      "when": 1692651937040,
+      "tag": "0000_right_thaddeus_ross",
       "breakpoints": true
     }
   ]
