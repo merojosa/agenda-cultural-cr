@@ -77,10 +77,12 @@ export const manualLocationTable = pgTable('manual_location', {
 			onDelete: 'cascade',
 		}),
 	extraInformation: varchar('extra_information', { length: 400 }),
-	authorEmail: varchar('author_email', { length: 100 }).references(() => authorTable.email, {
-		onUpdate: 'cascade',
-		onDelete: 'cascade',
-	}),
+	authorEmail: varchar('author_email', { length: 100 })
+		.notNull()
+		.references(() => authorTable.email, {
+			onUpdate: 'cascade',
+			onDelete: 'cascade',
+		}),
 });
 
 export const authorTable = pgTable('author', {

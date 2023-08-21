@@ -1,0 +1,302 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "af8d4f84-b6c5-4a06-9ee8-9620226e4a2d",
+  "prevId": "8563836a-14be-4098-a226-7c075a516c23",
+  "tables": {
+    "activity": {
+      "name": "activity",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "activity_url": {
+          "name": "activity_url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location_id": {
+          "name": "location_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "activity_type_id": {
+          "name": "activity_type_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "activity_location_id_location_id_fk": {
+          "name": "activity_location_id_location_id_fk",
+          "tableFrom": "activity",
+          "tableTo": "location",
+          "columnsFrom": [
+            "location_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "activity_activity_type_id_activity_type_id_fk": {
+          "name": "activity_activity_type_id_activity_type_id_fk",
+          "tableFrom": "activity",
+          "tableTo": "activity_type",
+          "columnsFrom": [
+            "activity_type_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "activity_title_datetime_location_id_activity_type_id_unique": {
+          "name": "activity_title_datetime_location_id_activity_type_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title",
+            "datetime",
+            "location_id",
+            "activity_type_id"
+          ]
+        }
+      }
+    },
+    "activity_type": {
+      "name": "activity_type",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "activity_type_name_unique": {
+          "name": "activity_type_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "author": {
+      "name": "author",
+      "schema": "",
+      "columns": {
+        "email": {
+          "name": "email",
+          "type": "varchar(100)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "automatic_location": {
+      "name": "automatic_location",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "backend_id": {
+          "name": "backend_id",
+          "type": "backend_id",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "automatic_location_id_location_id_fk": {
+          "name": "automatic_location_id_location_id_fk",
+          "tableFrom": "automatic_location",
+          "tableTo": "location",
+          "columnsFrom": [
+            "id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "automatic_location_backend_id_unique": {
+          "name": "automatic_location_backend_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "backend_id"
+          ]
+        }
+      }
+    },
+    "location": {
+      "name": "location",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gps_location_url": {
+          "name": "gps_location_url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "manual_location": {
+      "name": "manual_location",
+      "schema": "",
+      "columns": {
+        "location_id": {
+          "name": "location_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "extra_information": {
+          "name": "extra_information",
+          "type": "varchar(400)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_email": {
+          "name": "author_email",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "manual_location_location_id_location_id_fk": {
+          "name": "manual_location_location_id_location_id_fk",
+          "tableFrom": "manual_location",
+          "tableTo": "location",
+          "columnsFrom": [
+            "location_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "manual_location_author_email_author_email_fk": {
+          "name": "manual_location_author_email_author_email_fk",
+          "tableFrom": "manual_location",
+          "tableTo": "author",
+          "columnsFrom": [
+            "author_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "backend_id": {
+      "name": "backend_id",
+      "values": {
+        "teatro_nacional": "teatro_nacional",
+        "espressivo": "espressivo",
+        "mcj": "mcj",
+        "ccecr": "ccecr",
+        "triciclo": "triciclo",
+        "memoria_escenica": "memoria_escenica"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

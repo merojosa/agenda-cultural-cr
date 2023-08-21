@@ -1,0 +1,1 @@
+ALTER TABLE "manual_location" ALTER COLUMN "author_email" SET NOT NULL;
