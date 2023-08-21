@@ -5,7 +5,9 @@
 		"build": "turbo run build",
 		"dev": "turbo run dev",
 		"lint": "turbo run lint",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"local:backend": "yarn workspace backend start:local",
+		"generate:db": "yarn workspace db generate"
 	},
 	"devDependencies": {
 		"eslint": "^8.28.0",
