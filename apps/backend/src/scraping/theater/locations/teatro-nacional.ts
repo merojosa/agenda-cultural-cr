@@ -1,7 +1,8 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { escapeXpathString, spanishMonths } from '#utils/util.scraping';
-import type { ActivityEntity } from '#scraping/activity-entity.type';
+import type { ActivityEntity } from '#scraping/scraping-types';
+import { backendIdValues } from 'db-schema';
 
 type TeatroNacionalDay = {
 	day: number;
@@ -152,43 +153,50 @@ async function getDescriptionAndSource(
 	return { description: descriptionParagraphs, source };
 }
 
-export async function getTeatroNacionalData(page: Page) {
-	await page.goto('https://www.teatronacional.go.cr/Calendario');
+export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[]> {
+	try {
+		await page.goto('https://www.teatronacional.go.cr/Calendario');
 
-	const currentYear = await getCurrentYear(page);
-	const currentMonth = await getCurrentMonth(page);
-	const teatroNacionalDays = await getTeatroNacionalBasicData(page, currentYear, currentMonth);
+		const currentYear = await getCurrentYear(page);
+		const currentMonth = await getCurrentMonth(page);
+		const teatroNacionalDays = await getTeatroNacionalBasicData(page, currentYear, currentMonth);
 
-	if (!teatroNacionalDays.length) {
-		return;
-	}
-
-	const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(async (seed, curr) => {
-		const awaitedSeed = await seed;
-
-		for (const play of curr.plays) {
-			const datetime = DateTime.fromObject({
-				year: curr.year,
-				month: curr.month,
-				day: curr.day,
-				hour: play.hours,
-				minute: play.minutes,
-			});
-			const descriptionAndSourceResult = await getDescriptionAndSource(page, play.title, datetime);
-			if (descriptionAndSourceResult) {
-				awaitedSeed.push({
-					title: play.title,
-					datetime,
-					description: descriptionAndSourceResult.description,
-					source: descriptionAndSourceResult.source,
-				});
-			}
+		if (!teatroNacionalDays.length) {
+			throw new Error('No days length');
 		}
 
-		return awaitedSeed;
-	}, Promise.resolve([] as ActivityEntity[]));
+		const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(async (seed, curr) => {
+			const awaitedSeed = await seed;
 
-	const teatroNacionalPlaysDb = await teatroNacionalPlaysDbPromise;
-	console.log('BREAKPOINT', teatroNacionalPlaysDb);
-	return { msg: 'success' };
+			for (const play of curr.plays) {
+				const datetime = DateTime.fromObject({
+					year: curr.year,
+					month: curr.month,
+					day: curr.day,
+					hour: play.hours,
+					minute: play.minutes,
+				});
+				const descriptionAndSourceResult = await getDescriptionAndSource(
+					page,
+					play.title,
+					datetime
+				);
+				if (descriptionAndSourceResult) {
+					awaitedSeed.push({
+						title: play.title,
+						datetime,
+						description: descriptionAndSourceResult.description,
+						source: descriptionAndSourceResult.source,
+					});
+				}
+			}
+
+			return awaitedSeed;
+		}, Promise.resolve([] as ActivityEntity[]));
+
+		const teatroNacionalPlaysDb = await teatroNacionalPlaysDbPromise;
+		return teatroNacionalPlaysDb;
+	} catch (error) {
+		throw new Error(`AUTOMATIC LOCATION ID: ${backendIdValues.teatroNacional} | Error: ${error}`);
+	}
 }

@@ -49,14 +49,11 @@ export const locationTable = pgTable('location', {
 	gpsLocationUrl: varchar('gps_location_url', { length: URL_LENGTH }),
 });
 
-export const backendIdEnum = pgEnum('backend_id', [
-	'teatro_nacional',
-	'espressivo',
-	'mcj',
-	'ccecr',
-	'triciclo',
-	'memoria_escenica',
-]);
+export const backendIdValues = {
+	teatroNacional: 'teatro_nacional',
+} as const;
+
+export const backendIdEnum = pgEnum('backend_id', [backendIdValues.teatroNacional]);
 
 export const automaticLocationTable = pgTable('automatic_location', {
 	locationId: integer('id')
@@ -89,3 +86,12 @@ export const authorTable = pgTable('author', {
 	email: varchar('email', { length: 100 }).primaryKey(),
 	name: varchar('name', { length: NAME_LENGTH }),
 });
+
+export const DB_IDS = {
+	activityType: {
+		teatro: 1,
+	},
+	location: {
+		teatroNacional: 1,
+	},
+} as const;

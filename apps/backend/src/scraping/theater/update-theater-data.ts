@@ -1,8 +1,12 @@
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
-import { getTeatroNacionalData } from './teatro-nacional';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { automaticLocationTable } from 'db-schema';
+import { scrapingLocationsMethods } from './locations';
+import { ActivityEntity } from '#scraping/scraping-types';
 
-export async function updateTheaterData() {
+async function initBrowser() {
 	const browser = await puppeteer.launch({
 		headless: chromium.headless,
 		ignoreHTTPSErrors: true,
@@ -14,7 +18,46 @@ export async function updateTheaterData() {
 	const page = await browser.newPage();
 	await page.setViewport({ width: 1920, height: 1080 });
 
-	await getTeatroNacionalData(page);
+	return { browser, page } as const;
+}
 
+function initDbClient() {
+	if (!process.env.DATABASE_URL) {
+		throw new Error('No DATABASE_URL');
+	}
+
+	const client = postgres(process.env.DATABASE_URL);
+	const db = drizzle(client);
+
+	return db;
+}
+
+export async function updateTheaterData() {
+	const { browser, page } = await initBrowser();
+	const db = initDbClient();
+
+	const automaticLocations = await db
+		.select({ backendId: automaticLocationTable.backendId })
+		.from(automaticLocationTable);
+	const scrapingResultPromises = automaticLocations.reduce(
+		(arrayPromises, currentAutomaticLocation) => {
+			if (currentAutomaticLocation.backendId !== null) {
+				arrayPromises.push(scrapingLocationsMethods[currentAutomaticLocation.backendId](page));
+			}
+			return arrayPromises;
+		},
+		[] as Promise<ActivityEntity[]>[]
+	);
+	const scrapingResults = await Promise.allSettled(scrapingResultPromises);
 	await browser.close();
+
+	const scrapingFailures = [] as unknown[];
+	const scrapingSuccess = [] as ActivityEntity[];
+	scrapingResults.forEach((scrapingResult) => {
+		if (scrapingResult.status === 'fulfilled') {
+			scrapingSuccess.push(...scrapingResult.value);
+		} else {
+			scrapingFailures.push(scrapingResult.reason);
+		}
+	});
 }
