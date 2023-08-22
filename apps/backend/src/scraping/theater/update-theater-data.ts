@@ -1,8 +1,8 @@
-import puppeteer from 'puppeteer-core';
+import puppeteer, { Page } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { automaticLocationTable } from 'db-schema';
+import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
 import { scrapingLocationsMethods } from './locations';
 import { ActivityEntity } from '#scraping/scraping-types';
 
@@ -32,13 +32,12 @@ function initDbClient() {
 	return db;
 }
 
-export async function updateTheaterData() {
-	const { browser, page } = await initBrowser();
-	const db = initDbClient();
-
-	const automaticLocations = await db
-		.select({ backendId: automaticLocationTable.backendId })
-		.from(automaticLocationTable);
+function scrapData(
+	automaticLocations: {
+		backendId: (typeof backendIdValues)[keyof typeof backendIdValues] | null;
+	}[],
+	page: Page
+) {
 	const scrapingResultPromises = automaticLocations.reduce(
 		(arrayPromises, currentAutomaticLocation) => {
 			if (currentAutomaticLocation.backendId !== null) {
@@ -48,7 +47,33 @@ export async function updateTheaterData() {
 		},
 		[] as Promise<ActivityEntity[]>[]
 	);
-	const scrapingResults = await Promise.allSettled(scrapingResultPromises);
+
+	return scrapingResultPromises;
+}
+
+// TODO: Deal with possible conflicts (same data in the scraping and in the db)
+function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
+	return scrapingSuccess.map((value) =>
+		db.insert(activityTable).values({
+			title: value.title,
+			activityUrl: value.source,
+			description: value.description,
+			datetime: value.datetime.toJSDate(),
+			activityTypeId: DB_IDS.activityType.teatro,
+			locationId: DB_IDS.location.teatroNacional,
+		})
+	);
+}
+
+export async function updateTheaterData() {
+	const { browser, page } = await initBrowser();
+	const db = initDbClient();
+
+	const automaticLocations = await db
+		.select({ backendId: automaticLocationTable.backendId })
+		.from(automaticLocationTable);
+
+	const scrapingResults = await Promise.allSettled(scrapData(automaticLocations, page));
 	await browser.close();
 
 	const scrapingFailures = [] as unknown[];
@@ -60,4 +85,20 @@ export async function updateTheaterData() {
 			scrapingFailures.push(scrapingResult.reason);
 		}
 	});
+
+	const dbUpdateResults = await Promise.allSettled(updateDb(db, scrapingSuccess));
+	const dbUpdateResultsFailures = [] as unknown[];
+	dbUpdateResults.forEach((value) => {
+		if (value.status === 'rejected') {
+			dbUpdateResultsFailures.push(value.reason);
+		}
+	});
+
+	if (scrapingFailures.length) {
+		console.error(scrapingFailures.join(' | '));
+	}
+
+	if (dbUpdateResultsFailures.length) {
+		console.error(dbUpdateResultsFailures.join(' | '));
+	}
 }
