@@ -8,7 +8,7 @@
 		"format": "prettier --write .",
 		"backend:start:local": "yarn workspace backend start:local",
 		"db:generate": "yarn workspace db generate",
-		"db:migrate:development": "yarn workspace db migrate:development"
+		"db:deploy:development": "yarn workspace db deploy:development"
 	},
 	"devDependencies": {
 		"eslint": "^8.28.0",

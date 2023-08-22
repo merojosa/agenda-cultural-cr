@@ -5,6 +5,7 @@ import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
 import { scrapingLocationsMethods } from './locations';
 import { ActivityEntity } from '#scraping/scraping-types';
+import { eq } from 'drizzle-orm';
 
 async function initBrowser() {
 	const browser = await puppeteer.launch({
@@ -32,6 +33,12 @@ function initDbClient() {
 	return db;
 }
 
+function removeOldData(db: PostgresJsDatabase) {
+	return db
+		.delete(activityTable)
+		.where(eq(activityTable.activityTypeId, DB_IDS.activityType.teatro));
+}
+
 function scrapData(
 	automaticLocations: {
 		backendId: (typeof backendIdValues)[keyof typeof backendIdValues] | null;
@@ -51,7 +58,6 @@ function scrapData(
 	return scrapingResultPromises;
 }
 
-// TODO: Deal with possible conflicts (same data in the scraping and in the db)
 function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 	return scrapingSuccess.map((value) =>
 		db.insert(activityTable).values({
@@ -68,6 +74,8 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 export async function updateTheaterData() {
 	const { browser, page } = await initBrowser();
 	const db = initDbClient();
+
+	await removeOldData(db);
 
 	const automaticLocations = await db
 		.select({ backendId: automaticLocationTable.backendId })
@@ -101,4 +109,6 @@ export async function updateTheaterData() {
 	if (dbUpdateResultsFailures.length) {
 		console.error(dbUpdateResultsFailures.join(' | '));
 	}
+
+	console.log('Done updating theater data!!!!');
 }
