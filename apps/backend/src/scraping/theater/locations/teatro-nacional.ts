@@ -187,6 +187,7 @@ export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[
 				);
 				if (descriptionAndSourceResult) {
 					awaitedSeed.push({
+						backendId: backendIdValues.teatroNacional,
 						title: play.title,
 						datetime,
 						description: descriptionAndSourceResult.description,

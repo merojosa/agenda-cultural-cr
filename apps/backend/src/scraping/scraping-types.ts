@@ -2,6 +2,7 @@ import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 
 export type ActivityEntity = {
+	backendId: (typeof backendIdValues)[keyof typeof backendIdValues];
 	title: string;
 	description: string;
 	datetime: DateTime;

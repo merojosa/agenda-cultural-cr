@@ -74,7 +74,7 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 			description: value.description,
 			datetime: value.datetime.toJSDate(),
 			activityTypeId: DB_IDS.activityType.teatro,
-			locationId: DB_IDS.location['teatro_nacional'],
+			locationId: DB_IDS.location[value.backendId],
 		})
 	);
 }
