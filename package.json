@@ -6,8 +6,8 @@
 		"dev": "turbo run dev",
 		"lint": "turbo run lint",
 		"format": "prettier --write .",
-		"backend:start:local": "yarn workspace backend start:local",
-		"db:generate": "yarn workspace db generate",
+		"backend:run": "turbo run backend#run",
+		"db:generate": "turbo run db#generate",
 		"db:deploy:development": "yarn workspace db deploy:development"
 	},
 	"devDependencies": {

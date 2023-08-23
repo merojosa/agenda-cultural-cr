@@ -3,12 +3,22 @@
 	"pipeline": {
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": [".svelte-kit/**", ".vercel/**"]
+			"outputs": [".svelte-kit/**", ".vercel/**", "dist/**"]
 		},
 		"lint": {},
 		"dev": {
 			"cache": false,
 			"persistent": true
+		},
+		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#from-dependent-workspaces
+		"backend#run": {
+			"dependsOn": ["^build"]
+		},
+		"db#generate": {
+			"dependsOn": ["^build"]
+		},
+		"db#deploy:development": {
+			"dependsOn": ["^build"]
 		}
 	}
 }

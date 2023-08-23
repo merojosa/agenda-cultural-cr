@@ -4,7 +4,7 @@
 	"private": true,
 	"main": "dist/index.js",
 	"scripts": {
-		"start:local": "yarn build && sls invoke local --function update-theater-data",
+		"run": "yarn build && sls invoke local --function update-theater-data",
 		"build": "rm -rf dist && esbuild src/index.ts --bundle --platform=node --packages=external --target=node18 --outdir=dist",
 		"deploy:dev": "tsc && yarn run build && sls deploy --stage dev",
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
