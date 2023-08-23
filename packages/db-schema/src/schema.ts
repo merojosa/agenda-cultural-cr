@@ -91,6 +91,6 @@ export const DB_IDS = {
 		teatro: 1,
 	},
 	location: {
-		teatroNacional: 1,
+		[backendIdValues.teatroNacional]: 1,
 	},
 } as const;

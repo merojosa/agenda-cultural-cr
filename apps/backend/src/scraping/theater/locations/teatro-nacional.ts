@@ -1,7 +1,7 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { escapeXpathString, spanishMonths } from '#utils/util.scraping';
-import type { ActivityEntity } from '#scraping/scraping-types';
+import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
 
 type TeatroNacionalDay = {
@@ -201,6 +201,6 @@ export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[
 		const teatroNacionalPlaysDb = await teatroNacionalPlaysDbPromise;
 		return teatroNacionalPlaysDb;
 	} catch (error) {
-		throw new Error(`AUTOMATIC LOCATION ID: ${backendIdValues.teatroNacional} | Error: ${error}`);
+		throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 	}
 }

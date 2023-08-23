@@ -2,10 +2,10 @@ import puppeteer, { Page } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import postgres from 'postgres';
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { eq, notInArray } from 'drizzle-orm';
 import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
 import { scrapingLocationsMethods } from './locations';
-import { ActivityEntity } from '#scraping/scraping-types';
-import { eq } from 'drizzle-orm';
+import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
 
 async function initBrowser() {
 	const browser = await puppeteer.launch({
@@ -33,10 +33,18 @@ function initDbClient() {
 	return db;
 }
 
-function removeOldData(db: PostgresJsDatabase) {
-	return db
-		.delete(activityTable)
-		.where(eq(activityTable.activityTypeId, DB_IDS.activityType.teatro));
+function deleteTheaterDataBasedOnFailures(
+	db: PostgresJsDatabase,
+	failedBackendIds: Set<(typeof backendIdValues)[keyof typeof backendIdValues]>
+) {
+	const backendIdsArray = Array.from(failedBackendIds);
+	const dbIdsToExclude = backendIdsArray.map((backendId) => DB_IDS.location[backendId]);
+
+	const where = dbIdsToExclude.length
+		? notInArray(activityTable.locationId, dbIdsToExclude)
+		: eq(activityTable.activityTypeId, DB_IDS.activityType.teatro);
+
+	return db.delete(activityTable).where(where);
 }
 
 function scrapData(
@@ -66,7 +74,7 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 			description: value.description,
 			datetime: value.datetime.toJSDate(),
 			activityTypeId: DB_IDS.activityType.teatro,
-			locationId: DB_IDS.location.teatroNacional,
+			locationId: DB_IDS.location['teatro_nacional'],
 		})
 	);
 }
@@ -74,8 +82,6 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 export async function updateTheaterData() {
 	const { browser, page } = await initBrowser();
 	const db = initDbClient();
-
-	await removeOldData(db);
 
 	const automaticLocations = await db
 		.select({ backendId: automaticLocationTable.backendId })
@@ -86,13 +92,24 @@ export async function updateTheaterData() {
 
 	const scrapingFailures = [] as unknown[];
 	const scrapingSuccess = [] as ActivityEntity[];
+	const failedBackendIds = new Set<(typeof backendIdValues)[keyof typeof backendIdValues]>();
+
 	scrapingResults.forEach((scrapingResult) => {
 		if (scrapingResult.status === 'fulfilled') {
 			scrapingSuccess.push(...scrapingResult.value);
 		} else {
 			scrapingFailures.push(scrapingResult.reason);
+			if (scrapingResult.reason instanceof ScrapingError) {
+				failedBackendIds.add(scrapingResult.reason.backendId);
+			}
 		}
 	});
+
+	// Remove only the activity rows that succeeded the scraping
+	// but if there wasn't any success, don't do anything (I dont want an empty calendar)
+	if (scrapingSuccess.length) {
+		await deleteTheaterDataBasedOnFailures(db, failedBackendIds);
+	}
 
 	const dbUpdateResults = await Promise.allSettled(updateDb(db, scrapingSuccess));
 	const dbUpdateResultsFailures = [] as unknown[];
