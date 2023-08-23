@@ -140,6 +140,8 @@ async function getDescriptionAndSource(
 	}
 
 	await page.click(`${tooltipSelector} a.more`);
+	await page.waitForSelector('h2', { timeout: 10000 });
+
 	const descriptionParagraphs = await page.evaluate(() => {
 		const pElements = document.querySelectorAll('section > .generalWrap > .calCol2 > hr ~ p');
 
@@ -149,6 +151,7 @@ async function getDescriptionAndSource(
 	});
 	const source = page.url();
 	await page.goBack();
+	await page.waitForSelector('h2', { timeout: 10000 });
 
 	return { description: descriptionParagraphs, source };
 }
@@ -156,6 +159,7 @@ async function getDescriptionAndSource(
 export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[]> {
 	try {
 		await page.goto('https://www.teatronacional.go.cr/Calendario');
+		await page.waitForSelector('h2', { timeout: 10000 });
 
 		const currentYear = await getCurrentYear(page);
 		const currentMonth = await getCurrentMonth(page);
