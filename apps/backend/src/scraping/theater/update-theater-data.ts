@@ -120,11 +120,11 @@ export async function updateTheaterData() {
 	});
 
 	if (scrapingFailures.length) {
-		console.error(scrapingFailures.join(' | '));
+		console.error('Scraping errors', scrapingFailures.join(' | '));
 	}
 
 	if (dbUpdateResultsFailures.length) {
-		console.error(dbUpdateResultsFailures.join(' | '));
+		console.error('DB updates errors', dbUpdateResultsFailures.join(' | '));
 	}
 
 	console.log('Done updating theater data!!!!');
