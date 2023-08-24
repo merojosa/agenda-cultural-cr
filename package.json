@@ -17,7 +17,6 @@
 		"prettier-plugin-svelte": "^2.10.1",
 		"turbo": "^1.10.13"
 	},
-	"packageManager": "yarn@1.22.19",
 	"workspaces": {
 		"packages": [
 			"packages/*",
@@ -27,8 +26,8 @@
 			"backend/**"
 		]
 	},
-	"engines": {
-		"node": ">=18",
-		"yarn": "^1.22.19"
+	"volta": {
+		"node": "18.17.1",
+		"yarn": "1.22.19"
 	}
 }
