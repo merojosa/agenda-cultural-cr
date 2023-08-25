@@ -1,4 +1,4 @@
-import puppeteer, { Page } from 'puppeteer-core';
+import puppeteer, { Browser } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import postgres from 'postgres';
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
@@ -16,10 +16,8 @@ async function initBrowser() {
 			? { channel: 'chrome' }
 			: { executablePath: await chromium.executablePath() }),
 	});
-	const page = await browser.newPage();
-	await page.setViewport({ width: 1920, height: 1080 });
 
-	return { browser, page } as const;
+	return browser;
 }
 
 function initDbClient() {
@@ -51,12 +49,12 @@ function scrapData(
 	automaticLocations: {
 		backendId: (typeof backendIdValues)[keyof typeof backendIdValues] | null;
 	}[],
-	page: Page
+	browser: Browser
 ) {
 	const scrapingResultPromises = automaticLocations.reduce(
 		(arrayPromises, currentAutomaticLocation) => {
 			if (currentAutomaticLocation.backendId !== null) {
-				arrayPromises.push(scrapingLocationsMethods[currentAutomaticLocation.backendId](page));
+				arrayPromises.push(scrapingLocationsMethods[currentAutomaticLocation.backendId](browser));
 			}
 			return arrayPromises;
 		},
@@ -80,14 +78,14 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 }
 
 export async function updateTheaterData() {
-	const { browser, page } = await initBrowser();
+	const browser = await initBrowser();
 	const db = initDbClient();
 
 	const automaticLocations = await db
 		.select({ backendId: automaticLocationTable.backendId })
 		.from(automaticLocationTable);
 
-	const scrapingResults = await Promise.allSettled(scrapData(automaticLocations, page));
+	const scrapingResults = await Promise.allSettled(scrapData(automaticLocations, browser));
 	await browser.close();
 
 	const scrapingFailures = [] as unknown[];

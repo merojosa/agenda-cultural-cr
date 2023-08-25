@@ -1,4 +1,4 @@
-import { ElementHandle, Page } from 'puppeteer-core';
+import { Browser, ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { escapeXpathString, spanishMonths } from '#utils/util.scraping';
 import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
@@ -103,12 +103,13 @@ async function getTeatroNacionalBasicData(page: Page, year: number, month: numbe
 }
 
 async function getDescriptionAndSource(
-	page: Page,
+	browser: Browser,
+	rootPage: Page,
 	titlePlay: string,
 	datetimePlay: DateTime
 ): Promise<{ description: string; source: string } | null> {
 	// xPath selectors explanation: https://devhints.io/xpath
-	const xPathElementsHandle = await page.$x(
+	const xPathElementsHandle = await rootPage.$x(
 		`//ul[@id="calendar"]/li[text()[contains(., ${escapeXpathString(
 			datetimePlay.day.toString()
 		)})]]/article/em[text()[contains(., ${escapeXpathString(
@@ -129,7 +130,7 @@ async function getDescriptionAndSource(
 
 	const tooltipSelector = '.tooltipster-base.tooltipster-default:not(:empty)';
 	try {
-		await page.waitForSelector(tooltipSelector, { timeout: 1000 });
+		await rootPage.waitForSelector(tooltipSelector, { timeout: 1000 });
 	} catch (error) {
 		if (error instanceof Error && error.name === 'TimeoutError') {
 			console.error('Timeout error on getDescriptionAndSource', error);
@@ -139,25 +140,44 @@ async function getDescriptionAndSource(
 		return null;
 	}
 
-	await page.click(`${tooltipSelector} a.more`);
-	await page.waitForSelector('h2', { timeout: 10000 });
+	const newUrl = await rootPage.evaluate((tooltipSelectorParam) => {
+		const element = document.querySelector(`${tooltipSelectorParam} a.more`);
+		const href = element?.getAttribute('href');
 
-	const descriptionParagraphs = await page.evaluate(() => {
+		if (href) {
+			return `${document.location.protocol}//${document.location.hostname}${href}`;
+		}
+		return null;
+	}, tooltipSelector);
+
+	if (!newUrl) {
+		console.error('No newUrl on getDescriptionAndSource');
+		return null;
+	}
+
+	const newPage = await browser.newPage();
+	await newPage.setViewport({ width: 1920, height: 1080 });
+	await newPage.goto(newUrl);
+	await newPage.waitForSelector('h2', { timeout: 10000 });
+
+	const descriptionParagraphs = await newPage.evaluate(() => {
 		const pElements = document.querySelectorAll('section > .generalWrap > .calCol2 > hr ~ p');
 
 		return Array.from(pElements)
 			.map((pElement) => pElement.textContent || '')
 			.join('\n');
 	});
-	const source = page.url();
-	await page.goBack();
-	await page.waitForSelector('h2', { timeout: 10000 });
+	const source = newPage.url();
+	await newPage.close();
 
-	return { description: descriptionParagraphs, source };
+	return { description: descriptionParagraphs, source } as const;
 }
 
-export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[]> {
+export async function getTeatroNacionalData(browser: Browser): Promise<ActivityEntity[]> {
 	try {
+		const page = await browser.newPage();
+		await page.setViewport({ width: 1920, height: 1080 });
+
 		await page.goto('https://www.teatronacional.go.cr/Calendario');
 		await page.waitForSelector('h2', { timeout: 10000 });
 
@@ -181,6 +201,7 @@ export async function getTeatroNacionalData(page: Page): Promise<ActivityEntity[
 					minute: play.minutes,
 				});
 				const descriptionAndSourceResult = await getDescriptionAndSource(
+					browser,
 					page,
 					play.title,
 					datetime
