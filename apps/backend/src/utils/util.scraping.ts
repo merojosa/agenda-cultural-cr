@@ -1,9 +1,3 @@
-// https://gist.github.com/tokland/d3bae3b6d3c1576d8700405829bbdb52
-export function escapeXpathString(xPathValue: string) {
-	const splitedQuotes = xPathValue.replace(/'/g, `', "'", '`);
-	return `concat('${splitedQuotes}', '')`;
-}
-
 export const spanishMonths: Record<string, number> = {
 	enero: 1,
 	febrero: 2,
