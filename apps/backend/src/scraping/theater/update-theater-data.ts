@@ -85,8 +85,6 @@ export async function updateTheaterData() {
 		.select({ backendId: automaticLocationTable.backendId })
 		.from(automaticLocationTable);
 
-	console.log('BREAKPOINT', automaticLocations);
-
 	const scrapingResults = await Promise.allSettled(scrapData(automaticLocations, browser));
 	await browser.close();
 
