@@ -10,6 +10,7 @@
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {
+		"cheerio": "^1.0.0-rc.12",
 		"db-schema": "*",
 		"drizzle-orm": "^0.28.2",
 		"luxon": "^3.4.0",
