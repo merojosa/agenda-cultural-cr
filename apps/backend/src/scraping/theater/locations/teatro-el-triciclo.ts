@@ -1,19 +1,9 @@
-import * as cheerio from 'cheerio';
 import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
+import { htmlToPlainText } from '#utils/util.scraping';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 
 const API_URL = 'https://www.teatroeltriciclo.com/boleteria/CarteleraPublica';
-
-function htmlToPlainText(html: string): string {
-	// Load the HTML string into a Cheerio object
-	const $ = cheerio.load(html);
-
-	// Use Cheerio's text() method to extract plain text
-	const plainText = $.text();
-
-	return plainText;
-}
 
 function transformDatetimeToTime(value: string) {
 	const arrayStr = value.split(',');

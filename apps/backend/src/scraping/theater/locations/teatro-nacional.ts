@@ -1,6 +1,6 @@
 import { Browser, ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
-import { spanishMonths } from '#utils/util.scraping';
+import { htmlToPlainText, spanishMonths } from '#utils/util.scraping';
 import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
 
@@ -170,17 +170,19 @@ async function getDescriptionAndSource(
 	await newPage.goto(newUrl);
 	await newPage.waitForSelector('h2', { timeout: 10_000 });
 
-	const descriptionParagraphs = await newPage.evaluate(() => {
+	const descriptionParagraphsHtml = await newPage.evaluate(() => {
 		const pElements = document.querySelectorAll('section > .generalWrap > .calCol2 > hr ~ p');
 
 		return Array.from(pElements)
-			.map((pElement) => pElement.textContent || '')
+			.map((pElement) => pElement.outerHTML || '')
 			.join('\n');
 	});
 	const source = newPage.url();
 	await newPage.close();
 
-	return { description: descriptionParagraphs, source } as const;
+	const description = htmlToPlainText(descriptionParagraphsHtml);
+
+	return { description, source } as const;
 }
 
 async function scrapTeatroNacionalData(browser: Browser, page: Page) {
