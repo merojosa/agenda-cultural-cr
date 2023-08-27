@@ -22,7 +22,7 @@ const data = {
 	},
 	automaticLocation: {
 		teatroNacional: {
-			locationId: schema.DB_IDS.location.teatroNacional,
+			locationId: schema.DB_IDS.location['teatro_nacional'],
 			backendId: 'teatro_nacional',
 			url: 'https://www.teatronacional.go.cr/Calendario',
 		} as RawTableTypes<typeof schema.automaticLocationTable>,
@@ -40,7 +40,7 @@ export async function systemTables(db: PostgresJsDatabase) {
 
 	await db
 		.insert(schema.locationTable)
-		.values({ ...data.location.teatroNacional, id: schema.DB_IDS.location.teatroNacional })
+		.values({ ...data.location.teatroNacional, id: schema.DB_IDS.location['teatro_nacional'] })
 		.onConflictDoUpdate({
 			target: schema.locationTable.id,
 			set: { ...data.location.teatroNacional },
