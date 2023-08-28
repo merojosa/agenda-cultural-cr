@@ -17,6 +17,7 @@ export const activityTable = pgTable(
 	{
 		title: varchar('title', { length: NAME_LENGTH }).notNull(),
 		datetime: timestamp('datetime').notNull(),
+		imageUrl: varchar('image_url', { length: URL_LENGTH }),
 		locationId: integer('location_id')
 			.notNull()
 			.references(() => locationTable.id, {
