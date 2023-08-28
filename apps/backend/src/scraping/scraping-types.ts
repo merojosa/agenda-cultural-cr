@@ -1,12 +1,18 @@
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 
+export type ScrapingResult = {
+	activityEntities: ActivityEntity[];
+	imageUrlsCollector: Set<string>;
+};
+
 export type ActivityEntity = {
 	backendId: (typeof backendIdValues)[keyof typeof backendIdValues];
 	title: string;
 	description: string;
 	datetime: DateTime;
 	source: string;
+	imageUrl?: string;
 };
 
 export class ScrapingError extends Error {

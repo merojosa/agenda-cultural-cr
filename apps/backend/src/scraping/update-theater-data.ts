@@ -5,7 +5,7 @@ import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq, notInArray } from 'drizzle-orm';
 import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
 import { scrapingLocationsMethods } from './locations';
-import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
+import { ActivityEntity, ScrapingError, ScrapingResult } from '#scraping/scraping-types';
 
 async function initBrowser() {
 	const browser = await puppeteer.launch({
@@ -58,7 +58,7 @@ function scrapData(
 			}
 			return arrayPromises;
 		},
-		[] as Promise<ActivityEntity[]>[]
+		[] as Promise<ScrapingResult>[]
 	);
 
 	return scrapingResultPromises;
@@ -90,11 +90,15 @@ export async function updateTheaterData() {
 
 	const scrapingFailures = [] as unknown[];
 	const scrapingSuccess = [] as ActivityEntity[];
+	const imageUrlCollector = new Set<string>();
 	const failedBackendIds = new Set<(typeof backendIdValues)[keyof typeof backendIdValues]>();
 
 	scrapingResults.forEach((scrapingResult) => {
 		if (scrapingResult.status === 'fulfilled') {
-			scrapingSuccess.push(...scrapingResult.value);
+			scrapingSuccess.push(...scrapingResult.value.activityEntities);
+			scrapingResult.value.imageUrlsCollector.forEach((urlCollector) =>
+				imageUrlCollector.add(urlCollector)
+			);
 		} else {
 			scrapingFailures.push(scrapingResult.reason);
 			if (scrapingResult.reason instanceof ScrapingError) {
@@ -102,6 +106,8 @@ export async function updateTheaterData() {
 			}
 		}
 	});
+
+	console.log('BREAKPOINT', Array.from(imageUrlCollector));
 
 	// Remove only the activity rows that succeeded the scraping
 	// but if there wasn't any success, don't do anything (I dont want an empty calendar)

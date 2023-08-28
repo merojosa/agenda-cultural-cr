@@ -26,4 +26,7 @@ module.exports = {
 		es2017: true,
 		node: true,
 	},
+	rules: {
+		'no-var': 'off',
+	},
 };

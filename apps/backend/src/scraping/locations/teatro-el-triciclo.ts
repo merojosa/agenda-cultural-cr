@@ -1,9 +1,10 @@
-import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
+import { ScrapingError, ScrapingResult } from '#scraping/scraping-types';
 import { htmlToPlainText } from '#utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 
-const API_URL = 'https://www.teatroeltriciclo.com/boleteria/CarteleraPublica';
+const BASE_URL = 'https://www.teatroeltriciclo.com';
+const API_URL = `${BASE_URL}/boleteria/CarteleraPublica`;
 
 function transformDatetimeToTime(value: string) {
 	const arrayStr = value.split(',');
@@ -30,7 +31,7 @@ function transformDatetimeToTime(value: string) {
 	return { hours, minutes } as const;
 }
 
-export async function getTeatroElTricicloData(): Promise<ActivityEntity[]> {
+export async function getTeatroElTricicloData(): Promise<ScrapingResult> {
 	const fetchResult = await fetch(API_URL, {
 		headers: { Accept: 'application/json, text/plain, */*' },
 	});
@@ -46,19 +47,26 @@ export async function getTeatroElTricicloData(): Promise<ActivityEntity[]> {
 		throw new ScrapingError(backendIdValues.teatroElTriciclo, 'Plays not an array');
 	}
 
-	const entities = [] as ActivityEntity[];
+	const entities: ScrapingResult = {
+		imageUrlsCollector: new Set<string>(),
+		activityEntities: [],
+	};
 	plays.forEach((value: Record<string, string | undefined>) => {
 		if (
 			// Is the play record valid?
 			value.Id &&
 			value.Nombre &&
+			value.ImagenBanner &&
 			value.Sinopsis &&
 			value.IdSala &&
 			Array.isArray(value.Funciones)
 		) {
 			const description = htmlToPlainText(value.Sinopsis);
 			const title = value.Nombre;
-			const source = `https://www.teatroeltriciclo.com/es/Cartelera#/cartelera/${value.IdSala}/${value.Id}`;
+			const source = `${BASE_URL}/es/Cartelera#/cartelera/${value.IdSala}/${value.Id}`;
+			const imageUrl = `${BASE_URL}${value.ImagenBanner}`;
+
+			entities.imageUrlsCollector.add(imageUrl);
 
 			value.Funciones.forEach(
 				(functionValue: Record<string, string | number | boolean | undefined>) => {
@@ -73,11 +81,12 @@ export async function getTeatroElTricicloData(): Promise<ActivityEntity[]> {
 						const time = transformDatetimeToTime(functionValue.De);
 
 						if (time) {
-							entities.push({
+							entities.activityEntities.push({
 								backendId: 'teatro_triciclo',
 								title,
 								description,
 								source,
+								imageUrl,
 								datetime: DateTime.fromObject({
 									year: functionValue.Y,
 									month: functionValue.M,

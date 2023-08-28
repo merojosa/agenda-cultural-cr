@@ -1,7 +1,7 @@
 import { Browser, ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { htmlToPlainText, spanishMonths } from '#utils/scraping-utils';
-import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
+import { ScrapingError, ScrapingResult } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
 
 type TeatroNacionalDay = {
@@ -102,12 +102,12 @@ async function getTeatroNacionalBasicData(page: Page, year: number, month: numbe
 	return teatroNacionalDays;
 }
 
-async function getDescriptionAndSource(
+async function getDescriptionSourceImgUrl(
 	browser: Browser,
 	rootPage: Page,
 	titlePlay: string | undefined,
 	datetimePlay: DateTime
-): Promise<{ description: string; source: string } | null> {
+): Promise<{ description: string; source: string; imgUrl?: string } | null> {
 	await rootPage.hover('h2'); // Move mouse to somewhere else
 	const tooltipSelector = '.tooltipster-base.tooltipster-default:not(:empty)';
 	await rootPage.waitForSelector(tooltipSelector, { hidden: true, timeout: 10_000 }); // Wait for tooltip to disappear
@@ -178,11 +178,23 @@ async function getDescriptionAndSource(
 			.join('\n');
 	});
 	const source = newPage.url();
+
+	try {
+		var imgUrlElement = await newPage.$eval(
+			'section > .generalWrap > div > a > img',
+			(element?: Element) => element?.getAttribute('src')
+		);
+	} catch {
+		var imgUrlElement: string | null | undefined = undefined;
+	}
+
+	console.log('BREAKPOINT imgUrlElement', imgUrlElement);
+
 	await newPage.close();
 
 	const description = htmlToPlainText(descriptionParagraphsHtml);
 
-	return { description, source } as const;
+	return { description, source, imgUrl: imgUrlElement || undefined } as const;
 }
 
 async function scrapTeatroNacionalData(browser: Browser, page: Page) {
@@ -207,31 +219,35 @@ async function scrapTeatroNacionalData(browser: Browser, page: Page) {
 			});
 
 			// Here's the problem
-			const descriptionAndSourceResult = await getDescriptionAndSource(
+			const descriptionSourceImgUrl = await getDescriptionSourceImgUrl(
 				browser,
 				page,
 				play.title,
 				datetime
 			);
 
-			if (descriptionAndSourceResult && play.title) {
-				awaitedSeed.push({
+			if (descriptionSourceImgUrl && play.title) {
+				awaitedSeed.activityEntities.push({
 					backendId: backendIdValues.teatroNacional,
 					title: play.title.trim(),
 					datetime,
-					description: descriptionAndSourceResult.description,
-					source: descriptionAndSourceResult.source,
+					description: descriptionSourceImgUrl.description,
+					source: descriptionSourceImgUrl.source,
+					imageUrl: descriptionSourceImgUrl.imgUrl,
 				});
+				if (descriptionSourceImgUrl.imgUrl) {
+					awaitedSeed.imageUrlsCollector.add(descriptionSourceImgUrl.imgUrl);
+				}
 			}
 		}
 
 		return awaitedSeed;
-	}, Promise.resolve([] as ActivityEntity[]));
+	}, Promise.resolve({ imageUrlsCollector: new Set(), activityEntities: [] } as ScrapingResult));
 
 	return teatroNacionalPlaysDbPromise;
 }
 
-export async function getTeatroNacionalData(browser: Browser): Promise<ActivityEntity[]> {
+export async function getTeatroNacionalData(browser: Browser): Promise<ScrapingResult> {
 	try {
 		const page = await browser.newPage();
 		await page.setViewport({ width: 1920, height: 1080 });
@@ -244,7 +260,12 @@ export async function getTeatroNacionalData(browser: Browser): Promise<ActivityE
 		await page.waitForSelector('h2', { timeout: 10000 });
 		const nextMonthData = await scrapTeatroNacionalData(browser, page);
 
-		return currentMonthData.concat(nextMonthData);
+		const mergedEntities = currentMonthData.activityEntities.concat(nextMonthData.activityEntities);
+		const mergedCollector = new Set([
+			...currentMonthData.imageUrlsCollector,
+			...nextMonthData.imageUrlsCollector,
+		]);
+		return { activityEntities: mergedEntities, imageUrlsCollector: mergedCollector };
 	} catch (error) {
 		throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 	}
