@@ -1,6 +1,6 @@
 import { Browser, ElementHandle, Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
-import { htmlToPlainText, spanishMonths } from '#utils/util.scraping';
+import { htmlToPlainText, spanishMonths } from '#utils/scraping-utils';
 import { ActivityEntity, ScrapingError } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
 
