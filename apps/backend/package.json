@@ -10,15 +10,16 @@
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {
-		"cheerio": "^1.0.0-rc.12",
 		"db-schema": "*",
 		"drizzle-orm": "^0.28.2",
+		"html-to-text": "^9.0.5",
 		"luxon": "^3.4.0",
 		"postgres": "^3.3.5",
 		"puppeteer-core": "^21.0.3"
 	},
 	"devDependencies": {
 		"@sparticuz/chromium": "^115.0.0",
+		"@types/html-to-text": "^9.0.1",
 		"@types/luxon": "^3.3.1",
 		"@types/node": "^18.17.4",
 		"esbuild": "^0.19.2",
