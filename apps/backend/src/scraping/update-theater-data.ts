@@ -6,6 +6,7 @@ import { eq, notInArray } from 'drizzle-orm';
 import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
 import { scrapingLocationsMethods } from './locations';
 import { ActivityEntity, ScrapingError, ScrapingResult } from '#scraping/scraping-types';
+import { getCompressedImageUrl } from '#services/image-processor';
 
 async function initBrowser() {
 	const browser = await puppeteer.launch({
@@ -64,7 +65,11 @@ function scrapData(
 	return scrapingResultPromises;
 }
 
-function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
+function updateDb(
+	db: PostgresJsDatabase,
+	scrapingSuccess: ActivityEntity[],
+	s3UrlsCollector: Map<string, string>
+) {
 	return scrapingSuccess.map((value) =>
 		db.insert(activityTable).values({
 			title: value.title,
@@ -73,6 +78,7 @@ function updateDb(db: PostgresJsDatabase, scrapingSuccess: ActivityEntity[]) {
 			datetime: value.datetime.toJSDate(),
 			activityTypeId: DB_IDS.activityType.teatro,
 			locationId: DB_IDS.location[value.backendId],
+			imageUrl: s3UrlsCollector.get(value.imageUrl || ''),
 		})
 	);
 }
@@ -107,15 +113,21 @@ export async function updateTheaterData() {
 		}
 	});
 
-	console.log('BREAKPOINT', Array.from(imageUrlCollector));
-
 	// Remove only the activity rows that succeeded the scraping
 	// but if there wasn't any success, don't do anything (I dont want an empty calendar)
 	if (scrapingSuccess.length) {
 		await deleteTheaterDataBasedOnFailures(db, failedBackendIds);
 	}
 
-	const dbUpdateResults = await Promise.allSettled(updateDb(db, scrapingSuccess));
+	// Upload to S3
+	const s3UrlsCollector = new Map<string, string>();
+	for (const originalUrl of imageUrlCollector) {
+		const urlResult = await getCompressedImageUrl(originalUrl);
+		if (urlResult) {
+			s3UrlsCollector.set(originalUrl, urlResult);
+		}
+	}
+	const dbUpdateResults = await Promise.allSettled(updateDb(db, scrapingSuccess, s3UrlsCollector));
 	const dbUpdateResultsFailures = [] as unknown[];
 	dbUpdateResults.forEach((value) => {
 		if (value.status === 'rejected') {

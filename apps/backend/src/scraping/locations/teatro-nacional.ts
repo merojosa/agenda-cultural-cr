@@ -188,8 +188,6 @@ async function getDescriptionSourceImgUrl(
 		var imgUrlElement: string | null | undefined = undefined;
 	}
 
-	console.log('BREAKPOINT imgUrlElement', imgUrlElement);
-
 	await newPage.close();
 
 	const description = htmlToPlainText(descriptionParagraphsHtml);

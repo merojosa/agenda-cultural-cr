@@ -13,6 +13,10 @@ provider:
   timeout: 300
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
+    AWS_REGION: ${env:AWS_REGION}
+    AWS_ASSETS_BUCKET: ${env:AWS_ASSETS_BUCKET}
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
 
 functions:
   update-theater-data:
