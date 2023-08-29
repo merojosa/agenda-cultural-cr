@@ -1,9 +1,9 @@
 {
 	"extends": "tsconfig/base.json",
 	"compilerOptions": {
-		"outDir": "dist",
-		"module": "CommonJS",
 		"target": "es2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"paths": {
 			"#scraping/*": ["./src/scraping/*"],
 			"#services/*": ["./src/services/*"],
