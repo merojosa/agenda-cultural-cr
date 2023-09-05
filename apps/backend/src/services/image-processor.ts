@@ -7,17 +7,17 @@ async function compressImage(buffer: ArrayBuffer) {
 }
 
 const {
-	AWS_REGION = '',
-	AWS_ASSETS_BUCKET = '',
-	AWS_ACCESS_KEY_ID = '',
-	AWS_SECRET_ACCESS_KEY = '',
+	ACCR_AWS_REGION = '',
+	ACCR_AWS_ASSETS_BUCKET = '',
+	ACCR_AWS_ACCESS_KEY_ID = '',
+	ACCR_AWS_SECRET_ACCESS_KEY = '',
 } = process.env;
 
 const s3Client = new S3Client({
-	region: AWS_REGION, // Replace with your desired AWS region
+	region: ACCR_AWS_REGION, // Replace with your desired AWS region
 	credentials: {
-		accessKeyId: AWS_ACCESS_KEY_ID,
-		secretAccessKey: AWS_SECRET_ACCESS_KEY,
+		accessKeyId: ACCR_AWS_ACCESS_KEY_ID,
+		secretAccessKey: ACCR_AWS_SECRET_ACCESS_KEY,
 	},
 });
 
@@ -42,12 +42,12 @@ export async function getCompressedImageUrl(originalImageUrl: string): Promise<s
 	await s3Client.send(
 		new PutObjectCommand({
 			Key: key,
-			Bucket: AWS_ASSETS_BUCKET,
+			Bucket: ACCR_AWS_ASSETS_BUCKET,
 			Body: compressedImage,
 			ContentType: 'image/webp',
 		})
 	);
 
 	// Return S3 url
-	return `https://${AWS_ASSETS_BUCKET}.s3.amazonaws.com/${key}`;
+	return `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${key}`;
 }

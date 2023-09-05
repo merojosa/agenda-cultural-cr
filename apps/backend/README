@@ -1,0 +1,13 @@
+## Lambda Layers
+
+To reduce the size, we opted to package @sparticuz/chromium and sharp as Lambda layers.
+
+To upload a lambda layer:
+
+- Create a folder called `nodejs` (it's mandatory the name) and install the package (@sparticuz/chromium or sharp) with Linux binaries inside of it
+  - sharp: `SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux sharp`
+  - @sparticuz/chromium: `npm install --arch=x64 --platform=linux @sparticuz/chromium`
+- Compress the project in a zip file called nodejs.zip
+- Execute the following command `aws lambda publish-layer-version --layer-name LAYER_NAME --description "DESCRIPTION FOR LAYER" --zip-file fileb://nodejs.zip --compatible-runtimes "nodejs18.x" --compatible-architectures x86_64`
+
+Based on: https://www.webiny.com/blog/learn-how-to-use-lambda-layers and https://github.com/Sparticuz/chromium/blob/master/examples/serverless-with-preexisting-lambda-layer/README.md

@@ -13,13 +13,14 @@ provider:
   timeout: 300
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
-    AWS_REGION: ${env:AWS_REGION}
-    AWS_ASSETS_BUCKET: ${env:AWS_ASSETS_BUCKET}
-    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    ACCR_AWS_REGION: ${env:ACCR_AWS_REGION}
+    ACCR_AWS_ASSETS_BUCKET: ${env:ACCR_AWS_ASSETS_BUCKET}
+    ACCR_AWS_ACCESS_KEY_ID: ${env:ACCR_AWS_ACCESS_KEY_ID}
+    ACCR_AWS_SECRET_ACCESS_KEY: ${env:ACCR_AWS_SECRET_ACCESS_KEY}
 
 functions:
   update-theater-data:
     handler: dist/index.updateTheaterDataLambda
     layers:
       - ${env:CHROMIUM_LAYER_VERSION_ARN}
+      - ${env:SHARP_LAYER_VERSION_ARN}
