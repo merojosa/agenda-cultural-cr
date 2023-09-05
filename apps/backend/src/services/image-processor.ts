@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import sharp from 'sharp';
 
 async function compressImage(buffer: ArrayBuffer) {
-	return sharp(buffer).resize(512, 512, { fit: 'cover' }).webp({ quality: 60 }).toBuffer();
+	return sharp(buffer).webp({ quality: 60 }).toBuffer();
 }
 
 const {
