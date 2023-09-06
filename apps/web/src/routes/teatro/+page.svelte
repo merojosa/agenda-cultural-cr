@@ -26,13 +26,13 @@
 <section class="content-container">
 	<h2>Teatro 🎭</h2>
 
-	{#each data.mockData as mockData}
+	{#each data.activities as activity}
 		<article>
-			<img src={mockData.image} alt="Testing" />
+			<img src={activity.imageUrl} alt="Testing" />
 			<div class="card-body">
-				<h3>{mockData.name}</h3>
-				<p>{mockData.description}</p>
-				<time datetime={mockData.date.toISOString()}>{formatDatetime(mockData.date)}</time>
+				<h3>{activity.title}</h3>
+				<p>{activity.description}</p>
+				<time datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time>
 				<button>Sitio oficial</button>
 			</div>
 		</article>
