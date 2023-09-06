@@ -19,7 +19,7 @@ const {
 } = process.env;
 
 const s3Client = new S3Client({
-	region: ACCR_AWS_REGION, // Replace with your desired AWS region
+	region: ACCR_AWS_REGION,
 	credentials: {
 		accessKeyId: ACCR_AWS_ACCESS_KEY_ID,
 		secretAccessKey: ACCR_AWS_SECRET_ACCESS_KEY,
@@ -37,10 +37,11 @@ export async function getCompressedImageUrl(originalImageUrl: string): Promise<s
 
 	const compressedImage = await compressImage(imageBuffer);
 
-	const hash = crypto.createHash('sha256');
-	hash.update(originalImageUrl);
-	const hashResult = hash.digest('hex');
-
+	const hashResult = crypto
+		.createHash('sha1')
+		.update(originalImageUrl)
+		.digest('base64')
+		.replaceAll('/', '_'); // To avoid folders in the s3 bucket
 	const key = `${hashResult}.webp`;
 
 	// Upload to S3 bucket
