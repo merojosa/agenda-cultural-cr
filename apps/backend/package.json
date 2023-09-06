@@ -5,8 +5,8 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"run": "yarn build && sls invoke local --function update-theater-data",
-		"build": "rm -rf dist && esbuild src/index.ts --bundle --platform=node --packages=external --target=node18 --outdir=dist",
-		"deploy:dev": "tsc && yarn run build && sls deploy --stage dev",
+		"build": "tsc && rm -rf dist && esbuild src/index.ts --bundle --platform=neutral --packages=external --target=node18 --outdir=dist",
+		"deploy:dev": "yarn run build && sls deploy --stage dev",
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {
@@ -29,5 +29,6 @@
 		"sharp": "^0.32.5",
 		"tsconfig": "*",
 		"typescript": "^5.2.2"
-	}
+	},
+	"type": "module"
 }
