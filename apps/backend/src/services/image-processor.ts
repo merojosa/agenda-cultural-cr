@@ -42,7 +42,7 @@ export async function getCompressedImageUrl(originalImageUrl: string): Promise<s
 		.update(originalImageUrl)
 		.digest('base64')
 		.replaceAll('/', '_'); // To avoid folders in the s3 bucket
-	const key = `${hashResult}.webp`;
+	const key = encodeURIComponent(`${hashResult}.webp`);
 
 	// Upload to S3 bucket
 	await s3Client.send(
