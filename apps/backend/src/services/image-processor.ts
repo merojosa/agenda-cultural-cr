@@ -42,7 +42,7 @@ export async function getCompressedImageUrl(originalImageUrl: string): Promise<s
 		.update(originalImageUrl)
 		.digest('base64')
 		.replaceAll('/', '_'); // To avoid folders in the s3 bucket
-	const key = encodeURIComponent(`${hashResult}.webp`);
+	const key = `${hashResult}.webp`;
 
 	// Upload to S3 bucket
 	await s3Client.send(
@@ -55,5 +55,5 @@ export async function getCompressedImageUrl(originalImageUrl: string): Promise<s
 	);
 
 	// Return S3 url
-	return `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${key}`;
+	return `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${encodeURIComponent(key)}`;
 }
