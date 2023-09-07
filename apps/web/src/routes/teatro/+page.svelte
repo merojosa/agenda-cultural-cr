@@ -16,6 +16,10 @@
 			.toUpperCase()
 			.replaceAll(',', '');
 	}
+
+	function formatDescription(description: string | null) {
+		return description?.replace(/\s+/g, ' ');
+	}
 </script>
 
 <svelte:head>
@@ -31,7 +35,7 @@
 			<img src={activity.imageUrl} alt="Testing" />
 			<div class="card-body">
 				<h3>{activity.title}</h3>
-				<p>{activity.description}</p>
+				<p>{formatDescription(activity.description)}</p>
 				<time datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time>
 				<button>Sitio oficial</button>
 			</div>
@@ -60,24 +64,31 @@
 	}
 
 	article > img {
-		flex: 1.5;
 		width: 100%;
+		height: 50%;
 		object-fit: cover;
 	}
 
 	article > .card-body {
+		height: 50%;
 		padding: 1rem;
-		flex: 1;
 		display: flex;
 		flex-direction: column;
 	}
 
 	article > .card-body > h3 {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 		margin: 0;
 	}
 
 	article > .card-body > p {
-		flex: 1;
+		display: -webkit-box;
+		-webkit-line-clamp: 10; /* Adjust the number of lines as needed */
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	article > .card-body > time {
@@ -88,5 +99,9 @@
 		color: white;
 		padding: 0.8rem 1rem;
 		border-radius: 3px;
+	}
+
+	article > .card-body > button {
+		margin-top: auto;
 	}
 </style>
