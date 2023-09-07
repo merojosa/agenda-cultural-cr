@@ -8,7 +8,8 @@
 		"lint": {},
 		"dev": {
 			"cache": false,
-			"persistent": true
+			"persistent": true,
+			"dependsOn": ["^build"]
 		},
 		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#from-dependent-workspaces
 		"backend#run": {
