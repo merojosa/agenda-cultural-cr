@@ -32,7 +32,7 @@
 
 	{#each data.activities as activity}
 		<article>
-			<img src={activity.imageUrl} alt="Testing" />
+			<img src={activity.imageUrl} alt={`Portada de ${activity.title}`} />
 			<div class="card-body">
 				<h3>{activity.title}</h3>
 				<p>{formatDescription(activity.description)}</p>
