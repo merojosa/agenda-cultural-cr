@@ -8,6 +8,7 @@ export async function load() {
 			description: activityTable.description,
 			datetime: activityTable.datetime,
 			imageUrl: activityTable.imageUrl,
+			activityUrl: activityTable.activityUrl,
 		})
 		.from(activityTable);
 	return { activities };

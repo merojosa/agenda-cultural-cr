@@ -37,7 +37,7 @@
 				<h3>{activity.title}</h3>
 				<p>{formatDescription(activity.description)}</p>
 				<time datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time>
-				<button>Sitio oficial</button>
+				<a target="_blank" href={activity.activityUrl}>Sitio oficial</a>
 			</div>
 		</article>
 	{/each}
@@ -101,7 +101,8 @@
 		border-radius: 3px;
 	}
 
-	article > .card-body > button {
+	article > .card-body > a {
 		margin-top: auto;
+		text-align: center;
 	}
 </style>
