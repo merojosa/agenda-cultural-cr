@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Agenda Cultural CR - Teatro🎭</title>
+	<title>Agenda Cultural CR</title>
 	<meta name="description" content="Cartelera de teatro para Costa Rica" />
 </svelte:head>
 
