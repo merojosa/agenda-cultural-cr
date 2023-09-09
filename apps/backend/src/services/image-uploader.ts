@@ -1,6 +1,8 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
+import { Logger } from 'pino';
 import sharp from 'sharp';
+import { logger } from './logger';
 
 const {
 	ACCR_AWS_REGION = '',
@@ -11,6 +13,7 @@ const {
 
 export class ImageUploader {
 	private s3Client: S3Client;
+	private logger: Logger;
 
 	constructor() {
 		this.s3Client = new S3Client({
@@ -20,6 +23,8 @@ export class ImageUploader {
 				secretAccessKey: ACCR_AWS_SECRET_ACCESS_KEY,
 			},
 		});
+
+		this.logger = logger.child({ id: ImageUploader.name });
 	}
 
 	private compressImage(buffer: ArrayBuffer) {
@@ -36,7 +41,7 @@ export class ImageUploader {
 			const imageResponse = await fetch(originalImageUrl);
 			var imageBuffer = await imageResponse.arrayBuffer();
 		} catch (error) {
-			console.error('Error downloading image', originalImageUrl, error);
+			this.logger.error('Error downloading image', originalImageUrl, error);
 			return null;
 		}
 

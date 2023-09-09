@@ -3,6 +3,8 @@ import { DateTime } from 'luxon';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#utils/scraping-utils';
 import { BackendLocation, ScrapingError, ScrapingResult } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
+import { Logger } from 'pino';
+import { logger } from '#services/logger';
 
 type TeatroNacionalDay = {
 	day: number;
@@ -18,6 +20,12 @@ type BasicPlay = {
 };
 
 export class TeatroNacional implements BackendLocation {
+	private logger: Logger;
+
+	constructor() {
+		this.logger = logger.child({ id: TeatroNacional.name });
+	}
+
 	private getCurrentYear(page: Page) {
 		return page.evaluate(() => {
 			const currentYearElement = document.querySelector('#anio .dd-selected-text');
@@ -134,7 +142,7 @@ export class TeatroNacional implements BackendLocation {
 		);
 
 		if (!(h3Result instanceof ElementHandle)) {
-			console.error('No element handle', titlePlay, datetimePlay.toString());
+			this.logger.error('No element handle', titlePlay, datetimePlay.toString());
 			return null;
 		}
 
@@ -144,10 +152,10 @@ export class TeatroNacional implements BackendLocation {
 			await rootPage.waitForSelector(tooltipSelector, { timeout: 10_000 });
 		} catch (error) {
 			if (error instanceof Error && error.name === 'TimeoutError') {
-				console.error('Timeout error on getDescriptionAndSource', error);
+				this.logger.error('Timeout error on getDescriptionAndSource', error);
 				return null;
 			}
-			console.error('Unknown error', error);
+			this.logger.error('Unknown error', error);
 			return null;
 		}
 
@@ -162,7 +170,7 @@ export class TeatroNacional implements BackendLocation {
 		}, tooltipSelector);
 
 		if (!newUrl) {
-			console.error('No newUrl on getDescriptionAndSource');
+			this.logger.error('No newUrl on getDescriptionAndSource');
 			return null;
 		}
 

@@ -8,6 +8,7 @@ import {
 } from './scraping-types';
 import { eq, notInArray } from 'drizzle-orm';
 import { type ImageUploader } from '#services/image-uploader';
+import { logger } from '#services/logger';
 
 export class TheaterUpdater {
 	constructor(
@@ -129,13 +130,13 @@ export class TheaterUpdater {
 		});
 
 		if (scrapingFailures.length) {
-			console.error('Scraping errors', scrapingFailures.join(' | '));
+			logger.error('Scraping errors', scrapingFailures.join(' | '));
 		}
 
 		if (dbUpdateResultsFailures.length) {
-			console.error('DB updates errors', dbUpdateResultsFailures.join(' | '));
+			logger.error('DB updates errors', dbUpdateResultsFailures.join(' | '));
 		}
 
-		console.log('Done updating theater data!!!!');
+		logger.info('Done updating theater data!!!!');
 	}
 }
