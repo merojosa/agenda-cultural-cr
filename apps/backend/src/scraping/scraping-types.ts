@@ -1,10 +1,19 @@
-import { backendIdValues } from 'db-schema';
-import { DateTime } from 'luxon';
+import { type backendIdValues } from 'db-schema';
+import { type DateTime } from 'luxon';
 
 export type ScrapingResult = {
 	activityEntities: ActivityEntity[];
 	imageUrlsCollector: Set<string>;
 };
+
+export interface BackendLocation {
+	getData(): Promise<ScrapingResult>;
+}
+
+export type ScrapingBackendLocations = Record<
+	(typeof backendIdValues)[keyof typeof backendIdValues],
+	BackendLocation
+>;
 
 export type ActivityEntity = {
 	backendId: (typeof backendIdValues)[keyof typeof backendIdValues];
