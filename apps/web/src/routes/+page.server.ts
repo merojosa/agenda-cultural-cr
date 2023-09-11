@@ -18,7 +18,7 @@ export async function load() {
 			between(
 				activityTable.datetime,
 				today.toJSDate(),
-				today.plus({ months: 1 }).endOf('day').toJSDate()
+				today.plus({ weeks: 2 }).endOf('day').toJSDate()
 			)
 		)
 		.orderBy(activityTable.datetime);
