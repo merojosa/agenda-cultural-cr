@@ -1,16 +1,26 @@
 {
+	// Based on Pococks's recommendations: https://x.com/mattpocockuk/status/1701619240686485799
+	// Assumed that tsc won't be used as transpiler
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"display": "Default",
 	"compilerOptions": {
-		"strict": true,
-		"resolveJsonModule": true,
+		// Base Options:
 		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"noUncheckedIndexedAccess": true,
-		"noEmit": true,
 		"forceConsistentCasingInFileNames": true,
-		"sourceMap": true,
-		"strictNullChecks": true
+		"skipLibCheck": true,
+		"target": "es2022",
+		"verbatimModuleSyntax": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		// Strictness
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"strictNullChecks": true,
+		"useDefineForClassFields": true,
+		// If NOT transpiling with TypeScript:
+		"moduleResolution": "Bundler",
+		"module": "ESNext",
+		"noEmit": true
 	},
 	"exclude": ["node_modules"]
 }

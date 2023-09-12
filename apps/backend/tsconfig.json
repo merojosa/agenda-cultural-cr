@@ -1,9 +1,6 @@
 {
-	"extends": "tsconfig/base.json",
+	"extends": "tsconfig/node.json",
 	"compilerOptions": {
-		"target": "es2022",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
 		"paths": {
 			"#scraping/*": ["./src/scraping/*"],
 			"#services/*": ["./src/services/*"],
