@@ -10,11 +10,11 @@
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.400.0",
+		"@aws-sdk/client-s3": "^3.410.0",
 		"db-schema": "*",
-		"drizzle-orm": "^0.28.5",
+		"drizzle-orm": "^0.28.6",
 		"html-to-text": "^9.0.5",
-		"luxon": "^3.4.0",
+		"luxon": "^3.4.3",
 		"pino": "^8.15.1",
 		"postgres": "^3.3.5",
 		"puppeteer-core": "^21.0.3"
@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@sparticuz/chromium": "^115.0.0",
 		"@types/html-to-text": "^9.0.1",
-		"@types/luxon": "^3.3.1",
+		"@types/luxon": "^3.3.2",
 		"@types/node": "^18.17.4",
 		"esbuild": "^0.19.2",
 		"serverless": "^3.34.0",

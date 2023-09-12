@@ -14,10 +14,10 @@
 		"db-schema": "*",
 		"dotenv": "^16.3.1",
 		"drizzle-kit": "^0.19.13",
-		"drizzle-orm": "^0.28.2",
+		"drizzle-orm": "^0.28.6",
 		"postgres": "^3.3.5",
 		"tsconfig": "*",
-		"tsx": "^3.12.7",
+		"tsx": "^3.12.8",
 		"typescript": "^5.2.2"
 	}
 }
