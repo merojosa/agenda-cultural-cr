@@ -1,52 +1,35 @@
 <script>
+	import '../app.css';
 </script>
 
-<div class="app">
-	<header>
+<div class="app min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden">
+	<header class="flex w-screen justify-center">
 		<h1>Agenda Cultural CR</h1>
 	</header>
 
-	<main>
+	<main class="w-[75rem] mx-auto my-8">
 		<slot />
 	</main>
 
-	<footer>
+	<footer class="flex justify-center">
 		<p>Creado por Jose Andrés</p>
 	</footer>
 </div>
 
 <style>
-	:global(body) {
-		all: unset;
-	}
-
 	.app {
-		all: unset;
-		min-height: 100vh;
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto 1fr auto;
 		grid-template-areas: 'header' 'main' 'footer';
-		background-color: var(--primaryColor);
-		font-family: 'Open Sans', sans-serif;
-		overflow-x: hidden;
 	}
 
 	header {
 		grid-area: header;
-		width: 100vw;
-		display: flex;
-		justify-content: center;
 	}
 
 	main {
-		width: 75rem;
-		margin: 2rem auto;
+		grid-area: main;
 	}
 
 	footer {
 		grid-area: footer;
-		display: flex;
-		justify-content: center;
 	}
 </style>
