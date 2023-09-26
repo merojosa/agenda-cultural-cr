@@ -2,7 +2,9 @@
 	import '../app.css';
 </script>
 
-<div class="app min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden">
+<div
+	class="app min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden bg-surface"
+>
 	<header class="flex w-screen justify-center">
 		<h1>Agenda Cultural CR</h1>
 	</header>

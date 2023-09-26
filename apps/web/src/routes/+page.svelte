@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as Card from '$lib/components/ui/card';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -29,21 +30,31 @@
 
 <section class="grid grid-cols-3 gap-12">
 	{#each data.activities as activity}
-		<article class="relative flex flex-col h-[40rem] border border-black">
+		<Card.Root tag="article" class="relative flex flex-col h-[40rem]">
+			<!-- <Card.Header>
+		
+			</Card.Header> -->
 			<img
-				class="w-full h-1/2 object-cover"
+				class="w-full h-1/2 object-cover rounded-ss-lg rounded-se-lg"
 				src={activity.imageUrl}
 				alt={`Portada de ${activity.title}`}
 			/>
-			<div class="h-1/2 p-4 flex flex-col">
-				<h3 class="line-clamp-3">{activity.title}</h3>
-				<p class="line-clamp-[8]">{formatDescription(activity.description)}</p>
+			<Card.Content class="h-1/2 p-4 flex flex-col gap-3">
+				<Card.Title class="line-clamp-3" tag="h3">{activity.title}</Card.Title>
+
+				<Card.Description class="line-clamp-[8]"
+					>{formatDescription(activity.description)}</Card.Description
+				>
+
 				<time
-					class="absolute right-[-22px] top-[-21px] bg-black text-white p-3 border-r-4"
+					class="absolute right-[-22px] top-[-21px] bg-secondary text-black p-3 rounded-sm"
 					datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time
 				>
 				<a class="mt-auto text-center" target="_blank" href={activity.activityUrl}>Sitio oficial</a>
-			</div>
-		</article>
+			</Card.Content>
+			<!-- <Card.Footer>
+				<p>Card Footer</p>
+			</Card.Footer> -->
+		</Card.Root>
 	{/each}
 </section>
