@@ -31,7 +31,7 @@
 
 <section class="grid grid-cols-3 gap-12">
 	{#each data.activities as activity}
-		<Card.Root tag="article" class="relative flex flex-col h-[40rem]">
+		<Card.Root tag="article" class="relative flex flex-col h-[34rem]">
 			<img
 				class="w-full h-1/2 object-cover rounded-ss-lg rounded-se-lg"
 				src={activity.imageUrl}
@@ -40,7 +40,7 @@
 			<Card.Content class="h-1/2 p-4 flex flex-col gap-3">
 				<Card.Title class="line-clamp-3" tag="h3">{activity.title}</Card.Title>
 
-				<Card.Description class="line-clamp-[8]"
+				<Card.Description class="line-clamp-[6]"
 					>{formatDescription(activity.description)}</Card.Description
 				>
 
