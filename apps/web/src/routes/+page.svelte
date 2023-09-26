@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import type { PageData } from './$types';
 
@@ -31,9 +32,6 @@
 <section class="grid grid-cols-3 gap-12">
 	{#each data.activities as activity}
 		<Card.Root tag="article" class="relative flex flex-col h-[40rem]">
-			<!-- <Card.Header>
-		
-			</Card.Header> -->
 			<img
 				class="w-full h-1/2 object-cover rounded-ss-lg rounded-se-lg"
 				src={activity.imageUrl}
@@ -50,11 +48,16 @@
 					class="absolute right-[-22px] top-[-21px] bg-secondary text-black p-3 rounded-sm"
 					datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time
 				>
-				<a class="mt-auto text-center" target="_blank" href={activity.activityUrl}>Sitio oficial</a>
+
+				<Button
+					class="w-fit mt-auto mx-auto text-lg"
+					target="_blank"
+					href={activity.activityUrl}
+					variant="link"
+				>
+					Sitio oficial
+				</Button>
 			</Card.Content>
-			<!-- <Card.Footer>
-				<p>Card Footer</p>
-			</Card.Footer> -->
 		</Card.Root>
 	{/each}
 </section>
