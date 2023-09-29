@@ -4,6 +4,12 @@
 	export let data: PageData;
 </script>
 
-<h1>{data.activity.title}</h1>
+<article class="grid grid-cols-2">
+	<img src={data.activity.imageUrl} alt={`Portada de ${data.activity.title}`} />
 
-<p>{data.activity.description}</p>
+	<div class="flex flex-col gap-8">
+		<h1 class="text-4xl font-extrabold">{data.activity.title}</h1>
+		<p>{data.activity.description}</p>
+		<div />
+	</div>
+</article>
