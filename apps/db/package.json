@@ -17,7 +17,7 @@
 		"drizzle-orm": "^0.28.6",
 		"postgres": "^3.3.5",
 		"tsconfig": "*",
-		"tsx": "^3.12.8",
+		"tsx": "^3.13.0",
 		"typescript": "^5.2.2"
 	}
 }

@@ -6,7 +6,7 @@ import {
 	integer,
 	text,
 	pgEnum,
-	primaryKey,
+	unique,
 } from 'drizzle-orm/pg-core';
 
 const URL_LENGTH = 300;
@@ -15,6 +15,7 @@ const NAME_LENGTH = 150;
 export const activityTable = pgTable(
 	'activity',
 	{
+		id: serial('id').primaryKey(),
 		title: varchar('title', { length: NAME_LENGTH }).notNull(),
 		datetime: timestamp('datetime').notNull(),
 		imageUrl: varchar('image_url', { length: URL_LENGTH }),
@@ -34,7 +35,7 @@ export const activityTable = pgTable(
 		description: text('description'),
 	},
 	(table) => ({
-		unq: primaryKey(table.title, table.datetime, table.locationId, table.activityTypeId),
+		unq: unique().on(table.title, table.datetime, table.locationId, table.activityTypeId),
 	})
 );
 

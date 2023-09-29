@@ -7,11 +7,11 @@ export async function load() {
 	const today = DateTime.local().startOf('day');
 	const activities = await db
 		.select({
+			id: activityTable.id,
 			title: activityTable.title,
 			description: activityTable.description,
 			datetime: activityTable.datetime,
 			imageUrl: activityTable.imageUrl,
-			activityUrl: activityTable.activityUrl,
 		})
 		.from(activityTable)
 		.where(
