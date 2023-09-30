@@ -11,7 +11,7 @@
 	}
 </script>
 
-<article class="grid grid-cols-[40%_60%] gap-8">
+<article class="grid grid-cols-[1fr_1.5fr] gap-8">
 	<img class="w-full" src={data.activity.imageUrl} alt={`Portada de ${data.activity.title}`} />
 
 	<div class="flex flex-col gap-8">
