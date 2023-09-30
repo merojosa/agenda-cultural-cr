@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Calendar, MapPin, Link2 } from 'lucide-svelte';
+	import { Calendar, MapPin, Link2, Info } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -44,5 +44,18 @@
 				{/each}
 			</div>
 		</ul>
+	</div>
+	<div
+		class="grid grid-cols-[1.5rem_auto] col-span-2 gap-x-2 gap-y-3 w-fit p-4 bg-blue-950 rounded"
+	>
+		<Info class="h-full w-full" />
+		<h2 class="text-2xl font-bold">¡Ojo!</h2>
+		<p class="text-lg col-start-2 col-end-auto leading-none">
+			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
+			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
+			clic <Button class="p-0 text-lg text-foreground font-bold" href="/info" variant="link"
+				>aquí.</Button
+			>
+		</p>
 	</div>
 </article>
