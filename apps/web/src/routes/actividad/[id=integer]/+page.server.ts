@@ -1,4 +1,4 @@
-import { activityTable } from 'db-schema';
+import { activityTable, locationTable } from 'db-schema';
 import { db } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
@@ -13,8 +13,12 @@ export const load: PageServerLoad = async ({ params }) => {
 				description: activityTable.description,
 				datetime: activityTable.datetime,
 				imageUrl: activityTable.imageUrl,
+				activityUrl: activityTable.activityUrl,
+				locationName: locationTable.name,
+				gpsLocationUrl: locationTable.gpsLocationUrl,
 			})
 			.from(activityTable)
+			.innerJoin(locationTable, eq(activityTable.locationId, locationTable.id))
 			.where(eq(activityTable.id, Number(params.id)));
 	} catch (err) {
 		console.error(err);
