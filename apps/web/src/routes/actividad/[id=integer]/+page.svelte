@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Card from '$lib/components/ui/card';
 
 	export let data: PageData;
 
@@ -45,12 +46,10 @@
 			</div>
 		</ul>
 	</div>
-	<div
-		class="grid grid-cols-[1.5rem_auto] col-span-2 gap-x-2 gap-y-3 w-fit p-4 bg-blue-950 rounded"
-	>
+	<Card.Root class="grid grid-cols-[1.5rem_auto] col-span-2 gap-x-2 gap-y-3 w-fit p-4">
 		<Info class="h-full w-full" />
-		<h2 class="text-2xl font-bold">¡Ojo!</h2>
-		<p class="text-lg col-start-2 col-end-auto leading-none">
+		<Card.Title tag="h2" class="text-2xl font-bold">¡Ojo!</Card.Title>
+		<Card.Description class="text-lg col-start-2 col-end-auto leading-none">
 			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
 			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
 			clic <Button
@@ -59,6 +58,6 @@
 				variant="link"
 				target="_blank">aquí.</Button
 			>
-		</p>
-	</div>
+		</Card.Description>
+	</Card.Root>
 </article>
