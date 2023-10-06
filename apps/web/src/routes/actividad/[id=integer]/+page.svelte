@@ -18,12 +18,12 @@
 	<div class="flex flex-col gap-8">
 		<h1 class="text-4xl font-extrabold leading-tight">{data.activity.title}</h1>
 		<ul class="flex flex-col gap-8">
-			<li class="flex flex-row gap-2 items-center text-xl">
-				<MapPin class="w-10 h-10" />
+			<li class="flex flex-row items-center gap-2 text-xl">
+				<MapPin class="h-10 w-10" />
 				{data.activity.locationName}
 			</li>
-			<li class="flex flex-row gap-2 items-center text-xl">
-				<Calendar class="w-10 h-10" />
+			<li class="flex flex-row items-center gap-2 text-xl">
+				<Calendar class="h-10 w-10" />
 				{capitalizeFirstLetter(
 					DateTime.fromJSDate(data.activity.datetime, { zone: 'uct' }).toFormat(
 						"cccc LL 'de' LLLL, hh:mm a",
@@ -31,9 +31,9 @@
 					)
 				)}
 			</li>
-			<li class="flex flex-row gap-2 items-center">
-				<Link2 class="w-10 h-10" />
-				<Button class="text-xl p-0" variant="link" href={data.activity.activityUrl} target="_blank">
+			<li class="flex flex-row items-center gap-2">
+				<Link2 class="h-10 w-10" />
+				<Button class="p-0 text-xl" variant="link" href={data.activity.activityUrl} target="_blank">
 					Sitio oficial
 				</Button>
 			</li>
@@ -46,14 +46,14 @@
 			</div>
 		</ul>
 	</div>
-	<Card.Root class="grid grid-cols-[1.5rem_auto] col-span-2 gap-x-2 gap-y-3 w-fit p-4">
+	<Card.Root class="col-span-2 grid w-fit grid-cols-[1.5rem_auto] gap-x-2 gap-y-3 p-4">
 		<Info class="h-full w-full" />
 		<Card.Title tag="h2" class="text-2xl font-bold">¡Ojo!</Card.Title>
-		<Card.Description class="text-lg col-start-2 col-end-auto leading-none">
+		<Card.Description class="col-start-2 col-end-auto text-lg leading-none">
 			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
 			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
 			clic <Button
-				class="p-0 text-lg text-foreground font-bold"
+				class="text-foreground p-0 text-lg font-bold"
 				href="/info"
 				variant="link"
 				target="_blank">aquí.</Button

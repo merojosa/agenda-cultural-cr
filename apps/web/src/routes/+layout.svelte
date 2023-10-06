@@ -3,13 +3,13 @@
 </script>
 
 <div
-	class="app min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden bg-surface"
+	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
 	<header class="flex w-screen justify-center">
 		<h1>Agenda Cultural CR</h1>
 	</header>
 
-	<main class="w-[75rem] mx-auto my-8">
+	<main class="mx-auto my-8 w-[75rem]">
 		<slot />
 	</main>
 

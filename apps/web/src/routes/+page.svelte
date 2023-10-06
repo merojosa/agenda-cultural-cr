@@ -30,19 +30,19 @@
 
 <section class="grid grid-cols-3 gap-12">
 	{#each data.activities as activity}
-		<Card.Root tag="article" class="relative flex flex-col h-[28rem]">
-			<a class="w-full h-1/2" href={`/actividad/${activity.id}`}>
+		<Card.Root tag="article" class="relative flex h-[28rem] flex-col">
+			<a class="h-1/2 w-full" href={`/actividad/${activity.id}`}>
 				<img
-					class="w-full h-full object-cover rounded-ss-lg rounded-se-lg"
+					class="h-full w-full rounded-se-lg rounded-ss-lg object-cover"
 					src={activity.imageUrl}
 					alt={`Portada de ${activity.title}`}
 				/>
 				<time
-					class="absolute right-[-22px] top-[-21px] bg-secondary text-black p-3 rounded-sm"
+					class="bg-secondary absolute right-[-22px] top-[-21px] rounded-sm p-3 text-black"
 					datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time
 				>
 			</a>
-			<Card.Content class="h-1/2 p-4 flex flex-col gap-3">
+			<Card.Content class="flex h-1/2 flex-col gap-3 p-4">
 				<a href={`/actividad/${activity.id}`}>
 					<Card.Title
 						class={`${activity.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1'} leading-normal`}
