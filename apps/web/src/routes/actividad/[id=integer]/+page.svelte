@@ -53,8 +53,11 @@
 		<p class="text-lg col-start-2 col-end-auto leading-none">
 			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
 			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
-			clic <Button class="p-0 text-lg text-foreground font-bold" href="/info" variant="link"
-				>aquí.</Button
+			clic <Button
+				class="p-0 text-lg text-foreground font-bold"
+				href="/info"
+				variant="link"
+				target="_blank">aquí.</Button
 			>
 		</p>
 	</div>
