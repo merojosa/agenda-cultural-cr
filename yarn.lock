@@ -920,28 +920,12 @@
   resolved "https://registry.yarnpkg.com/@drizzle-team/studio/-/studio-0.0.5.tgz#d2488ab4e8e755cc69287e2267cc4033a0e6ca35"
   integrity sha512-ps5qF0tMxWRVu+V5gvCRrQNqlY92aTnIKdq27gm9LZMSdaKYZt6AVvSK1dlUMzs6Rt0Jm80b+eWct6xShBKhIw==
 
-"@esbuild-kit/cjs-loader@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@esbuild-kit/cjs-loader/-/cjs-loader-2.4.2.tgz#cb4dde00fbf744a68c4f20162ea15a8242d0fa54"
-  integrity sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==
-  dependencies:
-    "@esbuild-kit/core-utils" "^3.0.0"
-    get-tsconfig "^4.4.0"
-
 "@esbuild-kit/core-utils@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@esbuild-kit/core-utils/-/core-utils-3.1.0.tgz#49945d533dbd5e1b7620aa0fc522c15e6ec089c5"
   integrity sha512-Uuk8RpCg/7fdHSceR1M6XbSZFSuMrxcePFuGgyvsBn+u339dk5OeL4jv2EojwTN2st/unJGsVm4qHWjWNmJ/tw==
   dependencies:
     esbuild "~0.17.6"
-    source-map-support "^0.5.21"
-
-"@esbuild-kit/core-utils@^3.2.2":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@esbuild-kit/core-utils/-/core-utils-3.3.0.tgz#2d8cfed79a34f71b07b0c91f634655d81fca72ab"
-  integrity sha512-jTtSvVpr5ygNXyPXf9IBbCrKQ0uckq6vWkcGfy1fEr9KjkKdnFn4kFAGjpqZDZim1wsTwh/Be+lhAUemEmxEYA==
-  dependencies:
-    esbuild "~0.18.20"
     source-map-support "^0.5.21"
 
 "@esbuild-kit/esm-loader@^2.5.5":
@@ -4209,10 +4193,10 @@ eslint-config-turbo@latest:
   dependencies:
     eslint-plugin-turbo "1.10.12"
 
-eslint-plugin-svelte@^2.30.0:
-  version "2.32.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte/-/eslint-plugin-svelte-2.32.4.tgz#815a534a15982483f1a5d2076764956797891ca9"
-  integrity sha512-VJ12i2Iogug1jvhwxSlognnfGj76P5gks/V4pUD4SCSVQOp14u47MNP0zAG8AQR3LT0Fi1iUvIFnY4l9z5Rwbg==
+eslint-plugin-svelte@^2.34.0:
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte/-/eslint-plugin-svelte-2.34.0.tgz#c805384e51ff01d24e808c9710c59ca5d176ec2f"
+  integrity sha512-4RYUgNai7wr0v+T/kljMiYSjC/oqwgq5i+cPppawryAayj4C7WK1ixFlWCGmNmBppnoKCl4iA4ZPzPtlHcb4CA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.2.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
@@ -4224,7 +4208,7 @@ eslint-plugin-svelte@^2.30.0:
     postcss-safe-parser "^6.0.0"
     postcss-selector-parser "^6.0.11"
     semver "^7.5.3"
-    svelte-eslint-parser "^0.32.2"
+    svelte-eslint-parser ">=0.33.0 <1.0.0"
 
 eslint-plugin-turbo@1.10.12:
   version "1.10.12"
@@ -4752,6 +4736,11 @@ fsevents@~2.3.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
+fsevents@~2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
+  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
+
 function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
@@ -4824,6 +4813,13 @@ get-tsconfig@^4.4.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.0.tgz#06ce112a1463e93196aa90320c35df5039147e34"
   integrity sha512-pmjiZ7xtB8URYm74PlGJozDNyhvsVLUcpBa8DZBG3bWHwaHa9bPiRpiSfovw+fjhwONSCWKRyk+JQHEGZmMrzw==
+  dependencies:
+    resolve-pkg-maps "^1.0.0"
+
+get-tsconfig@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.2.tgz#0dcd6fb330391d46332f4c6c1bf89a6514c2ddce"
+  integrity sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==
   dependencies:
     resolve-pkg-maps "^1.0.0"
 
@@ -6516,10 +6512,10 @@ postcss-safe-parser@^6.0.0:
   resolved "https://registry.yarnpkg.com/postcss-safe-parser/-/postcss-safe-parser-6.0.0.tgz#bb4c29894171a94bc5c996b9a30317ef402adaa1"
   integrity sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==
 
-postcss-scss@^4.0.6:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.7.tgz#cfe5507aaff81b3d8992039ad015da4bd3dccd2f"
-  integrity sha512-xPv2GseoyXPa58Nro7M73ZntttusuCmZdeOojUFR5PZDz2BR62vfYx1w9TyOnp1+nYFowgOMipsCBhxzVkAEPw==
+postcss-scss@^4.0.8:
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.9.tgz#a03c773cd4c9623cb04ce142a52afcec74806685"
+  integrity sha512-AjKOeiwAitL/MXxQW2DliT28EKukvvbEWx3LBmJIRN8KfBGZbRTxNYW0kSqi1COiTZ57nZ9NW06S6ux//N1c9A==
 
 postcss-selector-parser@^6.0.11:
   version "6.0.13"
@@ -6543,10 +6539,19 @@ postcss@^8.4.23:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@^8.4.25, postcss@^8.4.27, postcss@^8.4.5:
+postcss@^8.4.27, postcss@^8.4.5:
   version "8.4.28"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.28.tgz#c6cc681ed00109072816e1557f889ef51cf950a5"
   integrity sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==
+  dependencies:
+    nanoid "^3.3.6"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
+postcss@^8.4.29:
+  version "8.4.31"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.31.tgz#92b451050a9f914da6755af352bdc0192508656d"
+  integrity sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==
   dependencies:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
@@ -7534,16 +7539,16 @@ svelte-check@^3.5.2:
     svelte-preprocess "^5.0.4"
     typescript "^5.0.3"
 
-svelte-eslint-parser@^0.32.2:
-  version "0.32.2"
-  resolved "https://registry.yarnpkg.com/svelte-eslint-parser/-/svelte-eslint-parser-0.32.2.tgz#542042254feef50962dc6cb6451234f3103476ef"
-  integrity sha512-Ok9D3A4b23iLQsONrjqtXtYDu5ZZ/826Blaw2LeFZVTg1pwofKDG4mz3/GYTax8fQ0plRGHI6j+d9VQYy5Lo/A==
+"svelte-eslint-parser@>=0.33.0 <1.0.0":
+  version "0.33.1"
+  resolved "https://registry.yarnpkg.com/svelte-eslint-parser/-/svelte-eslint-parser-0.33.1.tgz#c64dbed2fad099577429b3c39377f6b8d36e5d97"
+  integrity sha512-vo7xPGTlKBGdLH8T5L64FipvTrqv3OQRx9d2z5X05KKZDlF4rQk8KViZO4flKERY+5BiVdOh7zZ7JGJWo5P0uA==
   dependencies:
     eslint-scope "^7.0.0"
     eslint-visitor-keys "^3.0.0"
     espree "^9.0.0"
-    postcss "^8.4.25"
-    postcss-scss "^4.0.6"
+    postcss "^8.4.29"
+    postcss-scss "^4.0.8"
 
 svelte-hmr@^0.15.3:
   version "0.15.3"
@@ -7817,16 +7822,16 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tsx@^3.12.8:
-  version "3.12.8"
-  resolved "https://registry.yarnpkg.com/tsx/-/tsx-3.12.8.tgz#e9ec95c6b116e28f0187467f839029a3ce17a851"
-  integrity sha512-Lt9KYaRGF023tlLInPj8rgHwsZU8qWLBj4iRXNWxTfjIkU7canGL806AqKear1j722plHuiYNcL2ZCo6uS9UJA==
+tsx@^3.13.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/tsx/-/tsx-3.13.0.tgz#f860e511b33fcb41d74df87d7ba239a0b4012dbb"
+  integrity sha512-rjmRpTu3as/5fjNq/kOkOtihgLxuIz6pbKdj9xwP4J5jOLkBxw/rjN5ANw+KyrrOXV5uB7HC8+SrrSJxT65y+A==
   dependencies:
-    "@esbuild-kit/cjs-loader" "^2.4.2"
-    "@esbuild-kit/core-utils" "^3.2.2"
-    "@esbuild-kit/esm-loader" "^2.5.5"
+    esbuild "~0.18.20"
+    get-tsconfig "^4.7.2"
+    source-map-support "^0.5.21"
   optionalDependencies:
-    fsevents "~2.3.2"
+    fsevents "~2.3.3"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

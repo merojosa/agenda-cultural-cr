@@ -1,6 +1,6 @@
 import { TeatroElTriciclo } from '#scraping/locations/teatro-el-triciclo';
 import { TeatroNacional } from '#scraping/locations/teatro-nacional';
-import { ScrapingBackendLocations } from '#scraping/scraping-types';
+import type { ScrapingBackendLocations } from '#scraping/scraping-types';
 import { TheaterUpdater } from '#scraping/theater-updater';
 import { ImageUploader } from '#services/image-uploader';
 import { backendIdValues } from 'db-schema';

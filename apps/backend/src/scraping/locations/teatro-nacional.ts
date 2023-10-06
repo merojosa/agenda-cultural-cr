@@ -1,9 +1,9 @@
-import { Browser, ElementHandle, Page } from 'puppeteer-core';
+import { type Browser, ElementHandle, type Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#utils/scraping-utils';
-import { BackendLocation, ScrapingError, ScrapingResult } from '#scraping/scraping-types';
+import { type BackendLocation, ScrapingError, type ScrapingResult } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
-import { Logger } from 'pino';
+import type { Logger } from 'pino';
 import { logger } from '#services/logger';
 
 type TeatroNacionalDay = {

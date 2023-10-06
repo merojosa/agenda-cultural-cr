@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
-import { Logger } from 'pino';
+import type { Logger } from 'pino';
 import sharp from 'sharp';
 import { logger } from './logger';
 

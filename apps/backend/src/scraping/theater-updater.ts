@@ -1,5 +1,5 @@
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DB_IDS, activityTable, automaticLocationTable, backendIdValues } from 'db-schema';
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { DB_IDS, activityTable, automaticLocationTable, type backendIdValues } from 'db-schema';
 import {
 	type ActivityEntity,
 	type ScrapingBackendLocations,

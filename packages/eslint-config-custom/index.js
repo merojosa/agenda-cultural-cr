@@ -12,6 +12,9 @@ module.exports = {
 		{
 			files: ['*.svelte'],
 			parser: 'svelte-eslint-parser',
+			rules: {
+				'@typescript-eslint/consistent-type-imports': 'error',
+			},
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -28,5 +31,6 @@ module.exports = {
 	},
 	rules: {
 		'no-var': 'off',
+		'@typescript-eslint/consistent-type-imports': 'error',
 	},
 };
