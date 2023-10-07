@@ -1,11 +1,11 @@
 import * as schema from '#schema';
-import { I as InferModelDrizzle } from 'drizzle-orm/column.d-04875079';
-import { AnyPgTable, PgInsertValue } from 'drizzle-orm/pg-core';
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import type { InferInsertModel } from 'drizzle-orm';
+import type { AnyPgTable, PgInsertValue } from 'drizzle-orm/pg-core';
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 // Exclude SQL and Placeholder types from PgInsertValue
 type RawTableTypes<TTable extends AnyPgTable> = {
-	[Key in keyof PgInsertValue<TTable>]: InferModelDrizzle<TTable, 'insert'>[Key];
+	[Key in keyof PgInsertValue<TTable>]: InferInsertModel<TTable>[Key];
 };
 
 const data = {
