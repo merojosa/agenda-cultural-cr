@@ -10,12 +10,12 @@
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.410.0",
+		"@aws-sdk/client-s3": "^3.427.0",
 		"db-schema": "*",
 		"drizzle-orm": "^0.28.6",
 		"html-to-text": "^9.0.5",
 		"luxon": "^3.4.3",
-		"pino": "^8.15.1",
+		"pino": "^8.15.6",
 		"postgres": "^3.3.5",
 		"puppeteer-core": "^21.0.3"
 	},
