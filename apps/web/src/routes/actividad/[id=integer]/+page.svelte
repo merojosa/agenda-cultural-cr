@@ -52,11 +52,8 @@
 		<Card.Description class="col-start-2 col-end-auto text-lg leading-none">
 			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
 			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
-			clic <Button
-				class="text-foreground p-0 text-lg font-bold"
-				href="/info"
-				variant="link"
-				target="_blank">aquí.</Button
+			clic <Button class="p-0 text-lg font-bold" href="/info" variant="link" target="_blank"
+				>aquí.</Button
 			>
 		</Card.Description>
 	</Card.Root>
