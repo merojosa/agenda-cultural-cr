@@ -12,7 +12,7 @@
 	}
 </script>
 
-<article class="grid grid-cols-[1fr_1.5fr] gap-8">
+<article class="grid grid-cols-[1fr_1.5fr] gap-x-8 gap-y-16">
 	<img class="w-full" src={data.activity.imageUrl} alt={`Portada de ${data.activity.title}`} />
 
 	<div class="flex flex-col gap-8">
@@ -47,13 +47,14 @@
 		</ul>
 	</div>
 	<Card.Root class="col-span-2 grid w-fit grid-cols-[1.5rem_auto] gap-x-2 gap-y-3 p-4">
-		<Info class="h-full w-full" />
-		<Card.Title tag="h2" class="text-2xl font-bold">¡Ojo!</Card.Title>
-		<Card.Description class="col-start-2 col-end-auto text-lg leading-none">
-			Recordá visitar el sitio oficial para verificar la información y comprar o conseguir las
-			entradas. Para más información sobre cómo recolectamos la información de los eventos, hacé
-			clic <Button class="p-0 text-lg font-bold" href="/info" variant="link" target="_blank"
-				>aquí.</Button
+		<Info class="h-7" />
+		<Card.Description class="col-start-2 col-end-auto text-lg">
+			Recordá visitar el sitio oficial para validar la información y comprar/conseguir las entradas.
+			Si querés saber sobre cómo recolectamos la información de los eventos, hacé clic <Button
+				class="p-0 text-lg font-bold"
+				href="/info"
+				variant="link"
+				target="_blank">aquí.</Button
 			>
 		</Card.Description>
 	</Card.Root>
