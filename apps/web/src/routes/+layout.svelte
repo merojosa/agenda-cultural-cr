@@ -7,7 +7,7 @@
 	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
 	<header class="flex w-screen justify-center py-10">
-		<Button variant="link" class="text-foreground w-fit p-0 text-3xl font-medium" href="/">
+		<Button variant="link" class="text-foreground w-fit p-0 text-2xl font-medium" href="/">
 			<h1>Agenda Cultural CR</h1>
 		</Button>
 	</header>

@@ -16,7 +16,7 @@
 	<img class="w-full" src={data.activity.imageUrl} alt={`Portada de ${data.activity.title}`} />
 
 	<div class="flex flex-col gap-8">
-		<h1 class="text-4xl font-extrabold leading-tight">{data.activity.title}</h1>
+		<h1 class="text-3xl font-bold leading-tight">{data.activity.title}</h1>
 		<ul class="flex flex-col gap-8">
 			<li class="flex flex-row items-center gap-2 text-xl">
 				<MapPin class="h-10 w-10" />
