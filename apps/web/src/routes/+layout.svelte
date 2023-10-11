@@ -6,13 +6,29 @@
 <div
 	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
-	<header class="flex w-screen justify-center py-10">
-		<Button variant="link" class="text-foreground w-fit p-0 text-2xl font-medium" href="/">
-			<h1>Agenda Cultural CR</h1>
-		</Button>
+	<header class="mx-auto w-[75rem] py-8">
+		<nav class="flex items-center">
+			<div class="flex-1">
+				<Button variant="link" class="text-foreground p-0 text-xl font-medium" href="/">
+					<h1>Agenda Cultural CR</h1>
+				</Button>
+			</div>
+			<ul class="flex gap-6">
+				<li>
+					<Button variant="link" href="/recoleccion" class="text-foreground p-0">
+						Recolección de datos
+					</Button>
+				</li>
+				<li>
+					<Button variant="link" href="/acerca-accr" class="text-foreground p-0">
+						Acerca de la agenda
+					</Button>
+				</li>
+			</ul>
+		</nav>
 	</header>
 
-	<main class="mx-auto w-[75rem] pb-24 pt-8">
+	<main class="mx-auto w-[75rem] pb-24 pt-4">
 		<slot />
 	</main>
 
