@@ -4,7 +4,11 @@ import type { PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=3600',
+	});
+
 	try {
 		var activityQuery = await db
 			.select({

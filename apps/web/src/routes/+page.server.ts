@@ -2,8 +2,13 @@ import { activityTable } from 'db-schema';
 import { db } from '$lib/server/db';
 import { between } from 'drizzle-orm';
 import { DateTime } from 'luxon';
+import type { PageServerLoad } from './$types';
 
-export async function load() {
+export const load: PageServerLoad = async ({ setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=3600',
+	});
+
 	const today = DateTime.local().startOf('day');
 	const activities = await db
 		.select({
@@ -24,4 +29,4 @@ export async function load() {
 		.orderBy(activityTable.datetime);
 
 	return { activities };
-}
+};
