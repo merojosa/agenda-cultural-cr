@@ -10,7 +10,7 @@
 		"backend:run": "turbo run backend#run",
 		"backend:deploy:dev": "turbo run backend#deploy:dev",
 		"db:generate": "turbo run db#generate",
-		"db:deploy:dev": "yarn workspace db deploy:dev",
+		"db:deploy:dev": "yarn workspace db deploy:dev", // Sometimes drizzle asks for stuff and the turbo's prompt doesn't allow to answer
 		"web:deploy:dev": "turbo run web#deploy:dev"
 	},
 	"devDependencies": {
