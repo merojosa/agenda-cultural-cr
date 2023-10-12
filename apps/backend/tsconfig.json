@@ -1,6 +1,7 @@
 {
 	"extends": "tsconfig/node.json",
 	"compilerOptions": {
+		"lib": ["ES2022", "DOM"], // Adding the DOM lib in a Node.js project is bad, but we need some types for puppeteer stuff
 		"paths": {
 			"#scraping/*": ["./src/scraping/*"],
 			"#services/*": ["./src/services/*"],
