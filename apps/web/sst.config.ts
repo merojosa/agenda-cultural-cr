@@ -9,8 +9,8 @@ export default {
 		};
 	},
 	stacks(app) {
-		app.stack(function web({ stack }) {
-			const site = new SvelteKitSite(stack, 'web');
+		app.stack(function site({ stack }) {
+			const site = new SvelteKitSite(stack, 'site');
 			stack.addOutputs({
 				url: site.url,
 			});
