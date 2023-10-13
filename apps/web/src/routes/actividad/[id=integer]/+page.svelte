@@ -12,8 +12,14 @@
 	}
 </script>
 
-<article class="grid grid-cols-[1fr_1.5fr] gap-x-8 gap-y-16">
-	<img class="w-full" src={data.activity.imageUrl} alt={`Portada de ${data.activity.title}`} />
+<article
+	class="grid grid-rows-[60vh_auto_auto] gap-y-10 md:grid-cols-[1fr_1.5fr] md:grid-rows-none md:gap-x-8 md:gap-y-16"
+>
+	<img
+		class="h-full justify-self-center object-contain md:h-auto md:w-full md:object-none"
+		src={data.activity.imageUrl}
+		alt={`Portada de ${data.activity.title}`}
+	/>
 
 	<div class="flex flex-col gap-8">
 		<h2 class="text-3xl font-bold leading-tight">{data.activity.title}</h2>
@@ -46,11 +52,11 @@
 			</div>
 		</ul>
 	</div>
-	<Card.Root class="col-span-2 grid w-fit grid-cols-[1.5rem_auto] gap-x-2 gap-y-3 p-4">
+	<Card.Root class="grid w-fit grid-cols-[1.5rem_auto] gap-x-4 p-4 md:col-span-2">
 		<Info class="h-7" />
 		<Card.Description class="col-start-2 col-end-auto text-lg">
 			Recordá visitar el sitio oficial para validar la información y comprar/conseguir las entradas.
-			Si querés saber sobre cómo recolectamos la información de los eventos, hacé clic <Button
+			Si querés saber cómo recolectamos la información de los eventos, hacé clic <Button
 				class="p-0 text-lg font-bold"
 				href="/recoleccion"
 				variant="link"
