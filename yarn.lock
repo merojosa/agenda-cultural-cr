@@ -3968,10 +3968,10 @@
     follow-redirects "^1.15.2"
     tar-fs "^2.1.1"
 
-"@sveltejs/kit@^1.25.1":
-  version "1.25.1"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.25.1.tgz#1dcfa74fcc5334fbd5ad0ead7b1365ea86c98857"
-  integrity sha512-pD8XsvNJNgTNkFngNlM60my/X8dXWPKVzN5RghEQr0NjGZmuCjy49AfFu2cGbZjNf5pBcqd2RCNMW912P5fkhA==
+"@sveltejs/kit@^1.25.2":
+  version "1.25.2"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.25.2.tgz#ee96320de1573fcb9a7d8c6fae4965beced97a70"
+  integrity sha512-USuuSpdAPFDiLi58N2Pwd/TG9bcUSPAlzE5iaAXaLyCTWa3l36HDKH6nV5NqBybwfeux1ZwgtIeITLZJDJ6HDg==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^2.4.1"
     "@types/cookie" "^0.5.1"
@@ -8056,10 +8056,10 @@ lru-queue@^0.1.0:
   dependencies:
     es5-ext "~0.10.2"
 
-lucide-svelte@^0.284.0:
-  version "0.284.0"
-  resolved "https://registry.yarnpkg.com/lucide-svelte/-/lucide-svelte-0.284.0.tgz#8359da885439bfb2941389ba5312c1095dd4ac0f"
-  integrity sha512-T/ob9yPwN5lzI4x4KYJiv5QAHeNIorTmvQeKUXJSUlbRxBd14uNDp0KLyre+VbuPD6RfJfycsDIxEJ1dDYzw1w==
+lucide-svelte@^0.287.0:
+  version "0.287.0"
+  resolved "https://registry.yarnpkg.com/lucide-svelte/-/lucide-svelte-0.287.0.tgz#1582c077143c5e1120e1bde27758a962bb2bf2dc"
+  integrity sha512-z1EAdTPDnZ8lrS0hgIrrMdV02D6xq346Xmw7wtFqQddBqeI4jyvHevjtrMJqz4nI5tALv1SDTflh7cyqjZJK1w==
 
 luxon@^3.2.0, luxon@^3.2.1:
   version "3.4.0"
@@ -9092,6 +9092,11 @@ postgres@^3.3.5:
   resolved "https://registry.yarnpkg.com/postgres/-/postgres-3.3.5.tgz#8431605aae2112759d50e362fc08759165455677"
   integrity sha512-+JD93VELV9gHkqpV5gdL5/70HdGtEw4/XE1S4BC8f1mcPmdib3K5XsKVbnR1XcAyC41zOnifJ+9YRKxdIsXiUw==
 
+postgres@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/postgres/-/postgres-3.4.0.tgz#c1a6fa938e769290b9e3b5134323a39cf57b51f3"
+  integrity sha512-d7UtSoCg4hUtzxM9aRi3J8BrM6t0h4bQmgAHG96cDCNpP9CnnWQRdRl7WWNvKs0oOaQU2InGoOi1jETmdZK02g==
+
 prebuild-install@^7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-7.1.1.tgz#de97d5b34a70a0c81334fd24641f2a1702352e45"
@@ -10009,22 +10014,22 @@ sprintf-kit@^2.0.1:
   dependencies:
     es5-ext "^0.10.53"
 
-sst-aws-cdk@2.91.0:
-  version "2.91.0"
-  resolved "https://registry.yarnpkg.com/sst-aws-cdk/-/sst-aws-cdk-2.91.0.tgz#6d7b0615977a79b039a66fac81d2743eea9ba4ec"
-  integrity sha512-vQFs52ANjfEmVqwqcmfCwZVjWsFwQVwbdfLD8stJm/Cl7sZE+DngXX5LfGgF8M1o0F/qbj6d0N00vpVk1q6tSQ==
+sst-aws-cdk@2.95.1:
+  version "2.95.1"
+  resolved "https://registry.yarnpkg.com/sst-aws-cdk/-/sst-aws-cdk-2.95.1.tgz#5ec437b5403c3e53e213715f1662171de95094e8"
+  integrity sha512-C9ZITc6GLscxLbIhtjzralohDF6VGwmYKmZ+zFp7gfYgX5zCbJkBvI8q9jUbEDAGm6YK92xvQz2CJDUhTqsdSg==
   dependencies:
-    archiver "^5.3.1"
+    archiver "^5.3.2"
     chalk "^4"
     promptly "^3.2.0"
     yaml "1.10.2"
   optionalDependencies:
     fsevents "2.3.2"
 
-sst@^2.28.1:
-  version "2.28.1"
-  resolved "https://registry.yarnpkg.com/sst/-/sst-2.28.1.tgz#07977cc81798bcf6aa927854a389d7e5650c30ed"
-  integrity sha512-jAeQlIz98E7vh7Z7BNIavKOv+8YWUQQrp8orBiVWOLmdUm9qJVtAA5cgtDMvi9zOyJ/gHzcQwOJ+PCnuisZiBA==
+sst@^2.29.2:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/sst/-/sst-2.29.2.tgz#556a57330671f7f4ddd871b777e0267746c02421"
+  integrity sha512-Dx3ZXVSe++CiyComcD5InGija6cBqi8asr4hsGxEbmUos1tJbdHFQLoDs0cjdpY2syP2JInQ8/whCgAjRrtiEA==
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha" "^2.95.1-alpha.0"
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha" "^2.95.1-alpha.0"
@@ -10088,7 +10093,7 @@ sst@^2.28.1:
     ora "^6.1.2"
     react "18.2.0"
     remeda "^1.3.0"
-    sst-aws-cdk "2.91.0"
+    sst-aws-cdk "2.95.1"
     tree-kill "^1.2.2"
     undici "^5.12.0"
     uuid "^9.0.0"
