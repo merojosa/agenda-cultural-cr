@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 	import { Button } from '../ui/button';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { ChevronDownCircleIcon } from 'lucide-svelte';
 	import { HEADER_LINKS } from './links';
+
+	let open: boolean | undefined = false;
 </script>
 
 <nav class="mx-auto flex w-screen items-center px-6 pb-8 pt-6 sm:px-8 md:hidden">
@@ -11,20 +13,28 @@
 			<h1>Agenda Cultural CR</h1>
 		</Button>
 	</div>
-	<Sheet.Root>
+	<Sheet.Root
+		{open}
+		onOpenChange={(openParam) => {
+			open = openParam;
+		}}
+	>
 		<Sheet.Trigger asChild let:builder>
 			<Button builders={[builder]} variant="ghost" size="icon" class="h-8 w-8 hover:bg-transparent">
 				<ChevronDownCircleIcon class="h-full w-full" />
 			</Button>
 		</Sheet.Trigger>
-		<Sheet.Content side="top" class="p-0">
+		<Sheet.Content side="top" class="border-none p-0">
 			<ul class="flex flex-col">
 				{#each HEADER_LINKS as link}
 					<li>
 						<Button
 							variant="link"
 							href={link.url}
-							class="text-foreground h-full w-full rounded-none border py-10 text-xl"
+							class="text-foreground h-full w-full rounded-none border-b py-10 text-2xl"
+							on:click={(e) => {
+								open = false;
+							}}
 						>
 							{link.label}
 						</Button>
