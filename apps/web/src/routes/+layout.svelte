@@ -7,7 +7,7 @@
 <div
 	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
-	<header>
+	<header class="z-40">
 		<Navbar />
 		<MobileNavbar />
 	</header>

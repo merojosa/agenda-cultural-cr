@@ -14,7 +14,7 @@
 		</Button>
 	</div>
 	<Sheet.Root
-		{open}
+		bind:open
 		onOpenChange={(openParam) => {
 			open = openParam;
 		}}
