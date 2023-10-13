@@ -32,7 +32,7 @@
 		<slot />
 	</main>
 
-	<footer class="flex justify-center border-t py-6">
+	<footer class="flex justify-center bg-black py-6">
 		<p>
 			Creado con ❤️ por <Button
 				href="https://github.com/merojosa/"
