@@ -29,7 +29,7 @@
 	<meta name="description" content="Cartelera de teatro para Costa Rica" />
 </svelte:head>
 
-<section class="grid grid-cols-3 gap-12">
+<section class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
 	{#each data.activities as activity}
 		<Card.Root tag="article" class="relative flex h-[28rem] flex-col">
 			<a class="h-1/2 w-full" href={`/actividad/${activity.id}`}>
@@ -39,7 +39,7 @@
 					alt={`Portada de ${activity.title}`}
 				/>
 				<time
-					class="bg-foreground absolute right-[-22px] top-[-21px] rounded-sm p-3 text-black"
+					class="bg-foreground absolute left-0 right-0 top-[-21px] mx-auto w-fit rounded-sm p-3 text-black lg:left-auto lg:right-[-22px]"
 					datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time
 				>
 			</a>

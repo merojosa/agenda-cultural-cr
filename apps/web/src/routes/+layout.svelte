@@ -28,7 +28,7 @@
 		</nav>
 	</header>
 
-	<main class="mx-auto w-[75rem] pb-24 pt-4">
+	<main class="mx-auto px-6 pb-10 pt-4 sm:px-8 md:px-10 lg:pb-24 xl:w-[75rem] xl:px-0">
 		<slot />
 	</main>
 
