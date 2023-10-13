@@ -32,7 +32,7 @@
 <section class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
 	{#each data.activities as activity}
 		<Card.Root tag="article" class="relative flex h-[28rem] flex-col">
-			<a class="h-1/2 w-full" href={`/actividad/${activity.id}`}>
+			<a class="h-1/2 w-full hover:opacity-90 focus:opacity-75" href={`/actividad/${activity.id}`}>
 				<img
 					class="h-full w-full rounded-se-lg rounded-ss-lg object-cover"
 					src={activity.imageUrl}
@@ -47,7 +47,7 @@
 				<Button
 					href={`/actividad/${activity.id}`}
 					variant="link"
-					class="h-fit justify-start whitespace-normal p-0"
+					class="text-foreground hover:text-primary h-fit justify-start whitespace-normal p-0 transition-none"
 				>
 					<Card.Title
 						class={`${activity.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1'} leading-normal`}
