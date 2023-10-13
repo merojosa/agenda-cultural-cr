@@ -9,18 +9,18 @@
 	<header class="mx-auto w-[75rem] py-8">
 		<nav class="flex items-center">
 			<div class="flex-1">
-				<Button variant="link" class="text-foreground p-0 text-xl font-medium" href="/">
+				<Button variant="link" class="text-foreground p-0 text-2xl font-medium" href="/">
 					<h1>Agenda Cultural CR</h1>
 				</Button>
 			</div>
 			<ul class="flex gap-6">
 				<li>
-					<Button variant="link" href="/recoleccion" class="text-foreground p-0">
+					<Button variant="link" href="/recoleccion" class="text-foreground p-0 text-lg">
 						Recolección de datos
 					</Button>
 				</li>
 				<li>
-					<Button variant="link" href="/acerca-accr" class="text-foreground p-0">
+					<Button variant="link" href="/acerca-accr" class="text-foreground p-0 text-lg">
 						Acerca de la agenda
 					</Button>
 				</li>
