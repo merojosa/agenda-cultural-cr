@@ -18,20 +18,21 @@
 		onOpenChange={(openParam) => {
 			open = openParam;
 		}}
+		closeOnOutsideClick={false}
 	>
 		<Sheet.Trigger asChild let:builder>
 			<Button builders={[builder]} variant="ghost" size="icon" class="h-8 w-8 hover:bg-transparent">
 				<ChevronDownCircleIcon class="h-full w-full" />
 			</Button>
 		</Sheet.Trigger>
-		<Sheet.Content side="top" class="border-none p-0">
+		<Sheet.Content side="top" class="h-full border-none p-0 pt-20">
 			<ul class="flex flex-col">
 				{#each HEADER_LINKS as link}
-					<li>
+					<li class="rounded-none border-b py-4 text-center first:border-t">
 						<Button
 							variant="link"
 							href={link.url}
-							class="text-foreground h-full w-full rounded-none border-b py-10 text-2xl"
+							class="text-foreground h-full w-fit text-3xl"
 							on:click={() => {
 								open = false;
 							}}

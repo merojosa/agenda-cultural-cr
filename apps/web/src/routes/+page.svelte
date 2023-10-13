@@ -47,7 +47,7 @@
 				<Button
 					href={`/actividad/${activity.id}`}
 					variant="link"
-					class="text-foreground hover:text-primary h-fit justify-start whitespace-normal p-0 transition-none"
+					class="text-foreground hover:text-primary h-fit w-fit justify-start whitespace-normal p-0 transition-none"
 				>
 					<Card.Title
 						class={`${activity.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1'} leading-normal`}
