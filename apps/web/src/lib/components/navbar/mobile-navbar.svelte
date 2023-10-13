@@ -32,7 +32,7 @@
 							variant="link"
 							href={link.url}
 							class="text-foreground h-full w-full rounded-none border-b py-10 text-2xl"
-							on:click={(e) => {
+							on:click={() => {
 								open = false;
 							}}
 						>
