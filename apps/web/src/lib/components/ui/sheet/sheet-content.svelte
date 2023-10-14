@@ -32,7 +32,7 @@
 	>
 		<slot />
 		<SheetPrimitive.Close
-			class="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute right-4 top-4 h-10 w-10 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+			class="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute right-4 top-4 h-8 w-8 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
 		>
 			<X class="h-full w-full" />
 			<span class="sr-only">Close</span>
