@@ -12,6 +12,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Agenda Cultural CR | {data.activity.title}</title>
+</svelte:head>
+
 <article
 	class="grid grid-rows-[auto_auto_auto] gap-y-8 md:grid-cols-[1fr_1.5fr] md:grid-rows-none md:gap-x-8 md:gap-y-16"
 >
