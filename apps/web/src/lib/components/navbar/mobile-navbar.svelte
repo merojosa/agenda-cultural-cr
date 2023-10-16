@@ -7,7 +7,7 @@
 	let open: boolean | undefined = false;
 </script>
 
-<nav class="mx-auto flex w-screen items-center px-6 pb-8 pt-6 sm:px-8 md:hidden">
+<nav class="flex items-center py-8 md:hidden">
 	<div class="flex-1">
 		<Button variant="link" class="text-foreground p-0 text-2xl font-medium" href="/">
 			<h1>Agenda Cultural CR</h1>

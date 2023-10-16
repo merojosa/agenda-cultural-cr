@@ -7,12 +7,12 @@
 <div
 	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
-	<header>
+	<header class="w-screen [&>*]:mx-[10vw]">
 		<Navbar />
 		<MobileNavbar />
 	</header>
 
-	<main class="mx-auto px-6 pb-10 pt-4 sm:px-8 md:px-10 lg:pb-24 xl:w-[75rem] xl:px-0">
+	<main class="w-screen pb-10 pt-4 lg:pb-24 [&>*]:mx-[10vw]">
 		<slot />
 	</main>
 
