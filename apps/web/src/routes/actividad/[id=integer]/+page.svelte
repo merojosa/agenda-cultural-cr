@@ -13,10 +13,10 @@
 </script>
 
 <article
-	class="grid grid-rows-[50vh_auto_auto] gap-y-10 md:grid-cols-[1fr_1.5fr] md:grid-rows-none md:gap-x-8 md:gap-y-16"
+	class="grid grid-rows-[auto_auto_auto] gap-y-8 md:grid-cols-[1fr_1.5fr] md:grid-rows-none md:gap-x-8 md:gap-y-16"
 >
 	<img
-		class="h-full justify-self-center object-contain md:h-auto md:w-full"
+		class="justify-self-center object-contain"
 		src={data.activity.imageUrl}
 		alt={`Portada de ${data.activity.title}`}
 	/>
