@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Calendar, MapPin, Link2, Info } from 'lucide-svelte';
+	import { Calendar, MapPin, Link2 } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -16,7 +16,7 @@
 	class="grid grid-rows-[50vh_auto_auto] gap-y-10 md:grid-cols-[1fr_1.5fr] md:grid-rows-none md:gap-x-8 md:gap-y-16"
 >
 	<img
-		class="h-full justify-self-center object-contain md:h-auto md:w-full md:object-none"
+		class="h-full justify-self-center object-contain md:h-auto md:w-full"
 		src={data.activity.imageUrl}
 		alt={`Portada de ${data.activity.title}`}
 	/>
@@ -52,8 +52,7 @@
 			</div>
 		</ul>
 	</div>
-	<Card.Root class="grid w-fit grid-cols-[1.5rem_auto] gap-x-4 p-4 md:col-span-2">
-		<Info class="h-7" />
+	<Card.Root class="w-fit p-4 md:col-span-2">
 		<Card.Description class="col-start-2 col-end-auto text-lg">
 			Recordá visitar el sitio oficial para validar la información y comprar/conseguir las entradas.
 			Si querés saber cómo recolectamos la información de los eventos, hacé clic <Button
