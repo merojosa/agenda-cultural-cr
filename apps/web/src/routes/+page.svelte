@@ -26,7 +26,7 @@
 
 <svelte:head>
 	<title>Agenda Cultural CR</title>
-	<meta name="description" content="Cartelera de teatro para Costa Rica" />
+	<meta name="description" content="Cartelera de actividades culturales en Costa Rica" />
 </svelte:head>
 
 <section class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
