@@ -15,18 +15,19 @@ export const load: PageServerLoad = async ({ setHeaders }) => {
 			id: activityTable.id,
 			title: activityTable.title,
 			description: activityTable.description,
-			datetime: activityTable.datetime,
+			date: activityTable.date,
+			time: activityTable.time,
 			imageUrl: activityTable.imageUrl,
 		})
 		.from(activityTable)
 		.where(
 			between(
-				activityTable.datetime,
+				activityTable.date,
 				today.toJSDate(),
 				today.plus({ weeks: 2 }).endOf('day').toJSDate()
 			)
 		)
-		.orderBy(activityTable.datetime);
+		.orderBy(activityTable.date, activityTable.time);
 
 	return { activities };
 };

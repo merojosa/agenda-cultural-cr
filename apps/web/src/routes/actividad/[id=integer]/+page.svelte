@@ -7,8 +7,20 @@
 
 	export let data: PageData;
 
-	function capitalizeFirstLetter(text: string) {
-		return text.charAt(0).toUpperCase() + text.slice(1);
+	function getFormattedDatetime(date: Date, time: string | null) {
+		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
+
+		if (time) {
+			const [hours, minutes] = time.split(':');
+
+			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+		}
+
+		const luxonFormat = newDate.toFormat("cccc dd 'de' LLLL, hh:mm a", { locale: 'es-ES' });
+
+		console.log('BREAKPOIKNT luxonFormat', luxonFormat, newDate.toISO());
+
+		return luxonFormat.charAt(0).toUpperCase() + luxonFormat.slice(1);
 	}
 </script>
 
@@ -34,12 +46,7 @@
 			</li>
 			<li class="flex flex-row items-center gap-2 text-xl">
 				<Calendar class="h-10 w-10" />
-				{capitalizeFirstLetter(
-					DateTime.fromJSDate(data.activity.datetime, { zone: 'uct' }).toFormat(
-						"cccc LL 'de' LLLL, hh:mm a",
-						{ locale: 'es-ES' }
-					)
-				)}
+				{getFormattedDatetime(data.activity.date, data.activity.time)}
 			</li>
 			<li class="flex flex-row items-center gap-2">
 				<Link2 class="h-10 w-10" />

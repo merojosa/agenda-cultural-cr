@@ -1,22 +1,29 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import { DateTime } from 'luxon';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	function formatDatetime(date: Date) {
-		return new Intl.DateTimeFormat('es-ES', {
-			weekday: 'short',
-			day: 'numeric',
-			month: 'short',
-			hour: 'numeric',
-			hour12: true,
-			minute: 'numeric',
-		})
-			.format(date)
-			.toUpperCase()
-			.replaceAll(',', '');
+	function getISOString(date: Date, time: string | null) {
+		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
+		if (time) {
+			const [hours, minutes] = time.split(':');
+			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+		}
+
+		return newDate.toISO();
+	}
+
+	function formatDatetime(date: Date, time: string | null) {
+		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
+		if (time) {
+			const [hours, minutes] = time.split(':');
+			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+		}
+
+		return newDate.toFormat('ccc dd LLL hh:mm a', { locale: 'es-ES' }).toUpperCase();
 	}
 
 	function formatDescription(description: string | null) {
@@ -40,7 +47,8 @@
 				/>
 				<time
 					class="bg-foreground absolute left-0 right-0 top-[-21px] mx-auto w-fit rounded-sm p-3 text-black lg:left-auto lg:right-[-22px]"
-					datetime={activity.datetime.toISOString()}>{formatDatetime(activity.datetime)}</time
+					datetime={getISOString(activity.date, activity.time)}
+					>{formatDatetime(activity.date, activity.time)}</time
 				>
 			</a>
 			<Card.Content class="flex h-1/2 flex-col gap-3 p-4">

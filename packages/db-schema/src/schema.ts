@@ -2,11 +2,12 @@ import {
 	pgTable,
 	serial,
 	varchar,
-	timestamp,
 	integer,
 	text,
 	pgEnum,
 	unique,
+	date,
+	time,
 } from 'drizzle-orm/pg-core';
 
 const URL_LENGTH = 300;
@@ -17,7 +18,8 @@ export const activityTable = pgTable(
 	{
 		id: serial('id').primaryKey(),
 		title: varchar('title', { length: NAME_LENGTH }).notNull(),
-		datetime: timestamp('datetime').notNull(),
+		date: date('date', { mode: 'date' }).notNull(),
+		time: time('time'),
 		imageUrl: varchar('image_url', { length: URL_LENGTH }),
 		locationId: integer('location_id')
 			.notNull()
@@ -35,7 +37,7 @@ export const activityTable = pgTable(
 		description: text('description'),
 	},
 	(table) => ({
-		unq: unique().on(table.title, table.datetime, table.locationId, table.activityTypeId),
+		unq: unique().on(table.title, table.date, table.time, table.locationId, table.activityTypeId),
 	})
 );
 
