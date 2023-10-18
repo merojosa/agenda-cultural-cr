@@ -29,6 +29,10 @@
 	function formatDescription(description: string | null) {
 		return description?.replace(/\s+/g, ' ');
 	}
+
+	function isImageAboveTheFold(index: number) {
+		return index <= 9;
+	}
 </script>
 
 <svelte:head>
@@ -37,13 +41,15 @@
 </svelte:head>
 
 <section class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-	{#each data.activities as activity}
+	{#each data.activities as activity, index}
 		<Card.Root tag="article" class="relative flex h-[28rem] flex-col">
 			<a class="h-1/2 w-full hover:opacity-90 focus:opacity-75" href={`/actividad/${activity.id}`}>
 				<img
 					class="h-full w-full rounded-se-lg rounded-ss-lg object-cover"
 					src={activity.imageUrl}
 					alt={`Portada de ${activity.title}`}
+					loading={isImageAboveTheFold(index) ? 'eager' : 'lazy'}
+					decoding={isImageAboveTheFold(index) ? 'auto' : 'async'}
 				/>
 				<time
 					class="bg-foreground absolute left-0 right-0 top-[-21px] mx-auto w-fit rounded-sm p-3 text-black lg:left-auto lg:right-[-22px]"
