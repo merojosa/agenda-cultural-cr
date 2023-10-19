@@ -7,18 +7,18 @@
 <div
 	class="app bg-surface grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] overflow-x-hidden"
 >
-	<header class="w-screen 2xl:mx-auto 2xl:max-w-7xl [&>*]:mx-[10vw] 2xl:[&>*]:mx-auto">
+	<header class="w-screen 2xl:mx-auto [&>*]:mx-[10vw] 2xl:[&>*]:mx-auto 2xl:[&>*]:w-[80rem]">
 		<Navbar />
 		<MobileNavbar />
 	</header>
 
 	<main
-		class="w-screen pb-10 pt-4 lg:pb-24 2xl:mx-auto 2xl:max-w-7xl [&>*]:mx-[10vw] 2xl:[&>*]:mx-auto"
+		class="w-screen pb-10 pt-4 lg:pb-24 2xl:mx-auto [&>*]:mx-[10vw] 2xl:[&>*]:mx-auto 2xl:[&>*]:w-[80rem]"
 	>
 		<slot />
 	</main>
 
-	<footer class="flex justify-center bg-black py-6">
+	<footer class="flex w-screen justify-center bg-black py-6">
 		<p>
 			Creado con ❤️ por <Button
 				href="https://github.com/merojosa/"
