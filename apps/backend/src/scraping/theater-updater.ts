@@ -24,7 +24,8 @@ export class TheaterUpdater {
 		// Get available automatic locations to scrap from the database
 		const automaticLocations = await this.db
 			.select({ backendId: automaticLocationTable.backendId })
-			.from(automaticLocationTable);
+			.from(automaticLocationTable)
+			.where(eq(automaticLocationTable.enable, true));
 
 		const scrapingResultPromises = automaticLocations.reduce(
 			(arrayPromises, currentAutomaticLocation) => {

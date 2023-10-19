@@ -83,7 +83,7 @@ export class TeatroElTriciclo implements BackendLocation {
 
 							if (time) {
 								entities.activityEntities.push({
-									backendId: 'teatro_triciclo',
+									backendId: backendIdValues.teatroElTriciclo,
 									title,
 									description,
 									source,
