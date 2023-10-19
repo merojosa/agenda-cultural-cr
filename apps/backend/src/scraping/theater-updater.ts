@@ -93,7 +93,7 @@ export class TheaterUpdater {
 				title: value.title,
 				activityUrl: value.source,
 				description: value.description,
-				date: value.datetime.toISODate() ?? value.datetime.toString(),
+				date: value.datetime.toJSDate(),
 				time: value.datetime.toISOTime(),
 				activityTypeId: DB_IDS.activityType.teatro,
 				locationId: DB_IDS.location[value.backendId],
