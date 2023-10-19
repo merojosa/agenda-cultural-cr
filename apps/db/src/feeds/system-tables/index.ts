@@ -18,27 +18,43 @@ const data = {
 		teatroNacional: {
 			name: 'Teatro Nacional',
 			gpsLocationUrl: 'https://maps.app.goo.gl/RTJPky5Y3LhuSpEA7',
-		} as RawTableTypes<typeof schema.locationTable>,
+		},
 		teatroElTriciclo: {
 			name: 'Teatro El Triciclo',
 			gpsLocationUrl: 'https://maps.app.goo.gl/BSTC1dpVYRdboRnG8',
-		} as RawTableTypes<typeof schema.locationTable>,
-	},
+		},
+		espressivo: {
+			name: 'Espressivo',
+			gpsLocationUrl: 'https://maps.app.goo.gl/wRkPaqZZsiPhqiKU7',
+		},
+	} satisfies Record<
+		keyof typeof schema.backendIdValues,
+		RawTableTypes<typeof schema.locationTable>
+	>,
 	automaticLocation: {
 		teatroNacional: {
-			locationId: schema.DB_IDS.location['teatro_nacional'],
-			backendId: 'teatro_nacional',
+			locationId: schema.DB_IDS.location['https://teatronacional.go.cr'],
+			backendId: 'https://teatronacional.go.cr',
 			url: 'https://www.teatronacional.go.cr/Calendario',
-		} as RawTableTypes<typeof schema.automaticLocationTable>,
+		},
 		teatroElTriciclo: {
-			locationId: schema.DB_IDS.location['teatro_triciclo'],
-			backendId: 'teatro_triciclo',
+			locationId: schema.DB_IDS.location['https://teatroeltriciclo.com'],
+			backendId: 'https://teatroeltriciclo.com',
 			url: 'https://www.teatroeltriciclo.com/boleteria/CarteleraPublica',
-		} as RawTableTypes<typeof schema.automaticLocationTable>,
-	},
+		},
+		espressivo: {
+			locationId: schema.DB_IDS.location['https://espressivo.cr/'],
+			backendId: 'https://espressivo.cr/',
+			url: 'https://espressivo.cr/calendario/',
+		},
+	} satisfies Record<
+		keyof typeof schema.backendIdValues,
+		RawTableTypes<typeof schema.automaticLocationTable>
+	>,
 } as const;
 
 export async function systemTables(db: PostgresJsDatabase) {
+	// Activity type:
 	await db
 		.insert(schema.activityTypeTable)
 		.values({ ...data.activityType.teatro, id: schema.DB_IDS.activityType.teatro })
@@ -47,35 +63,36 @@ export async function systemTables(db: PostgresJsDatabase) {
 			set: { ...data.activityType.teatro },
 		});
 
-	await db
-		.insert(schema.locationTable)
-		.values({ ...data.location.teatroNacional, id: schema.DB_IDS.location['teatro_nacional'] })
-		.onConflictDoUpdate({
-			target: schema.locationTable.id,
-			set: { ...data.location.teatroNacional },
-		});
+	// Location:
+	const locationInserts = Object.keys(schema.backendIdValues).map((backendIdValueKey) =>
+		db
+			.insert(schema.locationTable)
+			.values({
+				...data.location[backendIdValueKey as keyof typeof schema.backendIdValues],
+				id: schema.DB_IDS.location[
+					schema.backendIdValues[backendIdValueKey as keyof typeof schema.backendIdValues]
+				],
+			})
+			.onConflictDoUpdate({
+				target: schema.locationTable.id,
+				set: { ...data.location[backendIdValueKey as keyof typeof schema.backendIdValues] },
+			})
+	);
+	await Promise.all(locationInserts);
 
-	await db
-		.insert(schema.locationTable)
-		.values({ ...data.location.teatroElTriciclo, id: schema.DB_IDS.location['teatro_triciclo'] })
-		.onConflictDoUpdate({
-			target: schema.locationTable.id,
-			set: { ...data.location.teatroElTriciclo },
-		});
-
-	await db
-		.insert(schema.automaticLocationTable)
-		.values({ ...data.automaticLocation.teatroNacional })
-		.onConflictDoUpdate({
-			target: schema.automaticLocationTable.locationId,
-			set: { ...data.automaticLocation.teatroNacional },
-		});
-
-	await db
-		.insert(schema.automaticLocationTable)
-		.values({ ...data.automaticLocation.teatroElTriciclo })
-		.onConflictDoUpdate({
-			target: schema.automaticLocationTable.locationId,
-			set: { ...data.automaticLocation.teatroElTriciclo },
-		});
+	// Automatic locations
+	const automaticLocationInserts = Object.keys(schema.backendIdValues).map((backendIdValueKey) =>
+		db
+			.insert(schema.automaticLocationTable)
+			.values({
+				...data.automaticLocation[backendIdValueKey as keyof typeof schema.backendIdValues],
+			})
+			.onConflictDoUpdate({
+				target: schema.automaticLocationTable.locationId,
+				set: {
+					...data.automaticLocation[backendIdValueKey as keyof typeof schema.backendIdValues],
+				},
+			})
+	);
+	await Promise.all(automaticLocationInserts);
 }

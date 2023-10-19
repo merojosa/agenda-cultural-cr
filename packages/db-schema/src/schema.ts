@@ -53,13 +53,15 @@ export const locationTable = pgTable('location', {
 });
 
 export const backendIdValues = {
-	teatroNacional: 'teatro_nacional',
-	teatroElTriciclo: 'teatro_triciclo',
+	teatroNacional: 'https://teatronacional.go.cr',
+	teatroElTriciclo: 'https://teatroeltriciclo.com',
+	espressivo: 'https://espressivo.cr/',
 } as const;
 
 export const backendIdEnum = pgEnum('backend_id', [
 	backendIdValues.teatroNacional,
 	backendIdValues.teatroElTriciclo,
+	backendIdValues.espressivo,
 ]);
 
 export const automaticLocationTable = pgTable('automatic_location', {
@@ -101,5 +103,6 @@ export const DB_IDS = {
 	location: {
 		[backendIdValues.teatroNacional]: 1,
 		[backendIdValues.teatroElTriciclo]: 2,
+		[backendIdValues.espressivo]: 3,
 	},
 } as const;
