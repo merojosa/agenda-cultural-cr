@@ -1,0 +1,319 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "dad40269-3f39-4e5c-8c36-63d9a5afeade",
+  "prevId": "76e90413-c281-4060-aeaf-abad5c6344da",
+  "tables": {
+    "activity": {
+      "name": "activity",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "time": {
+          "name": "time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location_id": {
+          "name": "location_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "activity_type_id": {
+          "name": "activity_type_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "activity_url": {
+          "name": "activity_url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "activity_location_id_location_id_fk": {
+          "name": "activity_location_id_location_id_fk",
+          "tableFrom": "activity",
+          "tableTo": "location",
+          "columnsFrom": [
+            "location_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "activity_activity_type_id_activity_type_id_fk": {
+          "name": "activity_activity_type_id_activity_type_id_fk",
+          "tableFrom": "activity",
+          "tableTo": "activity_type",
+          "columnsFrom": [
+            "activity_type_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "activity_title_date_time_location_id_activity_type_id_unique": {
+          "name": "activity_title_date_time_location_id_activity_type_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title",
+            "date",
+            "time",
+            "location_id",
+            "activity_type_id"
+          ]
+        }
+      }
+    },
+    "activity_type": {
+      "name": "activity_type",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "activity_type_name_unique": {
+          "name": "activity_type_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "author": {
+      "name": "author",
+      "schema": "",
+      "columns": {
+        "email": {
+          "name": "email",
+          "type": "varchar(100)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "automatic_location": {
+      "name": "automatic_location",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "backend_id": {
+          "name": "backend_id",
+          "type": "backend_id",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "enable": {
+          "name": "enable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "automatic_location_id_location_id_fk": {
+          "name": "automatic_location_id_location_id_fk",
+          "tableFrom": "automatic_location",
+          "tableTo": "location",
+          "columnsFrom": [
+            "id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "automatic_location_backend_id_unique": {
+          "name": "automatic_location_backend_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "backend_id"
+          ]
+        }
+      }
+    },
+    "location": {
+      "name": "location",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gps_location_url": {
+          "name": "gps_location_url",
+          "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "manual_location": {
+      "name": "manual_location",
+      "schema": "",
+      "columns": {
+        "location_id": {
+          "name": "location_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "extra_information": {
+          "name": "extra_information",
+          "type": "varchar(400)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_email": {
+          "name": "author_email",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "manual_location_location_id_location_id_fk": {
+          "name": "manual_location_location_id_location_id_fk",
+          "tableFrom": "manual_location",
+          "tableTo": "location",
+          "columnsFrom": [
+            "location_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "manual_location_author_email_author_email_fk": {
+          "name": "manual_location_author_email_author_email_fk",
+          "tableFrom": "manual_location",
+          "tableTo": "author",
+          "columnsFrom": [
+            "author_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "backend_id": {
+      "name": "backend_id",
+      "values": {
+        "https://teatronacional.go.cr": "https://teatronacional.go.cr",
+        "https://teatroeltriciclo.com": "https://teatroeltriciclo.com",
+        "https://espressivo.cr/": "https://espressivo.cr/"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

@@ -1,5 +1,5 @@
-import { type backendIdValues } from 'db-schema';
-import { type DateTime } from 'luxon';
+import type { backendIdValues } from 'db-schema';
+import type { DateTime } from 'luxon';
 
 export type ScrapingResult = {
 	activityEntities: ActivityEntity[];

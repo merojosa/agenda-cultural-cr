@@ -1,0 +1,1 @@
+ALTER TABLE "automatic_location" ADD COLUMN "enable" boolean DEFAULT true NOT NULL;
