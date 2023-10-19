@@ -74,7 +74,7 @@ export const automaticLocationTable = pgTable('automatic_location', {
 		}),
 	backendId: backendIdEnum('backend_id').unique(),
 	url: varchar('url', { length: URL_LENGTH }),
-	enable: boolean("enable").notNull().default(true)
+	enable: boolean('enable').notNull().default(true),
 });
 
 export const manualLocationTable = pgTable('manual_location', {
