@@ -12,12 +12,17 @@ export const spanishMonths: Record<string, number> = {
 	julio: 7,
 	agosto: 8,
 	septiembre: 9,
+	setiembre: 9,
 	octubre: 10,
 	noviembre: 11,
 	diciembre: 12,
 } as const;
 
-const compiledConvert = compile({ preserveNewlines: true, wordwrap: null });
+const compiledConvert = compile({
+	preserveNewlines: true,
+	wordwrap: null,
+	selectors: [{ selector: 'a', options: { ignoreHref: true } }],
+});
 
 export function htmlToPlainText(html: string): string {
 	return compiledConvert(html);
