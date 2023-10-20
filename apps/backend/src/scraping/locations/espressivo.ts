@@ -1,4 +1,9 @@
-import { ScrapingError, type BackendLocation, type ScrapingResult } from '#scraping/scraping-types';
+import {
+	ScrapingError,
+	type BackendLocation,
+	type ScrapingResult,
+	type ActivityEntity,
+} from '#scraping/scraping-types';
 import { logger } from '#services/logger';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
@@ -21,7 +26,7 @@ const espressivoData = z.object({
 	excerpt: z
 		.string()
 		.min(1, PRIVATE_EVENT_MESSAGE)
-		.transform((htmlText) => htmlToPlainText(htmlText)),
+		.transform((htmlText) => htmlToPlainText(htmlText).trim()),
 	startTime: z.string().transform((espressivoDate) => {
 		const [month, ...rest] = espressivoDate.split(' ');
 
@@ -49,7 +54,7 @@ export class Espressivo implements BackendLocation {
 		this.logger = logger.child({ id: Espressivo.name });
 	}
 
-	private async scrapEspressivoData(page: Page) {
+	private async scrapEspressivoData(page: Page): Promise<ScrapingResult> {
 		const jsonStringData = await page.evaluate(() =>
 			Array.from(
 				document.querySelectorAll(
@@ -59,7 +64,8 @@ export class Espressivo implements BackendLocation {
 			)
 		);
 
-		const data = [] as z.infer<typeof espressivoData>[];
+		const activityEntities = [] as ActivityEntity[];
+		const imageUrlsCollector = new Set<string>();
 
 		for (const jsonString of jsonStringData) {
 			try {
@@ -76,7 +82,15 @@ export class Espressivo implements BackendLocation {
 					!lowerdCaseTitle.includes('función privada') &&
 					!lowerdCaseTitle.includes('evento privado')
 				) {
-					data.push(parsedEvent);
+					activityEntities.push({
+						backendId: backendIdValues.espressivo,
+						title: parsedEvent.title,
+						datetime: parsedEvent.startTime,
+						description: parsedEvent.excerpt,
+						source: parsedEvent.permalink,
+						imageUrl: parsedEvent.imageSrc,
+					});
+					imageUrlsCollector.add(parsedEvent.imageSrc);
 				}
 			} catch (err) {
 				const error = err as Record<string, unknown>;
@@ -95,7 +109,7 @@ export class Espressivo implements BackendLocation {
 			}
 		}
 
-		console.log('********* BREAKPOINT *********', data);
+		return { activityEntities, imageUrlsCollector };
 	}
 
 	public async getData(): Promise<ScrapingResult> {
@@ -113,13 +127,13 @@ export class Espressivo implements BackendLocation {
 			await page.goto(`https://espressivo.cr/calendario/${today.toFormat('y-LL')}`);
 			await page.waitForSelector('h1', { timeout: 10000 });
 
-			await this.scrapEspressivoData(page);
+			const currentMonthData = await this.scrapEspressivoData(page);
+
+			return currentMonthData;
 		} catch (error) {
 			throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 		} finally {
 			browser.close();
 		}
-
-		return { activityEntities: [], imageUrlsCollector: new Set() };
 	}
 }

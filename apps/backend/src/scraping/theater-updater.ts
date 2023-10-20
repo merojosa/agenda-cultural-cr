@@ -132,11 +132,11 @@ export class TheaterUpdater {
 		});
 
 		if (scrapingFailures.length) {
-			logger.error('Scraping errors', scrapingFailures.join(' | '));
+			logger.error(`Scraping errors - ${scrapingFailures.join(' | ')}`);
 		}
 
 		if (dbUpdateResultsFailures.length) {
-			logger.error('DB updates errors', dbUpdateResultsFailures.join(' | '));
+			logger.error(`DB updates errors - ${dbUpdateResultsFailures.join(' | ')}`);
 		}
 
 		logger.info('Done updating theater data!!!!');
