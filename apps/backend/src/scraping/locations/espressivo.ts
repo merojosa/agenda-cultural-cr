@@ -129,7 +129,21 @@ export class Espressivo implements BackendLocation {
 
 			const currentMonthData = await this.scrapEspressivoData(page);
 
-			return currentMonthData;
+			await page.goto(
+				`https://espressivo.cr/calendario/${today.plus({ months: 1 }).toFormat('y-LL')}`
+			);
+			await page.waitForSelector('h1', { timeout: 10000 });
+
+			const nextMonthData = await this.scrapEspressivoData(page);
+
+			const mergedEntities = currentMonthData.activityEntities.concat(
+				nextMonthData.activityEntities
+			);
+			const mergedCollector = new Set([
+				...currentMonthData.imageUrlsCollector,
+				...nextMonthData.imageUrlsCollector,
+			]);
+			return { activityEntities: mergedEntities, imageUrlsCollector: mergedCollector };
 		} catch (error) {
 			throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 		} finally {
