@@ -149,11 +149,11 @@ export class TheaterUpdater {
 		});
 
 		if (scrapingFailures.length) {
-			logger.error(`Scraping errors - ${scrapingFailures.join(' | ')}`);
+			logger.error(scrapingFailures.join(' | '), 'Scraping error');
 		}
 
 		if (dbUpdateResultsFailures.length) {
-			logger.error(`DB updates errors - ${dbUpdateResultsFailures.join(' | ')}`);
+			logger.error({ errors: dbUpdateResultsFailures.join(' | ') }, 'DB updates error');
 		}
 
 		logger.info('Done updating theater data!!!!');

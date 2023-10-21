@@ -142,7 +142,7 @@ export class TeatroNacional implements BackendLocation {
 		);
 
 		if (!(h3Result instanceof ElementHandle)) {
-			this.logger.error('No element handle', titlePlay, datetimePlay.toString());
+			this.logger.error({ titlePlay, datetimePlay: datetimePlay.toString() }, 'No element handle');
 			return null;
 		}
 
@@ -152,10 +152,10 @@ export class TeatroNacional implements BackendLocation {
 			await rootPage.waitForSelector(tooltipSelector, { timeout: 10_000 });
 		} catch (error) {
 			if (error instanceof Error && error.name === 'TimeoutError') {
-				this.logger.error('Timeout error on getDescriptionAndSource', error);
+				this.logger.error(error, 'Timeout error on getDescriptionAndSource');
 				return null;
 			}
-			this.logger.error('Unknown error', error);
+			this.logger.error(error, 'Unknown error');
 			return null;
 		}
 

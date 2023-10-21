@@ -102,8 +102,7 @@ export class Espressivo implements BackendLocation {
 
 					// If there is an error that is not the private event one, print it.
 					if (differentErrorOtherThanPrivateEvent) {
-						this.logger.error('Error parsing event', err);
-						console.error(err);
+						this.logger.error(err, 'Error parsing event');
 					}
 				}
 			}

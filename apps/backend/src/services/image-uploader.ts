@@ -41,7 +41,7 @@ export class ImageUploader {
 			const imageResponse = await fetch(originalImageUrl);
 			var imageBuffer = await imageResponse.arrayBuffer();
 		} catch (error) {
-			this.logger.error('Error downloading image', originalImageUrl, error);
+			this.logger.error({ originalImageUrl, error }, 'Error downloading image');
 			return null;
 		}
 
