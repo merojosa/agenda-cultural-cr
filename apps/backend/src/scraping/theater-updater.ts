@@ -39,9 +39,7 @@ export class TheaterUpdater {
 			[] as Promise<ScrapingResult>[]
 		);
 
-		const scrapingResults = await Promise.allSettled(scrapingResultPromises);
-
-		return scrapingResults;
+		return Promise.allSettled(scrapingResultPromises);
 	}
 
 	private gatherResults(scrapingResults: PromiseSettledResult<ScrapingResult>[]) {
