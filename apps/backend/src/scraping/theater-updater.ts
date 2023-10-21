@@ -6,9 +6,14 @@ import {
 	ScrapingError,
 	type ScrapingResult,
 } from './scraping-types';
-import { eq, notInArray } from 'drizzle-orm';
+import { eq, notInArray, type InferInsertModel } from 'drizzle-orm';
 import { type ImageUploader } from '#services/image-uploader';
 import { logger } from '#services/logger';
+import type { AnyPgTable, PgInsertValue } from 'drizzle-orm/pg-core';
+
+type RawTableTypes<TTable extends AnyPgTable> = {
+	[Key in keyof PgInsertValue<TTable>]: InferInsertModel<TTable>[Key];
+};
 
 export class TheaterUpdater {
 	constructor(
@@ -87,8 +92,8 @@ export class TheaterUpdater {
 	}
 
 	private updateDb(scrapingSuccess: ActivityEntity[], s3UrlsCollector: Map<string, string>) {
-		return scrapingSuccess.map((value) =>
-			this.db.insert(activityTable).values({
+		return scrapingSuccess.map((value) => {
+			const values = {
 				title: value.title,
 				activityUrl: value.source,
 				description: value.description,
@@ -97,8 +102,22 @@ export class TheaterUpdater {
 				activityTypeId: DB_IDS.activityType.teatro,
 				locationId: DB_IDS.location[value.backendId],
 				imageUrl: s3UrlsCollector.get(value.imageUrl || ''),
-			})
-		);
+			} satisfies RawTableTypes<typeof activityTable>;
+
+			return this.db
+				.insert(activityTable)
+				.values(values)
+				.onConflictDoUpdate({
+					target: [
+						activityTable.title,
+						activityTable.date,
+						activityTable.time,
+						activityTable.locationId,
+						activityTable.activityTypeId,
+					],
+					set: values,
+				});
+		});
 	}
 
 	public async update() {
