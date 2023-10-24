@@ -14,5 +14,10 @@ pnpm-lock.yaml
 pnpm-workspace.yaml
 package-lock.json
 yarn.lock
+
+# Own files
 drizzle
 dist
+.turbo
+.sst
+.serverless

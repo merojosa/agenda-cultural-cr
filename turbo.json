@@ -6,7 +6,7 @@
 			"outputs": [".svelte-kit/**", "dist/**"]
 		},
 		"test": {
-			"dependsOn": ["lint", "build"]
+			"dependsOn": ["lint"]
 		},
 		"lint": {},
 		"dev": {
@@ -16,16 +16,16 @@
 		},
 		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#from-dependent-workspaces
 		"backend#run": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["build"]
 		},
 		"backend#deploy:dev": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["build"]
 		},
 		"db#generate": {
 			"dependsOn": ["^build"]
 		},
 		"web#deploy:dev": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["build"]
 		}
 	}
 }
