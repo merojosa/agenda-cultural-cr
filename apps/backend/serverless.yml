@@ -24,3 +24,6 @@ functions:
     layers:
       - ${env:CHROMIUM_LAYER_VERSION_ARN}
       - ${env:SHARP_LAYER_VERSION_ARN}
+    events:
+      # Every Wednestay at 00:00AM UTC
+      - schedule: cron(0 0 ? * WED *)
