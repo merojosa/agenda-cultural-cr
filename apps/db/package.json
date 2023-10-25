@@ -6,7 +6,8 @@
 		"generate": "drizzle-kit generate:pg --schema=./src/schema.ts",
 		"deploy:dev": "tsx -r dotenv/config src/migrator.ts dotenv_config_path=.env.development",
 		"seed:development": "tsx -r dotenv/config src/seed.ts dotenv_config_path=.env.development",
-		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\""
+		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\"",
+		"typecheck": "tsc"
 	},
 	"dependencies": {},
 	"devDependencies": {
@@ -15,7 +16,7 @@
 		"dotenv": "^16.3.1",
 		"drizzle-kit": "^0.19.13",
 		"drizzle-orm": "^0.28.6",
-		"postgres": "^3.3.5",
+		"postgres": "^3.4.1",
 		"tsconfig": "*",
 		"tsx": "^3.13.0",
 		"typescript": "^5.2.2"

@@ -6,6 +6,7 @@
 		"dev": "turbo run dev",
 		"lint": "turbo run lint",
 		"test": "turbo run test",
+		"typecheck": "turbo run typecheck",
 		"format": "prettier --write .",
 		"backend:run": "turbo run backend#run",
 		"backend:deploy:dev": "turbo run backend#deploy:dev",
