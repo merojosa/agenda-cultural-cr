@@ -6,7 +6,7 @@
 			"outputs": [".svelte-kit/**", "dist/**"]
 		},
 		"test": {
-			"dependsOn": ["lint"]
+			"dependsOn": ["lint", "typecheck"]
 		},
 		"lint": {},
 		"dev": {
@@ -27,12 +27,15 @@
 		"web#deploy:dev": {
 			"dependsOn": ["build"]
 		},
+		"web#sync": {
+			"outputs": [".svelte-kit/**"]
+		},
 		"topo": {
 			"dependsOn": ["^topo"]
 		},
 		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#dependencies-outside-of-a-task
 		"typecheck": {
-			"dependsOn": ["topo"]
+			"dependsOn": ["web#sync", "topo"]
 		}
 	}
 }

@@ -13,6 +13,7 @@
 		"format": "prettier --write --ignore-path=../../.prettierignore .",
 		"deploy:dev": "sst deploy",
 		"deploy:prod": "sst deploy --stage prod",
+		"sync": "svelte-kit sync",
 		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
