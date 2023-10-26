@@ -3289,10 +3289,10 @@
   resolved "https://registry.yarnpkg.com/@lukeed/ms/-/ms-2.0.1.tgz#3c2bbc258affd9cc0e0cc7828477383c73afa6ee"
   integrity sha512-Xs/4RZltsAL7pkvaNStUQt7netTkyxrS0K+RILcVr3TRMS/ToOg4I6uNfhB9SlGsnWBym4U+EaXq0f0cEMNkHA==
 
-"@melt-ui/svelte@0.55.3":
-  version "0.55.3"
-  resolved "https://registry.yarnpkg.com/@melt-ui/svelte/-/svelte-0.55.3.tgz#2f38a409f5dd37fcf93d56a1905e13d944a623bc"
-  integrity sha512-KT9/14LRk5gaUgd2aywUmCpm3jq4RCTIyIvhktKCkP5v/OSsyftkLti6j9uySWNuNeUR4VGBChkT8/sR/bOUyw==
+"@melt-ui/svelte@0.56.0":
+  version "0.56.0"
+  resolved "https://registry.yarnpkg.com/@melt-ui/svelte/-/svelte-0.56.0.tgz#ed1d4f6e95cd5579481d0aea8833fd97bf00d5a0"
+  integrity sha512-7T/hGDaeMzHG+C53J1Lanlp9PUe8Mr926LgLvdmQewfi+2n/50bsA9NO/Bk2jZWHLlwRKfyn1th+8eWnmCREQw==
   dependencies:
     "@floating-ui/core" "^1.3.1"
     "@floating-ui/dom" "^1.4.5"
@@ -5417,25 +5417,6 @@ aws-cdk-lib@2.101.1:
     table "^6.8.1"
     yaml "1.10.2"
 
-aws-cdk-lib@2.95.1:
-  version "2.95.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.95.1.tgz#624321c7c0b6e6417a9f1bdbc07bd7fc2fee5eee"
-  integrity sha512-FQlnW3+c1j2W7hmu+QMSiWnBgbW1Lhn1ZpBQ6cwYZa97rII1zlEyTowAfzQk6szPIzUhJv5xK03nWZtvCvpAWw==
-  dependencies:
-    "@aws-cdk/asset-awscli-v1" "^2.2.200"
-    "@aws-cdk/asset-kubectl-v20" "^2.1.2"
-    "@aws-cdk/asset-node-proxy-agent-v6" "^2.0.1"
-    "@balena/dockerignore" "^1.0.2"
-    case "1.6.3"
-    fs-extra "^11.1.1"
-    ignore "^5.2.4"
-    jsonschema "^1.4.1"
-    minimatch "^3.1.2"
-    punycode "^2.3.0"
-    semver "^7.5.4"
-    table "^6.8.1"
-    yaml "1.10.2"
-
 aws-crt@^1.18.1:
   version "1.18.1"
   resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.18.1.tgz#aa35b8b14e756509450bc19ca3370c616133b067"
@@ -5553,13 +5534,13 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bits-ui@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/bits-ui/-/bits-ui-0.7.0.tgz#60aee9f9b66da8d7eb9fade0ac204e0c444aff9e"
-  integrity sha512-F9f6xBBh+YW+TieMjmr2V7SamGE9eOIDUDCq6yaSi7Ks5dkNHZLqSs7hcuptJJup6xUcJhUQBFbKJaxtyZBYGA==
+bits-ui@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/bits-ui/-/bits-ui-0.8.0.tgz#a5d0aee6df9415b4edc8bab17adf1676523a1aa4"
+  integrity sha512-flvVdOB89NoXGpcUbzSVm5tClNCgEmnrkapx4ntxDr9Rzj8lxOslXMhvFC/6l3Vvkws471tcwmAg/yZEurU5zg==
   dependencies:
-    "@melt-ui/svelte" "0.55.3"
-    nanoid "^4.0.2"
+    "@melt-ui/svelte" "0.56.0"
+    nanoid "^5.0.2"
 
 bl@^1.0.0:
   version "1.2.3"
@@ -8951,10 +8932,10 @@ lru-queue@^0.1.0:
   dependencies:
     es5-ext "~0.10.2"
 
-lucide-svelte@^0.288.0:
-  version "0.288.0"
-  resolved "https://registry.yarnpkg.com/lucide-svelte/-/lucide-svelte-0.288.0.tgz#7041d6990a3a0c1402d1d9ab1374bcf32b0bf497"
-  integrity sha512-rgpEAifh+Xs6aRCk3PmNO1yAMF7E3764fRvTDj1BSEI9VdfDQIabjx07Uh8KeMy2SB9dmp565F/H3fHTWQ49fw==
+lucide-svelte@^0.289.0:
+  version "0.289.0"
+  resolved "https://registry.yarnpkg.com/lucide-svelte/-/lucide-svelte-0.289.0.tgz#5a180d26f5fe4e1058893910d594d3e67674010b"
+  integrity sha512-xWWldTSF4uRqk5tlHXwWjdr1qxSRaU+lAPgUM4/FjBLyMKOmRYPNY7cuIGNHbH8KbV/q7PdRysPHDIwaZKK6Dg==
 
 luxon@^3.2.0, luxon@^3.2.1:
   version "3.4.0"
@@ -9318,6 +9299,11 @@ nanoid@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
   integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
+
+nanoid@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.0.2.tgz#97588ebc70166d0feaf73ccd2799bb4ceaebf692"
+  integrity sha512-2ustYUX1R2rL/Br5B/FMhi8d5/QzvkJ912rBYxskcpu0myTHzSZfTr1LAS2Sm7jxRUObRrSBFoyzwAhL49aVSg==
 
 napi-build-utils@^1.0.1:
   version "1.0.2"
@@ -10943,7 +10929,7 @@ sst-aws-cdk@2.101.1:
   optionalDependencies:
     fsevents "2.3.2"
 
-sst@^2.31.1:
+sst@2.32.1:
   version "2.32.1"
   resolved "https://registry.yarnpkg.com/sst/-/sst-2.32.1.tgz#0593e6f37f0d0434860ed9a86a722a4519c24344"
   integrity sha512-zU49K4o8+HfxBLiq+UUnDqhjEsdJ5c8CmYAwOSaDMtzrFFbY3Q/vgxhZPUAQrRGOMIlk7YiFrq/VSIg8DhBbHw==
@@ -11284,7 +11270,7 @@ svelte-hmr@^0.15.3:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.3.tgz#df54ccde9be3f091bf5f18fc4ef7b8eb6405fbe6"
   integrity sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==
 
-svelte-kit-sst@^2.32.1:
+svelte-kit-sst@2.32.1:
   version "2.32.1"
   resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.32.1.tgz#cd7c38df6264f383390a93e0d10bb70f295c792f"
   integrity sha512-BVNAmxQet1LTlqXLoaDLOeaiwm9n2oPCmLhyv6wvaSeAU1kHu8A5kQT8mILH3SEmxAVxfHbr6bvE0+wg/ohllg==
@@ -11347,10 +11333,10 @@ tailwind-variants@^0.1.16:
   dependencies:
     tailwind-merge "^1.14.0"
 
-tailwindcss@^3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.3.4.tgz#f08c493ff3ddf03081c40e780e98f129e1c8214d"
-  integrity sha512-JXZNOkggUAc9T5E7nCrimoXHcSf9h3NWFe5sh36CGD/3M5TRLuQeFnQoDsit2uVTqgoOZHLx5rTykLUu16vsMQ==
+tailwindcss@^3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.3.5.tgz#22a59e2fbe0ecb6660809d9cc5f3976b077be3b8"
+  integrity sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==
   dependencies:
     "@alloc/quick-lru" "^5.2.0"
     arg "^5.0.2"
