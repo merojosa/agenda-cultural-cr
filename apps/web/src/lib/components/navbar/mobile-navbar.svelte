@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { Button } from '../ui/button';
-	import { Menu } from 'lucide-svelte';
+	import { Equal, EqualIcon, Menu, XIcon } from 'lucide-svelte';
 	import { HEADER_LINKS } from './links';
+
+	let isOpen = false;
 </script>
 
 <nav class="flex flex-wrap items-center gap-4 py-8 md:hidden">
@@ -12,7 +14,18 @@
 	</div>
 
 	<label class="h-10 w-10" for="open-nav">
-		<Menu class="h-full w-full" />
+		<div
+			on:click={() => (isOpen = !isOpen)}
+			on:keypress={() => (isOpen = !isOpen)}
+			role="button"
+			tabindex={0}
+		>
+			{#if isOpen}
+				<XIcon class="h-full w-full" />
+			{:else}
+				<EqualIcon class="h-full w-full" />
+			{/if}
+		</div>
 	</label>
 	<input class="peer hidden" id="open-nav" type="checkbox" />
 	<ul class="hidden basis-full flex-col gap-1 peer-checked:flex">
