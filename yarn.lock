@@ -10226,7 +10226,7 @@ react-reconciler@^0.29.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react@18.2.0:
+react@^18.0.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -10929,10 +10929,10 @@ sst-aws-cdk@2.101.1:
   optionalDependencies:
     fsevents "2.3.2"
 
-sst@2.32.1:
-  version "2.32.1"
-  resolved "https://registry.yarnpkg.com/sst/-/sst-2.32.1.tgz#0593e6f37f0d0434860ed9a86a722a4519c24344"
-  integrity sha512-zU49K4o8+HfxBLiq+UUnDqhjEsdJ5c8CmYAwOSaDMtzrFFbY3Q/vgxhZPUAQrRGOMIlk7YiFrq/VSIg8DhBbHw==
+sst@2.32.2:
+  version "2.32.2"
+  resolved "https://registry.yarnpkg.com/sst/-/sst-2.32.2.tgz#9ed709a03ec952a20593ca32eb54fa1ae571dbe5"
+  integrity sha512-bKKEdRDd79BlEydt686zOKknpN/MXqB+rrx7E/4T7c2fPzxh38RTZsDEnirtxb88UfQ2au5dUTuS9XjraWd7tg==
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha" "^2.101.1-alpha.0"
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha" "^2.101.1-alpha.0"
@@ -10994,7 +10994,7 @@ sst@2.32.1:
     minimatch "^6.1.6"
     openid-client "^5.1.8"
     ora "^6.1.2"
-    react "18.2.0"
+    react "^18.0.0"
     remeda "^1.3.0"
     sst-aws-cdk "2.101.1"
     tree-kill "^1.2.2"
@@ -11270,10 +11270,10 @@ svelte-hmr@^0.15.3:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.3.tgz#df54ccde9be3f091bf5f18fc4ef7b8eb6405fbe6"
   integrity sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==
 
-svelte-kit-sst@2.32.1:
-  version "2.32.1"
-  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.32.1.tgz#cd7c38df6264f383390a93e0d10bb70f295c792f"
-  integrity sha512-BVNAmxQet1LTlqXLoaDLOeaiwm9n2oPCmLhyv6wvaSeAU1kHu8A5kQT8mILH3SEmxAVxfHbr6bvE0+wg/ohllg==
+svelte-kit-sst@2.32.2:
+  version "2.32.2"
+  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.32.2.tgz#35deea9267d04b68e35736261d59b78d28f2d711"
+  integrity sha512-61QHMXaFCgLeHBJaDaZoim29Xj70Ul55xKgTvyH4V3znZ5TMkHYA+rHLqmq8ER3n+5Lt8939W6xLq86Np2+39w==
 
 svelte-preprocess@^5.0.4:
   version "5.0.4"
