@@ -1,14 +1,25 @@
 <script lang="ts">
 	import { Button } from '../ui/button';
-	import { Equal, EqualIcon, Menu, XIcon } from 'lucide-svelte';
+	import { EqualIcon, XIcon } from 'lucide-svelte';
 	import { HEADER_LINKS } from './links';
 
+	let checkboxToggleElement: HTMLInputElement;
 	let isOpen = false;
+
+	function closeToggle() {
+		isOpen = false;
+		checkboxToggleElement.checked = false;
+	}
 </script>
 
 <nav class="flex flex-wrap items-center gap-4 py-8 md:hidden">
 	<div class="flex-1">
-		<Button variant="link" class="text-foreground p-0 text-2xl font-medium" href="/">
+		<Button
+			variant="link"
+			class="text-foreground p-0 text-2xl font-medium"
+			href="/"
+			on:click={closeToggle}
+		>
 			<h1>Agenda Cultural CR</h1>
 		</Button>
 	</div>
@@ -27,11 +38,16 @@
 			{/if}
 		</div>
 	</label>
-	<input class="peer hidden" id="open-nav" type="checkbox" />
+	<input class="peer hidden" bind:this={checkboxToggleElement} id="open-nav" type="checkbox" />
 	<ul class="hidden basis-full flex-col gap-1 peer-checked:flex">
 		{#each HEADER_LINKS as link}
 			<li>
-				<Button variant="link" href={link.url} class="text-foreground p-0 text-lg">
+				<Button
+					variant="link"
+					href={link.url}
+					on:click={closeToggle}
+					class="text-foreground p-0 text-lg"
+				>
 					{link.label}
 				</Button>
 			</li>
