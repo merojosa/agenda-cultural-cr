@@ -5,7 +5,6 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import { cn } from '$lib/utils';
-	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -25,7 +24,6 @@
 
 <svelte:head>
 	<title>Agenda Cultural CR | {data.activity.title}</title>
-	<meta content={`${$page.url.origin}/og?title=${data.activity.title}`} property="og:image" />
 </svelte:head>
 
 <article

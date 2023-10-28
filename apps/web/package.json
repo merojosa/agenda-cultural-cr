@@ -17,7 +17,6 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"@resvg/resvg-js": "^2.6.0",
 		"@sveltejs/kit": "^1.27.0",
 		"@types/luxon": "^3.3.3",
 		"autoprefixer": "^10.4.16",
@@ -25,8 +24,6 @@
 		"constructs": "10.2.69",
 		"db-schema": "*",
 		"postcss": "^8.4.31",
-		"satori": "^0.10.9",
-		"satori-html": "^0.3.2",
 		"sst": "2.32.2",
 		"svelte": "^4.2.2",
 		"svelte-check": "^3.5.2",
