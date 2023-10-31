@@ -51,3 +51,4 @@ functions:
         - '!node_modules/puppeteer-core/**'
         - '!node_modules/@aws-sdk/**'
         - 'dist/og/**'
+        - 'templates/**'
