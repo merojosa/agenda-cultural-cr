@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"run": "sls invoke local --function update-theater-data",
-		"build": "rm -rf dist && esbuild src/index.ts --bundle --platform=neutral --packages=external --target=node18 --outdir=dist",
+		"build": "rm -rf dist && esbuild src/scraping/index.ts src/og/index.ts --bundle --platform=neutral --packages=external --target=node18 --outdir=dist",
 		"deploy:dev": "sls deploy --stage dev",
 		"lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \"src\"",
 		"typecheck": "tsc"
@@ -19,10 +19,13 @@
 		"pino": "^8.16.0",
 		"postgres": "^3.4.1",
 		"puppeteer-core": "^21.0.3",
+		"satori": "^0.10.9",
+		"satori-html": "^0.3.2",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@sparticuz/chromium": "^115.0.0",
+		"@types/aws-lambda": "^8.10.125",
 		"@types/html-to-text": "^9.0.1",
 		"@types/luxon": "^3.3.2",
 		"@types/node": "^18.17.4",

@@ -7,8 +7,8 @@ import {
 	type ScrapingResult,
 } from './scraping-types';
 import { eq, notInArray, type InferInsertModel } from 'drizzle-orm';
-import type { ImageUploader } from '#services/image-uploader';
-import { logger } from '#services/logger';
+import type { ImageUploader } from '#scraping/services/image-uploader';
+import { logger } from '#scraping/services/logger';
 import type { AnyPgTable, PgInsertValue } from 'drizzle-orm/pg-core';
 
 type RawTableTypes<TTable extends AnyPgTable> = {

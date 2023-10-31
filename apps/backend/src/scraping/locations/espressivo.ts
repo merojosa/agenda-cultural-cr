@@ -4,8 +4,8 @@ import {
 	type ScrapingResult,
 	type ActivityEntity,
 } from '#scraping/scraping-types';
-import { logger } from '#services/logger';
-import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#utils/scraping-utils';
+import { logger } from '#scraping/services/logger';
+import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 import type { Logger } from 'pino';

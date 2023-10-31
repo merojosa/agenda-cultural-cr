@@ -3,7 +3,7 @@ import { TeatroElTriciclo } from '#scraping/locations/teatro-el-triciclo';
 import { TeatroNacional } from '#scraping/locations/teatro-nacional';
 import type { ScrapingBackendLocations } from '#scraping/scraping-types';
 import { TheaterUpdater } from '#scraping/theater-updater';
-import { ImageUploader } from '#services/image-uploader';
+import { ImageUploader } from '#scraping/services/image-uploader';
 import { backendIdValues } from 'db-schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
@@ -31,6 +31,6 @@ const imageUploader = new ImageUploader();
 
 const theaterUpdater = new TheaterUpdater(db, scrapingLocationsMethods, imageUploader);
 
-export const updateTheaterDataLambda = () => {
+export const scrapACCRData = () => {
 	return theaterUpdater.update();
 };

@@ -1,5 +1,8 @@
 service: agenda-cultural-cr-backend
 
+package:
+  individually: true
+
 useDotenv: true
 
 plugins:
@@ -19,11 +22,17 @@ provider:
     ACCR_AWS_SECRET_ACCESS_KEY: ${env:ACCR_AWS_SECRET_ACCESS_KEY}
 
 functions:
-  update-theater-data:
-    handler: dist/index.updateTheaterDataLambda
+  scrap-ACCR-data:
+    handler: dist/scraping/index.scrapACCRData
     layers:
       - ${env:CHROMIUM_LAYER_VERSION_ARN}
       - ${env:SHARP_LAYER_VERSION_ARN}
     events:
       # Every Wednestay at 00:00AM UTC
       - schedule: cron(0 0 ? * WED *)
+
+  generate-OG:
+    handler: dist/og/index.generateOG
+    timeout: 20
+    events:
+      - httpApi: 'GET /og'

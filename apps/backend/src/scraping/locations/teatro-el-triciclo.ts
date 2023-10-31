@@ -1,5 +1,5 @@
 import { type BackendLocation, ScrapingError, type ScrapingResult } from '#scraping/scraping-types';
-import { htmlToPlainText } from '#utils/scraping-utils';
+import { htmlToPlainText } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 
