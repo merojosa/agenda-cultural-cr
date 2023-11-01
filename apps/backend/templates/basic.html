@@ -1,1 +1,45 @@
-<div style="color: black;">This is a test from a HTML file</div>
+<html>
+
+<head>
+    <style>
+        html,
+        body {
+            all: unset;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+
+            background: hsl(270 13% 6%);
+            color: white;
+            padding: 1rem;
+            width: 256;
+            height: 256;
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <h1 class="title">
+        {{title}}
+    </h1>
+
+</body>
+
+</html>

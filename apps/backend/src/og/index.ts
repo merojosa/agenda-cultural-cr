@@ -4,20 +4,23 @@ import { html } from 'satori-html';
 import sharp from 'sharp';
 import fs from 'node:fs/promises';
 export const generateOG = async (event: APIGatewayEvent, _: Context, callback: Callback) => {
-	if (event.queryStringParameters && event.queryStringParameters['title']) {
-		const title = event.queryStringParameters['title'];
-		console.log('BREAKPOINT title', title);
+	if (!event.queryStringParameters || !event.queryStringParameters['title']) {
+		const response = {
+			statusCode: 404,
+		};
+		callback(null, response);
+		return;
 	}
 
 	const content = (await fs.readFile('templates/basic.html')).toString('utf-8');
-
-	const markup = html(content);
+	const parsedContent = content.replace('{{title}}', event.queryStringParameters['title']);
+	const markup = html(parsedContent);
 
 	const fontFile = await fetch('https://og-playground.vercel.app/inter-latin-ext-700-normal.woff');
 	const fontData = await fontFile.arrayBuffer();
 	const svgString = await satori(markup, {
-		width: 600,
-		height: 400,
+		width: 256,
+		height: 256,
 		fonts: [
 			{
 				name: 'Noto Sans',
