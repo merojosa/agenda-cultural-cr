@@ -17,7 +17,7 @@
 		"html-to-text": "^9.0.5",
 		"luxon": "^3.4.3",
 		"pino": "^8.16.0",
-		"postgres": "^3.4.1",
+		"postgres": "^3.4.2",
 		"puppeteer-core": "^21.0.3",
 		"zod": "^3.22.4"
 	},

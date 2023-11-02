@@ -27,6 +27,10 @@ const data = {
 			name: 'Espressivo',
 			gpsLocationUrl: 'https://maps.app.goo.gl/wRkPaqZZsiPhqiKU7',
 		},
+		ccecr: {
+			name: 'Centro Cultural de España en Costa Rica',
+			gpsLocationUrl: 'https://maps.app.goo.gl/rZeL7Vv8BnBg3tUo6',
+		},
 	} satisfies Record<
 		keyof typeof schema.backendIdValues,
 		RawTableTypes<typeof schema.locationTable>
@@ -46,6 +50,11 @@ const data = {
 			locationId: schema.DB_IDS.location['https://espressivo.cr/'],
 			backendId: 'https://espressivo.cr/',
 			url: 'https://espressivo.cr/calendario/',
+		},
+		ccecr: {
+			locationId: schema.DB_IDS.location['https://ccecr.org/'],
+			backendId: 'https://ccecr.org/',
+			url: 'https://ccecr.org/tipo/actividades/',
 		},
 	} satisfies Record<
 		keyof typeof schema.backendIdValues,

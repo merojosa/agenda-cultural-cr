@@ -57,12 +57,14 @@ export const backendIdValues = {
 	teatroNacional: 'https://teatronacional.go.cr',
 	teatroElTriciclo: 'https://teatroeltriciclo.com',
 	espressivo: 'https://espressivo.cr/',
+	ccecr: 'https://ccecr.org/',
 } as const;
 
 export const backendIdEnum = pgEnum('backend_id', [
 	backendIdValues.teatroNacional,
 	backendIdValues.teatroElTriciclo,
 	backendIdValues.espressivo,
+	backendIdValues.ccecr,
 ]);
 
 export const automaticLocationTable = pgTable('automatic_location', {
@@ -106,5 +108,6 @@ export const DB_IDS = {
 		[backendIdValues.teatroNacional]: 1,
 		[backendIdValues.teatroElTriciclo]: 2,
 		[backendIdValues.espressivo]: 3,
+		[backendIdValues.ccecr]: 4,
 	},
 } as const;

@@ -24,6 +24,9 @@
 		"db#generate": {
 			"dependsOn": ["^build"]
 		},
+		"db#seed:dev": {
+			"dependsOn": ["^build"]
+		},
 		"web#deploy:dev": {
 			"dependsOn": ["build"]
 		},
