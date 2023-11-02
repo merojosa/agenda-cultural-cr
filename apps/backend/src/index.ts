@@ -1,3 +1,4 @@
+import { Ccecr } from '#scraping/locations/ccecr';
 import { Espressivo } from '#scraping/locations/espressivo';
 import { TeatroElTriciclo } from '#scraping/locations/teatro-el-triciclo';
 import { TeatroNacional } from '#scraping/locations/teatro-nacional';
@@ -25,6 +26,7 @@ const scrapingLocationsMethods: ScrapingBackendLocations = {
 	[backendIdValues.teatroNacional]: new TeatroNacional(),
 	[backendIdValues.teatroElTriciclo]: new TeatroElTriciclo(),
 	[backendIdValues.espressivo]: new Espressivo(),
+	[backendIdValues.ccecr]: new Ccecr(),
 } as const;
 
 const imageUploader = new ImageUploader();
