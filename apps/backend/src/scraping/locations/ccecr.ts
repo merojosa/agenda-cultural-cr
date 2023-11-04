@@ -1,6 +1,6 @@
 import { ScrapingError, type BackendLocation, type ScrapingResult } from '#scraping/scraping-types';
-import { logger } from '#services/logger';
-import { launchNewBrowser } from '#utils/scraping-utils';
+import { logger } from '#scraping/services/logger';
+import { launchNewBrowser } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
 import type { Logger } from 'pino';
@@ -14,7 +14,7 @@ export class Ccecr implements BackendLocation {
 	}
 
 	private async scrapCcecrData(page: Page): Promise<ScrapingResult> {
-		const jsonStringData = await page.evaluate(() =>
+		await page.evaluate(() =>
 			Array.from(document.querySelectorAll('div.post'), (element) => {
 				const url = element.querySelector('a')?.href;
 				const styleAttribute = element.querySelector('a > .post_img')?.getAttribute('style');
@@ -27,8 +27,6 @@ export class Ccecr implements BackendLocation {
 				return { title, url, imageUrl: imageUrlMatch?.[0] ?? null };
 			})
 		);
-
-		console.log('BREAKPOINT', jsonStringData);
 
 		return { activityEntities: [], imageUrlsCollector: new Set() };
 	}

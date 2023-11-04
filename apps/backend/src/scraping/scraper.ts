@@ -15,7 +15,7 @@ import { logger } from '#scraping/services/logger';
 
 type FailedScrapingLocations = (typeof backendIdValues)[keyof typeof backendIdValues];
 
-export class TheaterUpdater {
+export class Scraper {
 	constructor(
 		private db: PostgresJsDatabase<typeof schema>,
 		private scrapingBackendLocations: ScrapingBackendLocations,
@@ -139,7 +139,7 @@ export class TheaterUpdater {
 			);
 	}
 
-	public async update() {
+	public async execute() {
 		const scrapingResults = await this.scrapData();
 		const {
 			scrapingSuccess,
@@ -160,7 +160,7 @@ export class TheaterUpdater {
 		}
 
 		if (dbUpdateResult[0].status === 'rejected') {
-			logger.error({ errors: dbUpdateResult[0] }, 'DB updates error');
+			logger.error({ errors: dbUpdateResult[0].reason }, 'DB updates error');
 		}
 
 		logger.info('Done updating theater data!!!!');
