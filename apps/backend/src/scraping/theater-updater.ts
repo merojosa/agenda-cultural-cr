@@ -6,18 +6,14 @@ import {
 	ScrapingError,
 	type ScrapingResult,
 } from './scraping-types';
-import { eq, notInArray, type InferInsertModel } from 'drizzle-orm';
+import { eq, notInArray, sql } from 'drizzle-orm';
 import type { ImageUploader } from '#services/image-uploader';
 import { logger } from '#services/logger';
-import type { AnyPgTable, PgInsertValue } from 'drizzle-orm/pg-core';
-
-type RawTableTypes<TTable extends AnyPgTable> = {
-	[Key in keyof PgInsertValue<TTable>]: InferInsertModel<TTable>[Key];
-};
+import type * as schema from 'db-schema';
 
 export class TheaterUpdater {
 	constructor(
-		private db: PostgresJsDatabase,
+		private db: PostgresJsDatabase<typeof schema>,
 		private scrapingBackendLocations: ScrapingBackendLocations,
 		private imageUploader: ImageUploader
 	) {
@@ -78,7 +74,7 @@ export class TheaterUpdater {
 	}
 
 	private deleteTheaterDataBasedOnFailures(
-		db: PostgresJsDatabase,
+		db: PostgresJsDatabase<typeof schema>,
 		failedBackendIds: Set<(typeof backendIdValues)[keyof typeof backendIdValues]>
 	) {
 		const backendIdsArray = Array.from(failedBackendIds);
@@ -92,32 +88,35 @@ export class TheaterUpdater {
 	}
 
 	private updateDb(scrapingSuccess: ActivityEntity[], s3UrlsCollector: Map<string, string>) {
-		return scrapingSuccess.map((value) => {
-			const values = {
-				title: value.title,
-				activityUrl: value.source,
-				description: value.description,
-				date: value.datetime.toJSDate(),
-				time: value.datetime.toISOTime(),
-				activityTypeId: DB_IDS.activityType.teatro,
-				locationId: DB_IDS.location[value.backendId],
-				imageUrl: s3UrlsCollector.get(value.imageUrl || ''),
-			} satisfies RawTableTypes<typeof activityTable>;
-
-			return this.db
-				.insert(activityTable)
-				.values(values)
-				.onConflictDoUpdate({
-					target: [
-						activityTable.title,
-						activityTable.date,
-						activityTable.time,
-						activityTable.locationId,
-						activityTable.activityTypeId,
-					],
-					set: values,
-				});
-		});
+		return this.db
+			.insert(activityTable)
+			.values(
+				scrapingSuccess.map((activity) => ({
+					id: sql`default`,
+					title: activity.title,
+					activityUrl: activity.source,
+					description: activity.description,
+					date: activity.datetime.toJSDate(),
+					time: activity.datetime.toISOTime(),
+					activityTypeId: DB_IDS.activityType.teatro,
+					locationId: DB_IDS.location[activity.backendId],
+					imageUrl: s3UrlsCollector.get(activity.imageUrl || ''),
+				}))
+			)
+			.onConflictDoUpdate({
+				target: [
+					activityTable.title,
+					activityTable.date,
+					activityTable.time,
+					activityTable.locationId,
+					activityTable.activityTypeId,
+				],
+				set: {
+					activityUrl: sql.raw(`EXCLUDED.${activityTable.activityUrl.name}`),
+					description: sql.raw(`EXCLUDED.${activityTable.description.name}`),
+					imageUrl: sql.raw(`EXCLUDED.${activityTable.imageUrl.name}`),
+				},
+			});
 	}
 
 	public async update() {
@@ -138,22 +137,16 @@ export class TheaterUpdater {
 		// Upload to S3
 		const s3UrlsCollector = await this.imageUploader.uploadImages(imagesUrlsCollector);
 
-		const dbUpdateResults = await Promise.allSettled(
-			this.updateDb(scrapingSuccess, s3UrlsCollector)
-		);
-		const dbUpdateResultsFailures = [] as unknown[];
-		dbUpdateResults.forEach((value) => {
-			if (value.status === 'rejected') {
-				dbUpdateResultsFailures.push(value.reason);
-			}
-		});
+		const dbUpdateResult = await Promise.allSettled([
+			this.updateDb(scrapingSuccess, s3UrlsCollector),
+		]);
 
 		if (scrapingFailures.length) {
 			logger.error(scrapingFailures.join(' | '), 'Scraping error');
 		}
 
-		if (dbUpdateResultsFailures.length) {
-			logger.error({ errors: dbUpdateResultsFailures.join(' | ') }, 'DB updates error');
+		if (dbUpdateResult[0].status === 'rejected') {
+			logger.error({ errors: dbUpdateResult[0] }, 'DB updates error');
 		}
 
 		logger.info('Done updating theater data!!!!');

@@ -8,6 +8,7 @@ import { ImageUploader } from '#services/image-uploader';
 import { backendIdValues } from 'db-schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import * as schema from 'db-schema';
 
 function initDbClient() {
 	if (!process.env.DATABASE_URL) {
@@ -15,7 +16,7 @@ function initDbClient() {
 	}
 
 	const client = postgres(process.env.DATABASE_URL);
-	const db = drizzle(client);
+	const db = drizzle(client, { logger: true, schema });
 
 	return db;
 }
