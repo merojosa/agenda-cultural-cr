@@ -6,10 +6,14 @@ import {
 	ScrapingError,
 	type ScrapingResult,
 } from './scraping-types';
-import { eq, notInArray, sql } from 'drizzle-orm';
+import { eq, notBetween, notInArray, sql } from 'drizzle-orm';
 import type { ImageUploader } from '#services/image-uploader';
 import { logger } from '#services/logger';
 import type * as schema from 'db-schema';
+import { and } from 'drizzle-orm';
+import { DateTime } from 'luxon';
+
+type FailedScrapingLocations = (typeof backendIdValues)[keyof typeof backendIdValues];
 
 export class TheaterUpdater {
 	constructor(
@@ -47,9 +51,7 @@ export class TheaterUpdater {
 		const scrapingFailures = [] as unknown[];
 		const scrapingSuccess = [] as ActivityEntity[];
 		const imagesUrlsCollector = new Set<string>(); // Original url images from the scraped websites
-		const failedScrapingBackendLocationsIds = new Set<
-			(typeof backendIdValues)[keyof typeof backendIdValues]
-		>();
+		const failedScrapingBackendLocationsIds = new Set<FailedScrapingLocations>();
 
 		for (const scrapingResult of scrapingResults) {
 			if (scrapingResult.status === 'fulfilled') {
@@ -73,22 +75,12 @@ export class TheaterUpdater {
 		} as const;
 	}
 
-	private deleteTheaterDataBasedOnFailures(
-		db: PostgresJsDatabase<typeof schema>,
-		failedBackendIds: Set<(typeof backendIdValues)[keyof typeof backendIdValues]>
+	private async updateDb(
+		scrapingSuccess: ActivityEntity[],
+		s3UrlsCollector: Map<string, string>,
+		failedScrapingBackendLocationsIds: Set<FailedScrapingLocations>
 	) {
-		const backendIdsArray = Array.from(failedBackendIds);
-		const dbIdsToExclude = backendIdsArray.map((backendId) => DB_IDS.location[backendId]);
-
-		const where = dbIdsToExclude.length
-			? notInArray(activityTable.locationId, dbIdsToExclude)
-			: eq(activityTable.activityTypeId, DB_IDS.activityType.teatro);
-
-		return db.delete(activityTable).where(where);
-	}
-
-	private updateDb(scrapingSuccess: ActivityEntity[], s3UrlsCollector: Map<string, string>) {
-		return this.db
+		const insertedActivities = await this.db
 			.insert(activityTable)
 			.values(
 				scrapingSuccess.map((activity) => ({
@@ -116,7 +108,35 @@ export class TheaterUpdater {
 					description: sql.raw(`EXCLUDED.${activityTable.description.name}`),
 					imageUrl: sql.raw(`EXCLUDED.${activityTable.imageUrl.name}`),
 				},
-			});
+			})
+			.returning({ id: activityTable.id });
+
+		const insertedActivitiesIds = insertedActivities.map((insertedActivity) => insertedActivity.id);
+		const scrapingBackendLocationsIds = Array.from(
+			failedScrapingBackendLocationsIds,
+			(value) => DB_IDS.location[value]
+		);
+
+		// 1) Do not remove the activities recently inserted
+		// 2) Do not remove those activities that their scraping type failed
+		// 3) Do not remove the activities from 2 weeks ago to have some old data
+		// The -1 values is because Drizzle doesn't allow to pass empty arrays
+		await this.db
+			.delete(activityTable)
+			.where(
+				and(
+					notInArray(activityTable.id, insertedActivitiesIds.length ? insertedActivitiesIds : [-1]),
+					notInArray(
+						activityTable.locationId,
+						scrapingBackendLocationsIds.length ? scrapingBackendLocationsIds : [-1]
+					),
+					notBetween(
+						activityTable.date,
+						new Date(0),
+						DateTime.local().minus({ weeks: 2 }).toJSDate()
+					)
+				)
+			);
 	}
 
 	public async update() {
@@ -128,17 +148,11 @@ export class TheaterUpdater {
 			imagesUrlsCollector,
 		} = this.gatherResults(scrapingResults);
 
-		// Remove only the activity rows that succeeded the scraping
-		// but if there wasn't any success, don't do anything (I dont want an empty calendar)
-		if (scrapingSuccess.length) {
-			await this.deleteTheaterDataBasedOnFailures(this.db, failedScrapingBackendLocationsIds);
-		}
-
 		// Upload to S3
 		const s3UrlsCollector = await this.imageUploader.uploadImages(imagesUrlsCollector);
 
 		const dbUpdateResult = await Promise.allSettled([
-			this.updateDb(scrapingSuccess, s3UrlsCollector),
+			this.updateDb(scrapingSuccess, s3UrlsCollector, failedScrapingBackendLocationsIds),
 		]);
 
 		if (scrapingFailures.length) {
