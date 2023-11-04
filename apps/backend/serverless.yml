@@ -1,5 +1,12 @@
 service: agenda-cultural-cr-backend
 
+package:
+  individually: true
+  patterns:
+    - '!./**'
+    - 'node_modules/**'
+    - 'package.json'
+
 useDotenv: true
 
 plugins:
@@ -19,11 +26,29 @@ provider:
     ACCR_AWS_SECRET_ACCESS_KEY: ${env:ACCR_AWS_SECRET_ACCESS_KEY}
 
 functions:
-  update-theater-data:
-    handler: dist/index.updateTheaterDataLambda
+  scrap-ACCR-data:
+    handler: dist/scraping/index.scrapACCRData
     layers:
       - ${env:CHROMIUM_LAYER_VERSION_ARN}
       - ${env:SHARP_LAYER_VERSION_ARN}
     events:
       # Every Wednestay at 00:00AM UTC
       - schedule: cron(0 0 ? * WED *)
+    package:
+      patterns:
+        - 'dist/scraping/**'
+
+  generate-OG:
+    handler: dist/og/index.generateOG
+    layers:
+      - ${env:SHARP_LAYER_VERSION_ARN}
+    timeout: 20
+    events:
+      - httpApi: 'GET /og'
+    package:
+      patterns:
+        - '!node_modules/db-schema/**'
+        - '!node_modules/puppeteer-core/**'
+        - '!node_modules/@aws-sdk/**'
+        - 'dist/og/**'
+        - 'templates/**'

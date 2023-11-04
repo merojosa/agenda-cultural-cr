@@ -7,11 +7,11 @@ import {
 	type ScrapingResult,
 } from './scraping-types';
 import { eq, notBetween, notInArray, sql } from 'drizzle-orm';
-import type { ImageUploader } from '#services/image-uploader';
-import { logger } from '#services/logger';
 import type * as schema from 'db-schema';
 import { and } from 'drizzle-orm';
 import { DateTime } from 'luxon';
+import type { ImageUploader } from '#scraping/services/image-uploader';
+import { logger } from '#scraping/services/logger';
 
 type FailedScrapingLocations = (typeof backendIdValues)[keyof typeof backendIdValues];
 
