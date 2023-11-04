@@ -6,10 +6,9 @@ import {
 	ScrapingError,
 	type ScrapingResult,
 } from './scraping-types';
-import { eq, notBetween, notInArray, sql } from 'drizzle-orm';
+import { eq, notInArray, sql } from 'drizzle-orm';
 import type * as schema from 'db-schema';
 import { and } from 'drizzle-orm';
-import { DateTime } from 'luxon';
 import type { ImageUploader } from '#scraping/services/image-uploader';
 import { logger } from '#scraping/services/logger';
 
@@ -112,15 +111,13 @@ export class Scraper {
 			.returning({ id: activityTable.id });
 
 		const insertedActivitiesIds = insertedActivities.map((insertedActivity) => insertedActivity.id);
-		const scrapingBackendLocationsIds = Array.from(
+		const failedScrapingBackendLocationsIdsArray = Array.from(
 			failedScrapingBackendLocationsIds,
 			(value) => DB_IDS.location[value]
 		);
 
-		// 1) Do not remove the activities recently inserted
-		// 2) Do not remove those activities that their scraping type failed
-		// 3) Do not remove the activities from 2 weeks ago to have some old data
-		// The -1 values is because Drizzle doesn't allow to pass empty arrays
+		// 1) Remove the activities that were not inserted
+		// 2) Do not remove those activities that their scraping location failed
 		await this.db
 			.delete(activityTable)
 			.where(
@@ -128,12 +125,9 @@ export class Scraper {
 					notInArray(activityTable.id, insertedActivitiesIds.length ? insertedActivitiesIds : [-1]),
 					notInArray(
 						activityTable.locationId,
-						scrapingBackendLocationsIds.length ? scrapingBackendLocationsIds : [-1]
-					),
-					notBetween(
-						activityTable.date,
-						new Date(0),
-						DateTime.local().minus({ weeks: 2 }).toJSDate()
+						failedScrapingBackendLocationsIdsArray.length
+							? failedScrapingBackendLocationsIdsArray
+							: [-1]
 					)
 				)
 			);
