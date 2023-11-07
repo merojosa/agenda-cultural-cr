@@ -4533,12 +4533,12 @@ aws-crt@^1.18.1:
     mqtt "^4.3.7"
     process "^0.11.10"
 
-aws-iot-device-sdk@^2.2.12:
-  version "2.2.12"
-  resolved "https://registry.yarnpkg.com/aws-iot-device-sdk/-/aws-iot-device-sdk-2.2.12.tgz#94e66eb260c59a009690af805bcce14063e7d186"
-  integrity sha512-OcUI6Hq1N3PhAMgceWV3nFhDNkOFmSYPuv1CCqZhQAcWQ7UOhPmA5QSE4aiQcVN3wSIzTEO0UU4sh6ubjMOjPA==
+aws-iot-device-sdk@^2.2.13:
+  version "2.2.13"
+  resolved "https://registry.yarnpkg.com/aws-iot-device-sdk/-/aws-iot-device-sdk-2.2.13.tgz#45a69eab0a831643d862c941e30e27ecfc2507da"
+  integrity sha512-rUR68vJxna5q0HSvBFy70QD0kFa91H8mQU2Jdor0JpNxmfNaOhQoiGCcgrZAxR69xY1kGHs+JzWOqqVtAfL0+A==
   dependencies:
-    crypto-js "4.0.0"
+    crypto-js "4.2.0"
     minimist "1.2.6"
     mqtt "4.2.8"
     websocket-stream "^5.5.2"
@@ -5374,10 +5374,10 @@ crypt@0.0.2:
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
 
-crypto-js@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
-  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
+crypto-js@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 crypto-js@^4.0.0:
   version "4.1.1"
@@ -9840,10 +9840,10 @@ sst-aws-cdk@2.101.1:
   optionalDependencies:
     fsevents "2.3.2"
 
-sst@2.32.2:
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/sst/-/sst-2.32.2.tgz#9ed709a03ec952a20593ca32eb54fa1ae571dbe5"
-  integrity sha512-bKKEdRDd79BlEydt686zOKknpN/MXqB+rrx7E/4T7c2fPzxh38RTZsDEnirtxb88UfQ2au5dUTuS9XjraWd7tg==
+sst@2.35.0:
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/sst/-/sst-2.35.0.tgz#83de920b8f8ddc84af466ad643891dcd2f26554e"
+  integrity sha512-j8yzowKzu1XwYLz2rQfTENwJK3E8gm1renh8VLh2DKB1WnR+rNHOKeIy7rPgK4GGbg5xVrRoMuaJqT8Gh/d7yw==
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha" "^2.101.1-alpha.0"
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha" "^2.101.1-alpha.0"
@@ -9876,7 +9876,7 @@ sst@2.32.2:
     "@trpc/server" "9.16.0"
     adm-zip "^0.5.10"
     aws-cdk-lib "2.101.1"
-    aws-iot-device-sdk "^2.2.12"
+    aws-iot-device-sdk "^2.2.13"
     aws-sdk "^2.1326.0"
     builtin-modules "3.2.0"
     cdk-assets "2.101.1"
@@ -10159,10 +10159,10 @@ svelte-hmr@^0.15.3:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.3.tgz#df54ccde9be3f091bf5f18fc4ef7b8eb6405fbe6"
   integrity sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==
 
-svelte-kit-sst@2.32.2:
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.32.2.tgz#35deea9267d04b68e35736261d59b78d28f2d711"
-  integrity sha512-61QHMXaFCgLeHBJaDaZoim29Xj70Ul55xKgTvyH4V3znZ5TMkHYA+rHLqmq8ER3n+5Lt8939W6xLq86Np2+39w==
+svelte-kit-sst@2.35.0:
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.35.0.tgz#76a25b82a766301a22219c4f76053f8cc107b477"
+  integrity sha512-4+AneZpjarYEhYWXps401ghqrqNXto/F/O+XyoFzZvY1CL5kgQPC2STB3suMNdgTWD4ypRHxFITsqCRMwxT/Tg==
 
 svelte-preprocess@^5.0.4:
   version "5.0.4"
