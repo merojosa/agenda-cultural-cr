@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Calendar, MapPin, Link2 } from 'lucide-svelte';
+	import { Calendar, Link2, Theater } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -47,7 +47,7 @@
 		<h2 class="text-3xl font-bold leading-tight">{data.activity.title}</h2>
 		<ul class="flex flex-col gap-8">
 			<li class="flex flex-row items-center gap-2 text-xl">
-				<MapPin class="h-10 w-10" />
+				<Theater class="h-10 w-10" />
 				{data.activity.locationName}
 			</li>
 			<li class="flex flex-row items-center gap-2 text-xl">
