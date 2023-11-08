@@ -14,6 +14,7 @@ const {
 	ACCR_AWS_ASSETS_BUCKET = '',
 	ACCR_AWS_ACCESS_KEY_ID = '',
 	ACCR_AWS_SECRET_ACCESS_KEY = '',
+	ACCR_AWS_ASSETS_URL = '',
 } = process.env;
 
 export class ImageUploader {
@@ -70,7 +71,7 @@ export class ImageUploader {
 		);
 
 		// Return S3 url
-		return `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${encodeURIComponent(key)}`;
+		return `${ACCR_AWS_ASSETS_URL}/${encodeURIComponent(key)}`;
 	}
 
 	public async cleanUnusedImagesFromExistingUrls(
