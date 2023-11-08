@@ -26,7 +26,7 @@ provider:
     ACCR_AWS_SECRET_ACCESS_KEY: ${env:ACCR_AWS_SECRET_ACCESS_KEY}
 
 functions:
-  scrap-ACCR-data:
+  scrap-accr-data:
     handler: dist/scraping/index.scrapACCRData
     layers:
       - ${env:CHROMIUM_LAYER_VERSION_ARN}

@@ -142,15 +142,20 @@ export class Scraper {
 			imagesUrlsCollector,
 		} = this.gatherResults(scrapingResults);
 
-		// Upload to S3
-		const s3UrlsCollector = await this.imageUploader.uploadImages(imagesUrlsCollector);
+		let s3UrlsCollector = new Map<string, string>();
+		try {
+			// Upload to S3
+			s3UrlsCollector = await this.imageUploader.uploadImages(imagesUrlsCollector);
+		} catch (error) {
+			logger.error({ error }, 'Upload images error');
+		}
 
 		const dbUpdateResult = await Promise.allSettled([
 			this.updateDb(scrapingSuccess, s3UrlsCollector, failedScrapingBackendLocationsIds),
 		]);
 
 		if (scrapingFailures.length) {
-			logger.error(scrapingFailures.join(' | '), 'Scraping error');
+			logger.error({ errors: scrapingFailures }, 'Scraping error');
 		}
 
 		if (dbUpdateResult[0].status === 'rejected') {
