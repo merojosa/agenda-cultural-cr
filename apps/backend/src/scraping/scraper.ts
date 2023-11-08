@@ -150,6 +150,15 @@ export class Scraper {
 			logger.error({ error }, 'Upload images error');
 		}
 
+		try {
+			const urls = await this.db
+				.selectDistinct({ imageUrl: activityTable.imageUrl })
+				.from(activityTable);
+			await this.imageUploader.cleanUnusedImagesFromExistingUrls(urls);
+		} catch (error) {
+			logger.error({ error }, 'Error cleaning unused images');
+		}
+
 		const dbUpdateResult = await Promise.allSettled([
 			this.updateDb(scrapingSuccess, s3UrlsCollector, failedScrapingBackendLocationsIds),
 		]);

@@ -41,9 +41,7 @@ export class ImageUploader {
 			.toBuffer();
 	}
 
-	private async uploadImage(
-		originalImageUrl: string
-	): Promise<{ url: string; key: string } | null> {
+	private async uploadImage(originalImageUrl: string): Promise<string | null> {
 		try {
 			const imageResponse = await fetch(originalImageUrl);
 			var imageBuffer = await imageResponse.arrayBuffer();
@@ -72,13 +70,22 @@ export class ImageUploader {
 		);
 
 		// Return S3 url
-		return {
-			url: `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${encodeURIComponent(key)}`,
-			key,
-		};
+		return `https://${ACCR_AWS_ASSETS_BUCKET}.s3.amazonaws.com/${encodeURIComponent(key)}`;
 	}
 
-	private async cleanUnusedImages(keys: string[]) {
+	public async cleanUnusedImagesFromExistingUrls(
+		urls: {
+			imageUrl: string | null;
+		}[]
+	) {
+		const bucketKeys = urls.reduce((seed, urlObject) => {
+			if (urlObject.imageUrl) {
+				const url = new URL(urlObject.imageUrl);
+				const key = decodeURIComponent(url.pathname.replaceAll('/', ''));
+				seed.push(key);
+			}
+			return seed;
+		}, [] as string[]);
 		try {
 			const listCommand = new ListObjectsV2Command({
 				Bucket: ACCR_AWS_ASSETS_BUCKET,
@@ -93,7 +100,7 @@ export class ImageUploader {
 			for (const s3Object of Contents) {
 				const fileKey = s3Object.Key;
 
-				if (fileKey && !keys.includes(fileKey)) {
+				if (fileKey && !bucketKeys.includes(fileKey)) {
 					const deleteCommand = new DeleteObjectCommand({
 						Bucket: ACCR_AWS_ASSETS_BUCKET,
 						Key: fileKey,
@@ -110,14 +117,12 @@ export class ImageUploader {
 		const s3UrlsCollector = new Map<string, string>();
 		const keysCollector = [] as string[];
 		for (const originalUrl of urlsImages) {
-			const uploadImageResult = await this.uploadImage(originalUrl);
-			if (uploadImageResult) {
-				s3UrlsCollector.set(originalUrl, uploadImageResult.url);
-				keysCollector.push(uploadImageResult.key);
+			const uploadedImageUrl = await this.uploadImage(originalUrl);
+			if (uploadedImageUrl) {
+				s3UrlsCollector.set(originalUrl, uploadedImageUrl);
+				keysCollector.push(uploadedImageUrl);
 			}
 		}
-
-		await this.cleanUnusedImages(keysCollector);
 		return s3UrlsCollector;
 	}
 }
