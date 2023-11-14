@@ -1,12 +1,20 @@
 import { type BackendLocation, ScrapingError, type ScrapingResult } from '#scraping/scraping-types';
+import { logger } from '#scraping/services/logger';
 import { htmlToPlainText } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
+import type { Logger } from 'pino';
 
 const BASE_URL = 'https://www.teatroeltriciclo.com';
 const API_URL = `${BASE_URL}/boleteria/CarteleraPublica`;
 
 export class TeatroElTriciclo implements BackendLocation {
+	private logger: Logger;
+
+	constructor() {
+		this.logger = logger.child({ id: TeatroElTriciclo.name });
+	}
+
 	private transformDatetimeToTime(value: string) {
 		const arrayStr = value.split(',');
 		const timeStr = arrayStr[arrayStr.length - 1]?.trim();
@@ -81,22 +89,21 @@ export class TeatroElTriciclo implements BackendLocation {
 						) {
 							const time = this.transformDatetimeToTime(functionValue.De);
 
-							if (time) {
-								entities.activityEntities.push({
-									backendId: backendIdValues.teatroElTriciclo,
-									title,
-									description,
-									source,
-									imageUrl,
-									datetime: DateTime.fromObject({
-										year: functionValue.Y,
-										month: functionValue.M,
-										day: functionValue.D,
-										hour: time.hours,
-										minute: time.minutes,
-									}),
-								});
-							}
+							entities.activityEntities.push({
+								backendId: backendIdValues.teatroElTriciclo,
+								title,
+								description,
+								source,
+								imageUrl,
+								date: DateTime.fromObject({
+									year: functionValue.Y,
+									month: functionValue.M,
+									day: functionValue.D,
+								}),
+								time: time ? DateTime.fromObject({ hour: time.hours, minute: time.minutes }) : null,
+							});
+						} else {
+							this.logger.warn({ functionValue }, 'Activity excluded');
 						}
 					}
 				);

@@ -169,23 +169,7 @@ export class Ccecr implements BackendLocation {
 	private processDateTimeTexts(dateText: string, timeText: string) {
 		const dates = this.processCcecrDate(dateText);
 		const datesWithPossibleTimes = this.processCcecrTime(timeText, dates);
-
-		return datesWithPossibleTimes.reduce((seed, dateWithPossibleTime) => {
-			const newDate = DateTime.fromObject({
-				day: dateWithPossibleTime.day,
-				month: dateWithPossibleTime.month,
-				year: dateWithPossibleTime.year,
-				...(dateWithPossibleTime.hours === -1 || dateWithPossibleTime.minutes === -1
-					? { hour: undefined, minute: undefined }
-					: { hour: dateWithPossibleTime.hours, minute: dateWithPossibleTime.minutes }),
-			});
-
-			if (newDate.isValid) {
-				seed.push(newDate);
-			}
-
-			return seed;
-		}, [] as DateTime[]);
+		return datesWithPossibleTimes;
 	}
 
 	private async scrapDetails(
@@ -249,15 +233,33 @@ export class Ccecr implements BackendLocation {
 					: `https://${parsedData.data.imageUrl}`;
 			}
 
-			dates.forEach((date) => {
-				activities.push({
-					backendId: backendIdValues.ccecr,
-					datetime: date,
-					description: description,
-					source: parsedData.data.url,
-					title: parsedData.data.title,
-					imageUrl,
+			dates.forEach((dateEntry) => {
+				const date = DateTime.fromObject({
+					year: dateEntry.year,
+					month: dateEntry.month,
+					day: dateEntry.day,
 				});
+				const time =
+					dateEntry.hours === -1 || dateEntry.minutes === -1
+						? null
+						: DateTime.fromObject({ hour: dateEntry.hours, minute: dateEntry.minutes });
+
+				if ((date.isValid && time === null) || (date.isValid && time !== null && time.isValid)) {
+					activities.push({
+						backendId: backendIdValues.ccecr,
+						date,
+						time,
+						description: description,
+						source: parsedData.data.url,
+						title: parsedData.data.title,
+						imageUrl,
+					});
+				} else {
+					this.logger.warn(
+						{ date, time, url: parsedData.data.url },
+						'Activity excluded due to invalid date or time'
+					);
+				}
 			});
 
 			if (imageUrl) {

@@ -19,7 +19,8 @@ export type ActivityEntity = {
 	backendId: (typeof backendIdValues)[keyof typeof backendIdValues];
 	title: string;
 	description: string;
-	datetime: DateTime;
+	date: DateTime;
+	time: DateTime | null;
 	source: string;
 	imageUrl?: string;
 };

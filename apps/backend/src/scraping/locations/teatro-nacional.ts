@@ -222,27 +222,36 @@ export class TeatroNacional implements BackendLocation {
 			const awaitedSeed = await seed;
 
 			for (const play of curr.plays) {
-				const datetime = DateTime.fromObject({
+				const date = DateTime.fromObject({
 					year: curr.year,
 					month: curr.month,
 					day: curr.day,
-					hour: play.hours,
-					minute: play.minutes,
 				});
+
+				const time =
+					play.hours !== undefined && play.minutes !== undefined
+						? DateTime.fromObject({ hour: play.hours, minute: play.minutes })
+						: null;
+
+				if (!time?.isValid && !date.isValid) {
+					this.logger.warn({ date, time, url: play.title }, 'Activity excluded');
+					continue;
+				}
 
 				// Here's the problem
 				const descriptionSourceImgUrl = await this.getDescriptionSourceImgUrl(
 					browser,
 					page,
 					play.title,
-					datetime
+					date
 				);
 
 				if (descriptionSourceImgUrl && play.title) {
 					awaitedSeed.activityEntities.push({
 						backendId: backendIdValues.teatroNacional,
 						title: play.title.trim(),
-						datetime,
+						date,
+						time,
 						description: descriptionSourceImgUrl.description,
 						source: descriptionSourceImgUrl.source,
 						imageUrl: descriptionSourceImgUrl.imgUrl,

@@ -85,7 +85,8 @@ export class Espressivo implements BackendLocation {
 					activityEntities.push({
 						backendId: backendIdValues.espressivo,
 						title: parsedEvent.title,
-						datetime: parsedEvent.startTime,
+						date: parsedEvent.startTime,
+						time: parsedEvent.startTime,
 						description: parsedEvent.excerpt,
 						source: parsedEvent.permalink,
 						imageUrl: parsedEvent.imageSrc,
