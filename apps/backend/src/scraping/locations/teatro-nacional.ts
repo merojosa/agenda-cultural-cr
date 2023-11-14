@@ -41,7 +41,8 @@ export class TeatroNacional implements BackendLocation {
 		return page.evaluate((spanishMonths) => {
 			const currentMonthElement = document.querySelector('#calMonths > .current > span');
 			const monthText = currentMonthElement?.textContent?.toLocaleLowerCase();
-			const currentMonthValue = spanishMonths[monthText || ''] || DateTime.local().month;
+			const currentMonthValue =
+				spanishMonths[monthText as keyof typeof spanishMonths] ?? DateTime.local().month;
 
 			return currentMonthValue;
 		}, spanishMonths);
@@ -152,10 +153,10 @@ export class TeatroNacional implements BackendLocation {
 			await rootPage.waitForSelector(tooltipSelector, { timeout: 10_000 });
 		} catch (error) {
 			if (error instanceof Error && error.name === 'TimeoutError') {
-				this.logger.error(error, 'Timeout error on getDescriptionAndSource');
+				this.logger.error({ error: String(error) }, 'Timeout error on getDescriptionAndSource');
 				return null;
 			}
-			this.logger.error(error, 'Unknown error');
+			this.logger.error({ error: String(error) }, 'Unknown error');
 			return null;
 		}
 

@@ -147,7 +147,7 @@ export class Scraper {
 			// Upload to S3
 			s3UrlsCollector = await this.imageUploader.uploadImages(imagesUrlsCollector);
 		} catch (error) {
-			logger.error({ error }, 'Upload images error');
+			logger.error({ error: String(error) }, 'Upload images error');
 		}
 
 		try {
@@ -156,7 +156,7 @@ export class Scraper {
 				.from(activityTable);
 			await this.imageUploader.cleanUnusedImagesFromExistingUrls(urls);
 		} catch (error) {
-			logger.error({ error }, 'Error cleaning unused images');
+			logger.error({ error: String(error) }, 'Error cleaning unused images');
 		}
 
 		const dbUpdateResult = await Promise.allSettled([
@@ -164,11 +164,11 @@ export class Scraper {
 		]);
 
 		if (scrapingFailures.length) {
-			logger.error({ errors: scrapingFailures }, 'Scraping error');
+			logger.error({ errors: scrapingFailures.join(',') }, 'Scraping errors');
 		}
 
 		if (dbUpdateResult[0].status === 'rejected') {
-			logger.error({ errors: dbUpdateResult[0].reason }, 'DB updates error');
+			logger.error({ error: dbUpdateResult[0].reason }, 'DB updates error');
 		}
 
 		logger.info('Done updating theater data!!!!');

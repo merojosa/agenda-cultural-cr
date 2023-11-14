@@ -37,7 +37,7 @@ const espressivoData = z.object({
 		const restText = rest.join(' ').trim();
 		const restLuxon = DateTime.fromFormat(restText, 'd @ h:mm a');
 
-		const luxonDate = restLuxon.set({ month: spanishMonths[month] });
+		const luxonDate = restLuxon.set({ month: spanishMonths[month as keyof typeof spanishMonths] });
 
 		if (!luxonDate.isValid) {
 			throw new Error(`Date error, luxon. Month: ${month}, restText: ${restText}`);
@@ -102,7 +102,7 @@ export class Espressivo implements BackendLocation {
 
 					// If there is an error that is not the private event one, print it.
 					if (differentErrorOtherThanPrivateEvent) {
-						this.logger.error(err, 'Error parsing event');
+						this.logger.error({ error: String(err) }, 'Error parsing event');
 					}
 				}
 			}

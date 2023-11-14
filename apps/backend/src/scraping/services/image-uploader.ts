@@ -47,7 +47,7 @@ export class ImageUploader {
 			const imageResponse = await fetch(originalImageUrl);
 			var imageBuffer = await imageResponse.arrayBuffer();
 		} catch (error) {
-			this.logger.error({ originalImageUrl, error }, 'Error downloading image');
+			this.logger.error({ originalImageUrl, error: String(error) }, 'Error downloading image');
 			return null;
 		}
 
@@ -110,7 +110,7 @@ export class ImageUploader {
 				}
 			}
 		} catch (error) {
-			this.logger.error({ error }, 'Error removing unused images');
+			this.logger.error({ error: String(error) }, 'Error removing unused images');
 		}
 	}
 

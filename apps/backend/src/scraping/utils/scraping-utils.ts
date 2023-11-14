@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import { compile } from 'html-to-text';
 
-export const spanishMonths: Record<string, number> = {
+export const spanishMonths = {
 	enero: 1,
 	febrero: 2,
 	marzo: 3,
