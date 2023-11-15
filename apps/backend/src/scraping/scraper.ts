@@ -164,7 +164,7 @@ export class Scraper {
 		]);
 
 		if (scrapingFailures.length) {
-			logger.error({ errors: scrapingFailures.join(',') }, 'Scraping errors');
+			logger.error({ errors: scrapingFailures.join(', ') }, 'Scraping errors');
 		}
 
 		if (dbUpdateResult[0].status === 'rejected') {
