@@ -8,23 +8,28 @@
 	export let data: PageData;
 
 	function getISOString(date: Date, time: string | null) {
-		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
 		if (time) {
 			const [hours, minutes] = time.split(':');
-			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+			return DateTime.fromJSDate(date, { zone: 'utc' })
+				.plus({ hours: Number(hours), minutes: Number(minutes) })
+				.toISO();
 		}
 
-		return newDate.toISO();
+		return DateTime.fromJSDate(date, { zone: 'utc' }).toISODate();
 	}
 
 	function formatDatetime(date: Date, time: string | null) {
-		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
 		if (time) {
 			const [hours, minutes] = time.split(':');
-			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+			return DateTime.fromJSDate(date, { zone: 'utc' })
+				.plus({ hours: Number(hours), minutes: Number(minutes) })
+				.toFormat('ccc dd LLL hh:mm a', { locale: 'es-ES' })
+				.toUpperCase();
 		}
 
-		return newDate.toFormat('ccc dd LLL hh:mm a', { locale: 'es-ES' }).toUpperCase();
+		return DateTime.fromJSDate(date, { zone: 'utc' })
+			.toFormat('ccc dd LLL', { locale: 'es-ES' })
+			.toUpperCase();
 	}
 
 	function formatDescription(description: string | null) {

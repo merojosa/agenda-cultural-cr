@@ -10,17 +10,26 @@
 
 	export let data: PageData;
 
-	function getFormattedDatetime(date: Date, time: string | null) {
-		let newDate = DateTime.fromJSDate(date, { zone: 'utc' });
+	function upperCaseFirstLetter(text: string) {
+		return text.charAt(0).toUpperCase() + text.slice(1);
+	}
 
+	function getFormattedDatetime(date: Date, time: string | null) {
 		if (time) {
 			const [hours, minutes] = time.split(':');
 
-			newDate = newDate.plus({ hours: Number(hours), minutes: Number(minutes) });
+			return upperCaseFirstLetter(
+				DateTime.fromJSDate(date, { zone: 'utc' })
+					.plus({ hours: Number(hours), minutes: Number(minutes) })
+					.toFormat("cccc dd 'de' LLLL, hh:mm a", { locale: 'es-ES' })
+			);
 		}
 
-		const luxonFormat = newDate.toFormat("cccc dd 'de' LLLL, hh:mm a", { locale: 'es-ES' });
-		return luxonFormat.charAt(0).toUpperCase() + luxonFormat.slice(1);
+		return upperCaseFirstLetter(
+			DateTime.fromJSDate(date, { zone: 'utc' }).toFormat("cccc dd 'de' LLLL", {
+				locale: 'es-ES',
+			})
+		);
 	}
 </script>
 
