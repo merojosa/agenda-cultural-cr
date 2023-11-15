@@ -16,7 +16,7 @@ function initDbClient() {
 	}
 
 	const client = postgres(process.env.DATABASE_URL);
-	const db = drizzle(client, { logger: true, schema });
+	const db = drizzle(client, { logger: process.env.IS_LOCAL !== 'true', schema });
 
 	return db;
 }

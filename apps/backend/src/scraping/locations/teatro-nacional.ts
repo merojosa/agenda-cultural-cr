@@ -233,8 +233,11 @@ export class TeatroNacional implements BackendLocation {
 						? DateTime.fromObject({ hour: play.hours, minute: play.minutes })
 						: null;
 
-				if (!time?.isValid && !date.isValid) {
-					this.logger.warn({ date, time, url: play.title }, 'Activity excluded');
+				if (!time?.isValid || !date.isValid) {
+					this.logger.warn(
+						{ date, time, url: play.title },
+						'Activity excluded due to invalid date and/or time'
+					);
 					continue;
 				}
 
@@ -243,7 +246,13 @@ export class TeatroNacional implements BackendLocation {
 					browser,
 					page,
 					play.title,
-					date
+					DateTime.fromObject({
+						year: date.year,
+						month: date.month,
+						day: date.day,
+						hour: time.hour,
+						minute: time.minute,
+					})
 				);
 
 				if (descriptionSourceImgUrl && play.title) {

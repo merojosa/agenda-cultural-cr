@@ -102,7 +102,8 @@ export class TeatroElTriciclo implements BackendLocation {
 								}),
 								time: time ? DateTime.fromObject({ hour: time.hours, minute: time.minutes }) : null,
 							});
-						} else {
+						} else if (functionValue.S === false) {
+							// Log the warning only if functionValue.S is false
 							this.logger.warn({ functionValue }, 'Activity excluded');
 						}
 					}
