@@ -218,7 +218,7 @@ export class Ccecr implements BackendLocation {
 				}
 
 				return {
-					descriptionHtml: descriptionsHtmls.join(''),
+					descriptionHtml: descriptionsHtmls.join('\n'),
 					dateText,
 					timeText,
 				};
