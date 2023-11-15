@@ -17,17 +17,17 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "^1.27.0",
-		"@types/luxon": "^3.3.3",
+		"@sveltejs/kit": "^1.27.6",
+		"@types/luxon": "^3.3.4",
 		"autoprefixer": "^10.4.16",
 		"aws-cdk-lib": "2.101.1",
 		"constructs": "10.2.69",
 		"db-schema": "*",
 		"postcss": "^8.4.31",
-		"sst": "2.35.0",
-		"svelte": "^4.2.2",
-		"svelte-check": "^3.5.2",
-		"svelte-kit-sst": "2.35.0",
+		"sst": "2.36.1",
+		"svelte": "^4.2.3",
+		"svelte-check": "^3.6.0",
+		"svelte-kit-sst": "2.36.1",
 		"tailwindcss": "^3.3.5",
 		"tsconfig": "*",
 		"tslib": "^2.6.2",
@@ -35,14 +35,14 @@
 		"vite": "^4.5.0"
 	},
 	"dependencies": {
-		"bits-ui": "^0.8.0",
+		"bits-ui": "^0.9.7",
 		"clsx": "^2.0.0",
-		"drizzle-orm": "^0.28.6",
-		"lucide-svelte": "^0.289.0",
-		"luxon": "^3.4.3",
+		"drizzle-orm": "^0.29.0",
+		"lucide-svelte": "^0.292.0",
+		"luxon": "^3.4.4",
 		"postgres": "^3.4.3",
-		"tailwind-merge": "^1.14.0",
-		"tailwind-variants": "^0.1.16"
+		"tailwind-merge": "^2.0.0",
+		"tailwind-variants": "^0.1.18"
 	},
 	"type": "module"
 }
