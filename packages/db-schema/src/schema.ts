@@ -14,8 +14,8 @@ import {
 const URL_LENGTH = 300;
 const NAME_LENGTH = 150;
 
-export const activityTable = pgTable(
-	'activity',
+export const eventTable = pgTable(
+	'event',
 	{
 		id: serial('id').primaryKey(),
 		title: varchar('title', { length: NAME_LENGTH }).notNull(),
@@ -28,21 +28,21 @@ export const activityTable = pgTable(
 				onUpdate: 'cascade',
 				onDelete: 'cascade',
 			}),
-		activityTypeId: integer('activity_type_id')
+		eventTypeId: integer('event_type_id')
 			.notNull()
-			.references(() => activityTypeTable.id, {
+			.references(() => eventTypeTable.id, {
 				onUpdate: 'cascade',
 				onDelete: 'no action',
 			}),
-		activityUrl: varchar('activity_url', { length: URL_LENGTH }),
+		eventUrl: varchar('event_url', { length: URL_LENGTH }),
 		description: text('description'),
 	},
 	(table) => ({
-		unq: unique().on(table.title, table.date, table.time, table.locationId, table.activityTypeId),
+		unq: unique().on(table.title, table.date, table.time, table.locationId, table.eventTypeId),
 	})
 );
 
-export const activityTypeTable = pgTable('activity_type', {
+export const eventTypeTable = pgTable('event_type', {
 	id: serial('id').primaryKey(),
 	name: varchar('name', { length: NAME_LENGTH }).notNull().unique(),
 });
@@ -101,7 +101,7 @@ export const authorTable = pgTable('author', {
 });
 
 export const DB_IDS = {
-	activityType: {
+	eventType: {
 		teatro: 1,
 	},
 	location: {

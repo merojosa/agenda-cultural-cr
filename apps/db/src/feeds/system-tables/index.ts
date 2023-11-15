@@ -9,10 +9,10 @@ type RawTableTypes<TTable extends AnyPgTable> = {
 };
 
 const data = {
-	activityType: {
+	eventType: {
 		teatro: {
 			name: 'Teatro',
-		} as RawTableTypes<typeof schema.activityTypeTable>,
+		} as RawTableTypes<typeof schema.eventTypeTable>,
 	},
 	location: {
 		teatroNacional: {
@@ -63,13 +63,13 @@ const data = {
 } as const;
 
 export async function systemTables(db: PostgresJsDatabase) {
-	// Activity type:
+	// Event type:
 	await db
-		.insert(schema.activityTypeTable)
-		.values({ ...data.activityType.teatro, id: schema.DB_IDS.activityType.teatro })
+		.insert(schema.eventTypeTable)
+		.values({ ...data.eventType.teatro, id: schema.DB_IDS.eventType.teatro })
 		.onConflictDoUpdate({
-			target: schema.activityTypeTable.id,
-			set: { ...data.activityType.teatro },
+			target: schema.eventTypeTable.id,
+			set: { ...data.eventType.teatro },
 		});
 
 	// Location:

@@ -2,7 +2,7 @@ import {
 	ScrapingError,
 	type BackendLocation,
 	type ScrapingResult,
-	type ActivityEntity,
+	type EventEntity,
 } from '#scraping/scraping-types';
 import { logger } from '#scraping/services/logger';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
@@ -64,7 +64,7 @@ export class Espressivo implements BackendLocation {
 			)
 		);
 
-		const activityEntities = [] as ActivityEntity[];
+		const eventEntities = [] as EventEntity[];
 		const imageUrlsCollector = new Set<string>();
 
 		for (const jsonString of jsonStringData) {
@@ -77,12 +77,12 @@ export class Espressivo implements BackendLocation {
 				const parsedEvent = espressivoData.parse(parsedJsonFromString);
 
 				const lowerdCaseTitle = parsedEvent.title.toLowerCase();
-				// Remove private activities
+				// Remove private events
 				if (
 					!lowerdCaseTitle.includes('función privada') &&
 					!lowerdCaseTitle.includes('evento privado')
 				) {
-					activityEntities.push({
+					eventEntities.push({
 						backendId: backendIdValues.espressivo,
 						title: parsedEvent.title,
 						date: parsedEvent.startTime,
@@ -109,7 +109,7 @@ export class Espressivo implements BackendLocation {
 			}
 		}
 
-		return { activityEntities, imageUrlsCollector };
+		return { eventEntities: eventEntities, imageUrlsCollector };
 	}
 
 	public async getData(): Promise<ScrapingResult> {
@@ -136,14 +136,12 @@ export class Espressivo implements BackendLocation {
 
 			const nextMonthData = await this.scrapEspressivoData(page);
 
-			const mergedEntities = currentMonthData.activityEntities.concat(
-				nextMonthData.activityEntities
-			);
+			const mergedEntities = currentMonthData.eventEntities.concat(nextMonthData.eventEntities);
 			const mergedCollector = new Set([
 				...currentMonthData.imageUrlsCollector,
 				...nextMonthData.imageUrlsCollector,
 			]);
-			return { activityEntities: mergedEntities, imageUrlsCollector: mergedCollector };
+			return { eventEntities: mergedEntities, imageUrlsCollector: mergedCollector };
 		} catch (error) {
 			throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 		} finally {

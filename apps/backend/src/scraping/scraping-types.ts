@@ -2,7 +2,7 @@ import type { backendIdValues } from 'db-schema';
 import type { DateTime } from 'luxon';
 
 export type ScrapingResult = {
-	activityEntities: ActivityEntity[];
+	eventEntities: EventEntity[];
 	imageUrlsCollector: Set<string>;
 };
 
@@ -15,7 +15,7 @@ export type ScrapingBackendLocations = Record<
 	BackendLocation
 >;
 
-export type ActivityEntity = {
+export type EventEntity = {
 	backendId: (typeof backendIdValues)[keyof typeof backendIdValues];
 	title: string;
 	description: string;

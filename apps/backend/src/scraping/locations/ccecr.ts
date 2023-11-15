@@ -2,7 +2,7 @@ import {
 	ScrapingError,
 	type BackendLocation,
 	type ScrapingResult,
-	type ActivityEntity,
+	type EventEntity,
 } from '#scraping/scraping-types';
 import { logger } from '#scraping/services/logger';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
@@ -180,14 +180,14 @@ export class Ccecr implements BackendLocation {
 			imageUrl: string | null;
 		}[]
 	) {
-		const activities = [] as ActivityEntity[];
+		const events = [] as EventEntity[];
 		const imageUrlsCollector = new Set<string>();
 
 		for (const data of initialData) {
 			const parsedData = initialDataSchema.safeParse(data);
 
 			if (!parsedData.success) {
-				this.logger.warn({ error: parsedData.error, data }, 'Activity excluded');
+				this.logger.warn({ error: parsedData.error, data }, 'Events excluded');
 				continue;
 			}
 
@@ -245,7 +245,7 @@ export class Ccecr implements BackendLocation {
 						: DateTime.fromObject({ hour: dateEntry.hours, minute: dateEntry.minutes });
 
 				if ((date.isValid && time === null) || (date.isValid && time !== null && time.isValid)) {
-					activities.push({
+					events.push({
 						backendId: backendIdValues.ccecr,
 						date,
 						time,
@@ -257,7 +257,7 @@ export class Ccecr implements BackendLocation {
 				} else {
 					this.logger.warn(
 						{ date, time, url: parsedData.data.url },
-						'Activity excluded due to invalid date or time'
+						'Event excluded due to invalid date or time'
 					);
 				}
 			});
@@ -267,7 +267,7 @@ export class Ccecr implements BackendLocation {
 			}
 		}
 
-		return { activities, imageUrlsCollector } as const;
+		return { events, imageUrlsCollector } as const;
 	}
 
 	private async scrapCcecrData(page: Page): Promise<ScrapingResult> {
@@ -284,7 +284,7 @@ export class Ccecr implements BackendLocation {
 		);
 		const details = await this.scrapDetails(page, initialData);
 
-		return { activityEntities: details.activities, imageUrlsCollector: details.imageUrlsCollector };
+		return { eventEntities: details.events, imageUrlsCollector: details.imageUrlsCollector };
 	}
 
 	public async getData(): Promise<ScrapingResult> {

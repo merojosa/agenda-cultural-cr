@@ -43,42 +43,39 @@
 
 <svelte:head>
 	<title>Agenda Cultural CR</title>
-	<meta name="description" content="Cartelera de actividades culturales en Costa Rica" />
+	<meta name="description" content="Cartelera de eventos culturales en Costa Rica" />
 </svelte:head>
 
 <section class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-	{#each data.activities as activity, index}
+	{#each data.events as event, index}
 		<Card.Root tag="article" class="relative flex h-[28rem] flex-col justify-center">
-			{#if activity.imageUrl}
-				<a
-					class="h-1/2 w-full hover:opacity-90 focus:opacity-75"
-					href={`/actividad/${activity.id}`}
-				>
+			{#if event.imageUrl}
+				<a class="h-1/2 w-full hover:opacity-90 focus:opacity-75" href={`/evento/${event.id}`}>
 					<img
 						class="h-full w-full rounded-se-lg rounded-ss-lg object-cover"
-						src={activity.imageUrl}
-						alt={`Portada de ${activity.title}`}
+						src={event.imageUrl}
+						alt={`Portada de ${event.title}`}
 						loading={isImageAboveTheFold(index) ? 'eager' : 'lazy'}
 						decoding={isImageAboveTheFold(index) ? 'auto' : 'async'}
 					/>
 					<time
 						class="bg-foreground absolute left-0 right-0 top-[-21px] mx-auto w-fit rounded-sm p-3 text-black lg:left-auto lg:right-[-22px]"
-						datetime={getISOString(activity.date, activity.time)}
-						>{formatDatetime(activity.date, activity.time)}</time
+						datetime={getISOString(event.date, event.time)}
+						>{formatDatetime(event.date, event.time)}</time
 					>
 				</a>
 			{:else}
 				<time
 					class="bg-foreground absolute left-0 right-0 top-[-21px] mx-auto w-fit rounded-sm p-3 text-black lg:left-auto lg:right-[-22px]"
-					datetime={getISOString(activity.date, activity.time)}
-					>{formatDatetime(activity.date, activity.time)}</time
+					datetime={getISOString(event.date, event.time)}
+					>{formatDatetime(event.date, event.time)}</time
 				>
 			{/if}
 
 			<Card.Content
 				class={cn(
-					activity.imageUrl ? 'h-1/2' : 'h-full',
-					!activity.imageUrl && 'justify-center',
+					event.imageUrl ? 'h-1/2' : 'h-full',
+					!event.imageUrl && 'justify-center',
 					'flex',
 					'flex-col',
 					'gap-3',
@@ -86,27 +83,27 @@
 				)}
 			>
 				<Button
-					href={`/actividad/${activity.id}`}
+					href={`/evento/${event.id}`}
 					variant="link"
 					class="text-foreground hover:text-primary h-fit w-fit justify-start whitespace-normal p-0 transition-none"
 				>
 					<Card.Title
 						class={cn(
-							activity.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1',
-							!activity.imageUrl && 'line-clamp-6',
+							event.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1',
+							!event.imageUrl && 'line-clamp-6',
 							'leading-normal'
 						)}
-						tag="h2">{activity.title}</Card.Title
+						tag="h2">{event.title}</Card.Title
 					>
 				</Button>
 
 				<Card.Description
 					class={cn(
-						activity.title.length > 35 ? 'line-clamp-6' : 'line-clamp-[7]',
-						!activity.imageUrl && 'line-clamp-[10]',
+						event.title.length > 35 ? 'line-clamp-6' : 'line-clamp-[7]',
+						!event.imageUrl && 'line-clamp-[10]',
 						'leading-normal',
 						'text-ellipsis'
-					)}>{formatDescription(activity.description)}</Card.Description
+					)}>{formatDescription(event.description)}</Card.Description
 				>
 			</Card.Content>
 		</Card.Root>

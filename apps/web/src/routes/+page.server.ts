@@ -1,4 +1,4 @@
-import { activityTable } from 'db-schema';
+import { eventTable } from 'db-schema';
 import { db } from '$lib/server/db';
 import { between } from 'drizzle-orm';
 import { DateTime } from 'luxon';
@@ -10,24 +10,20 @@ export const load: PageServerLoad = async ({ setHeaders }) => {
 	});
 
 	const today = DateTime.local().startOf('day');
-	const activities = await db
+	const events = await db
 		.select({
-			id: activityTable.id,
-			title: activityTable.title,
-			description: activityTable.description,
-			date: activityTable.date,
-			time: activityTable.time,
-			imageUrl: activityTable.imageUrl,
+			id: eventTable.id,
+			title: eventTable.title,
+			description: eventTable.description,
+			date: eventTable.date,
+			time: eventTable.time,
+			imageUrl: eventTable.imageUrl,
 		})
-		.from(activityTable)
+		.from(eventTable)
 		.where(
-			between(
-				activityTable.date,
-				today.toJSDate(),
-				today.plus({ weeks: 2 }).endOf('day').toJSDate()
-			)
+			between(eventTable.date, today.toJSDate(), today.plus({ weeks: 2 }).endOf('day').toJSDate())
 		)
-		.orderBy(activityTable.date, activityTable.time);
+		.orderBy(eventTable.date, eventTable.time);
 
-	return { activities };
+	return { events };
 };

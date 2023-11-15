@@ -58,7 +58,7 @@ export class TeatroElTriciclo implements BackendLocation {
 
 		const entities: ScrapingResult = {
 			imageUrlsCollector: new Set<string>(),
-			activityEntities: [],
+			eventEntities: [],
 		};
 		plays.forEach((value: Record<string, string | undefined>) => {
 			if (
@@ -89,7 +89,7 @@ export class TeatroElTriciclo implements BackendLocation {
 						) {
 							const time = this.transformDatetimeToTime(functionValue.De);
 
-							entities.activityEntities.push({
+							entities.eventEntities.push({
 								backendId: backendIdValues.teatroElTriciclo,
 								title,
 								description,
@@ -104,7 +104,7 @@ export class TeatroElTriciclo implements BackendLocation {
 							});
 						} else if (functionValue.S === false) {
 							// Log the warning only if functionValue.S is false
-							this.logger.warn({ functionValue }, 'Activity excluded');
+							this.logger.warn({ functionValue }, 'Event excluded');
 						}
 					}
 				);

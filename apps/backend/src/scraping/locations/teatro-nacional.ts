@@ -236,7 +236,7 @@ export class TeatroNacional implements BackendLocation {
 				if (!time?.isValid || !date.isValid) {
 					this.logger.warn(
 						{ date, time, url: play.title },
-						'Activity excluded due to invalid date and/or time'
+						'Event excluded due to invalid date and/or time'
 					);
 					continue;
 				}
@@ -256,7 +256,7 @@ export class TeatroNacional implements BackendLocation {
 				);
 
 				if (descriptionSourceImgUrl && play.title) {
-					awaitedSeed.activityEntities.push({
+					awaitedSeed.eventEntities.push({
 						backendId: backendIdValues.teatroNacional,
 						title: play.title.trim(),
 						date,
@@ -272,7 +272,7 @@ export class TeatroNacional implements BackendLocation {
 			}
 
 			return awaitedSeed;
-		}, Promise.resolve({ imageUrlsCollector: new Set(), activityEntities: [] } as ScrapingResult));
+		}, Promise.resolve({ imageUrlsCollector: new Set(), eventEntities: [] } as ScrapingResult));
 
 		return teatroNacionalPlaysDbPromise;
 	}
@@ -296,14 +296,12 @@ export class TeatroNacional implements BackendLocation {
 			await page.waitForSelector('h2', { timeout: 10000 });
 			const nextMonthData = await this.scrapTeatroNacionalData(browser, page);
 
-			const mergedEntities = currentMonthData.activityEntities.concat(
-				nextMonthData.activityEntities
-			);
+			const mergedEntities = currentMonthData.eventEntities.concat(nextMonthData.eventEntities);
 			const mergedCollector = new Set([
 				...currentMonthData.imageUrlsCollector,
 				...nextMonthData.imageUrlsCollector,
 			]);
-			return { activityEntities: mergedEntities, imageUrlsCollector: mergedCollector };
+			return { eventEntities: mergedEntities, imageUrlsCollector: mergedCollector };
 		} catch (error) {
 			throw new ScrapingError(backendIdValues.teatroNacional, String(error));
 		} finally {

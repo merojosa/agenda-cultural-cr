@@ -1,7 +1,7 @@
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DB_IDS, activityTable, automaticLocationTable, type backendIdValues } from 'db-schema';
+import { DB_IDS, eventTable, automaticLocationTable, type backendIdValues } from 'db-schema';
 import {
-	type ActivityEntity,
+	type EventEntity,
 	type ScrapingBackendLocations,
 	ScrapingError,
 	type ScrapingResult,
@@ -48,13 +48,13 @@ export class Scraper {
 
 	private gatherResults(scrapingResults: PromiseSettledResult<ScrapingResult>[]) {
 		const scrapingFailures = [] as unknown[];
-		const scrapingSuccess = [] as ActivityEntity[];
+		const scrapingSuccess = [] as EventEntity[];
 		const imagesUrlsCollector = new Set<string>(); // Original url images from the scraped websites
 		const failedScrapingBackendLocationsIds = new Set<FailedScrapingLocations>();
 
 		for (const scrapingResult of scrapingResults) {
 			if (scrapingResult.status === 'fulfilled') {
-				scrapingSuccess.push(...scrapingResult.value.activityEntities);
+				scrapingSuccess.push(...scrapingResult.value.eventEntities);
 				scrapingResult.value.imageUrlsCollector.forEach((urlCollector) =>
 					imagesUrlsCollector.add(urlCollector)
 				);
@@ -75,56 +75,56 @@ export class Scraper {
 	}
 
 	private async updateDb(
-		scrapingSuccess: ActivityEntity[],
+		scrapingSuccess: EventEntity[],
 		s3UrlsCollector: Map<string, string>,
 		failedScrapingBackendLocationsIds: Set<FailedScrapingLocations>
 	) {
-		const insertedActivities = await this.db
-			.insert(activityTable)
+		const insertedEvents = await this.db
+			.insert(eventTable)
 			.values(
-				scrapingSuccess.map((activity) => ({
+				scrapingSuccess.map((event) => ({
 					id: sql`default`,
-					title: activity.title,
-					activityUrl: activity.source,
-					description: activity.description,
-					date: activity.date.toJSDate(),
-					time: activity.time?.toISOTime(),
-					activityTypeId: DB_IDS.activityType.teatro,
-					locationId: DB_IDS.location[activity.backendId],
-					imageUrl: s3UrlsCollector.get(activity.imageUrl || ''),
+					title: event.title,
+					eventUrl: event.source,
+					description: event.description,
+					date: event.date.toJSDate(),
+					time: event.time?.toISOTime(),
+					eventTypeId: DB_IDS.eventType.teatro,
+					locationId: DB_IDS.location[event.backendId],
+					imageUrl: s3UrlsCollector.get(event.imageUrl || ''),
 				}))
 			)
 			.onConflictDoUpdate({
 				target: [
-					activityTable.title,
-					activityTable.date,
-					activityTable.time,
-					activityTable.locationId,
-					activityTable.activityTypeId,
+					eventTable.title,
+					eventTable.date,
+					eventTable.time,
+					eventTable.locationId,
+					eventTable.eventTypeId,
 				],
 				set: {
-					activityUrl: sql.raw(`EXCLUDED.${activityTable.activityUrl.name}`),
-					description: sql.raw(`EXCLUDED.${activityTable.description.name}`),
-					imageUrl: sql.raw(`EXCLUDED.${activityTable.imageUrl.name}`),
+					eventUrl: sql.raw(`EXCLUDED.${eventTable.eventUrl.name}`),
+					description: sql.raw(`EXCLUDED.${eventTable.description.name}`),
+					imageUrl: sql.raw(`EXCLUDED.${eventTable.imageUrl.name}`),
 				},
 			})
-			.returning({ id: activityTable.id });
+			.returning({ id: eventTable.id });
 
-		const insertedActivitiesIds = insertedActivities.map((insertedActivity) => insertedActivity.id);
+		const insertedEventsIds = insertedEvents.map((insertedEvent) => insertedEvent.id);
 		const failedScrapingBackendLocationsIdsArray = Array.from(
 			failedScrapingBackendLocationsIds,
 			(value) => DB_IDS.location[value]
 		);
 
-		// 1) Remove the activities that were not inserted
-		// 2) Do not remove those activities that their scraping location failed
+		// 1) Remove the events that were not inserted
+		// 2) Do not remove those events that their scraping location failed
 		await this.db
-			.delete(activityTable)
+			.delete(eventTable)
 			.where(
 				and(
-					notInArray(activityTable.id, insertedActivitiesIds.length ? insertedActivitiesIds : [-1]),
+					notInArray(eventTable.id, insertedEventsIds.length ? insertedEventsIds : [-1]),
 					notInArray(
-						activityTable.locationId,
+						eventTable.locationId,
 						failedScrapingBackendLocationsIdsArray.length
 							? failedScrapingBackendLocationsIdsArray
 							: [-1]
@@ -151,9 +151,7 @@ export class Scraper {
 		}
 
 		try {
-			const urls = await this.db
-				.selectDistinct({ imageUrl: activityTable.imageUrl })
-				.from(activityTable);
+			const urls = await this.db.selectDistinct({ imageUrl: eventTable.imageUrl }).from(eventTable);
 			await this.imageUploader.cleanUnusedImagesFromExistingUrls(urls);
 		} catch (error) {
 			logger.error({ error: String(error) }, 'Error cleaning unused images');
