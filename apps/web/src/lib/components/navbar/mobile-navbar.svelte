@@ -2,6 +2,7 @@
 	import { Button } from '../ui/button';
 	import { EqualIcon, XIcon } from 'lucide-svelte';
 	import { HEADER_LINKS } from './links';
+	import { onMount } from 'svelte';
 
 	let checkboxToggleElement: HTMLInputElement;
 	let isOpen = false;
@@ -10,6 +11,10 @@
 		isOpen = false;
 		checkboxToggleElement.checked = false;
 	}
+
+	onMount(() => {
+		isOpen = checkboxToggleElement.checked;
+	});
 </script>
 
 <nav class="flex flex-wrap items-center gap-4 py-8 md:hidden">
@@ -26,8 +31,8 @@
 
 	<label class="h-10 w-10" for="open-nav">
 		<div
-			on:click={() => (isOpen = !isOpen)}
-			on:keypress={() => (isOpen = !isOpen)}
+			on:click={() => (isOpen = !checkboxToggleElement.checked)}
+			on:keypress={() => (isOpen = !checkboxToggleElement.checked)}
 			role="button"
 			tabindex={0}
 		>

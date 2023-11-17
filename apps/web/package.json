@@ -25,7 +25,7 @@
 		"db-schema": "*",
 		"postcss": "^8.4.31",
 		"sst": "2.36.1",
-		"svelte": "^4.2.3",
+		"svelte": "^4.2.5",
 		"svelte-check": "^3.6.0",
 		"svelte-kit-sst": "2.36.1",
 		"tailwindcss": "^3.3.5",
@@ -35,7 +35,7 @@
 		"vite": "^4.5.0"
 	},
 	"dependencies": {
-		"bits-ui": "^0.9.7",
+		"bits-ui": "^0.9.8",
 		"clsx": "^2.0.0",
 		"drizzle-orm": "^0.29.0",
 		"lucide-svelte": "^0.292.0",
