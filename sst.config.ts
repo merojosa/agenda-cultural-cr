@@ -1,5 +1,5 @@
 import type { SSTConfig } from 'sst';
-import { SvelteKitSite } from 'sst/constructs';
+import { WebStack } from './stacks/web';
 
 export default {
 	config() {
@@ -9,11 +9,6 @@ export default {
 		};
 	},
 	stacks(app) {
-		app.stack(function site({ stack }) {
-			const site = new SvelteKitSite(stack, 'site', { path: 'apps/web' });
-			stack.addOutputs({
-				url: site.url,
-			});
-		});
+		app.stack(WebStack);
 	},
 } satisfies SSTConfig;
