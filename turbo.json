@@ -27,7 +27,7 @@
 		"db#seed:dev": {
 			"dependsOn": ["^build"]
 		},
-		"web#deploy:dev": {
+		"sst:deploy:dev": {
 			"dependsOn": ["build"]
 		},
 		"web#sync": {
