@@ -13,7 +13,7 @@
 		"db:generate": "turbo run db#generate",
 		"db:deploy:dev": "yarn workspace db deploy:dev",
 		"db:seed:dev": "turbo run db#seed:dev",
-		"web:deploy:dev": "turbo run web#deploy:dev"
+		"deploy:dev": "turbo run sst:deploy:dev && sst deploy --stage dev"
 	},
 	"devDependencies": {
 		"aws-cdk-lib": "2.101.1",

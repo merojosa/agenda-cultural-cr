@@ -7,6 +7,3 @@ node_modules
 .env.*
 !.env.example
 
-
-.sst
-.sst.config*
