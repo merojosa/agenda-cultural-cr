@@ -4,7 +4,7 @@ import { SvelteKitSite } from 'sst/constructs';
 export default {
 	config() {
 		return {
-			name: 'web',
+			name: 'agenda-cultural-cr',
 			region: 'us-east-1',
 		};
 	},
