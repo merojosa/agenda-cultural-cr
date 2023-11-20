@@ -1,15 +1,13 @@
-import type { APIGatewayEvent, Callback, Context } from 'aws-lambda';
 import satori from 'satori';
 import { html } from 'satori-html';
 import sharp from 'sharp';
 import fs from 'node:fs/promises';
-export const generateOG = async (event: APIGatewayEvent, _: Context, callback: Callback) => {
+import { ApiHandler } from 'sst/node/api';
+export const generateOG = ApiHandler(async (event) => {
 	if (!event.queryStringParameters || !event.queryStringParameters['title']) {
-		const response = {
+		return {
 			statusCode: 404,
 		};
-		callback(null, response);
-		return;
 	}
 
 	const content = (await fs.readFile('templates/basic.html')).toString('utf-8');
@@ -32,7 +30,7 @@ export const generateOG = async (event: APIGatewayEvent, _: Context, callback: C
 
 	const imageBuffer = await sharp(Buffer.from(svgString)).toFormat('png').toBuffer();
 
-	const response = {
+	return {
 		statusCode: 200,
 		headers: {
 			'Content-Type': 'image/png',
@@ -40,6 +38,4 @@ export const generateOG = async (event: APIGatewayEvent, _: Context, callback: C
 		isBase64Encoded: true,
 		body: imageBuffer.toString('base64'),
 	};
-
-	callback(null, response);
-};
+});
