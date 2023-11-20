@@ -16,11 +16,15 @@
 		"web:deploy:dev": "turbo run web#deploy:dev"
 	},
 	"devDependencies": {
+		"aws-cdk-lib": "2.101.1",
+		"constructs": "10.2.69",
 		"eslint": "^8.51.0",
 		"eslint-config-custom": "*",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"prettier-plugin-tailwindcss": "^0.4.1",
+		"sst": "^2.36.1",
+		"svelte-kit-sst": "^2.36.1",
 		"turbo": "^1.10.16"
 	},
 	"workspaces": {
