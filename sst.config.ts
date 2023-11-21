@@ -10,7 +10,7 @@ export default {
 		};
 	},
 	stacks(app) {
-		app.stack(WebStack);
-		app.stack(BackendStack);
+		app.stack(WebStack, { stackName: `${app.stage}-accr-web` });
+		app.stack(BackendStack, { stackName: `${app.stage}-accr-backend` });
 	},
 } satisfies SSTConfig;
