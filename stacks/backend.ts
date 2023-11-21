@@ -11,7 +11,7 @@ export function BackendStack({ stack }: StackContext) {
 			lambda.LayerVersion.fromLayerVersionArn(
 				stack,
 				'sharp-layer',
-				process.env.SHARP_LAYER_ARN ?? ''
+				'arn:aws:lambda:us-east-1:637732166235:layer:sharp-v0_32_5:4'
 			),
 		],
 	});
