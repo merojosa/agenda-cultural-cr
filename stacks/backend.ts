@@ -23,18 +23,20 @@ export function BackendStack({ stack }: StackContext) {
 		nodejs: {
 			install: ['sharp'],
 		},
+		functionName: `${stack.stage}-accr-generate-og`,
 		layers: [sharpLayer],
 	});
 
-	new Cron(stack, 'scrap-accr-data', {
+	new Cron(stack, 'scrap-data', {
 		job: {
 			function: {
-				handler: 'apps/backend/src/scraping/index.scrapACCRData',
+				handler: 'apps/backend/src/scraping/index.scrapData',
 				runtime: 'nodejs18.x',
 				nodejs: {
 					install: ['sharp', '@sparticuz/chromium'],
 				},
 				timeout: '300 seconds',
+				functionName: `${stack.stage}-accr-scrap-data`,
 				layers: [
 					sharpLayer,
 					lambda.LayerVersion.fromLayerVersionArn(

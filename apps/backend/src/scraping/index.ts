@@ -35,6 +35,6 @@ const imageUploader = new ImageUploader();
 
 const scraper = new Scraper(db, scrapingLocationsMethods, imageUploader);
 
-export const scrapACCRData = () => {
+export const scrapData = () => {
 	return scraper.execute();
 };
