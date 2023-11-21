@@ -31,9 +31,6 @@
 		"packages": [
 			"packages/*",
 			"apps/*"
-		],
-		"nohoist": [
-			"backend/**"
 		]
 	}
 }
