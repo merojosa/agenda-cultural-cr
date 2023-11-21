@@ -9,13 +9,14 @@ import { backendIdValues } from 'db-schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from 'db-schema';
+import { Config } from 'sst/node/config';
 
 function initDbClient() {
-	if (!process.env.DATABASE_URL) {
+	if (!Config.DATABASE_URL) {
 		throw new Error('No DATABASE_URL');
 	}
 
-	const client = postgres(process.env.DATABASE_URL);
+	const client = postgres(Config.DATABASE_URL);
 	const db = drizzle(client, { logger: process.env.IS_LOCAL !== 'true', schema });
 
 	return db;

@@ -8,14 +8,7 @@ import crypto from 'crypto';
 import type { Logger } from 'pino';
 import sharp from 'sharp';
 import { logger } from './logger';
-
-const {
-	ACCR_AWS_REGION = '',
-	ACCR_AWS_ASSETS_BUCKET = '',
-	ACCR_AWS_ACCESS_KEY_ID = '',
-	ACCR_AWS_SECRET_ACCESS_KEY = '',
-	ACCR_AWS_ASSETS_URL = '',
-} = process.env;
+import { Config } from 'sst/node/config';
 
 export class ImageUploader {
 	private s3Client: S3Client;
@@ -23,10 +16,10 @@ export class ImageUploader {
 
 	constructor() {
 		this.s3Client = new S3Client({
-			region: ACCR_AWS_REGION,
+			region: Config.ACCR_AWS_REGION,
 			credentials: {
-				accessKeyId: ACCR_AWS_ACCESS_KEY_ID,
-				secretAccessKey: ACCR_AWS_SECRET_ACCESS_KEY,
+				accessKeyId: Config.ACCR_AWS_ACCESS_KEY_ID,
+				secretAccessKey: Config.ACCR_AWS_SECRET_ACCESS_KEY,
 			},
 		});
 
@@ -64,14 +57,14 @@ export class ImageUploader {
 		await this.s3Client.send(
 			new PutObjectCommand({
 				Key: key,
-				Bucket: ACCR_AWS_ASSETS_BUCKET,
+				Bucket: Config.ACCR_AWS_ASSETS_BUCKET,
 				Body: compressedImage,
 				ContentType: 'image/webp',
 			})
 		);
 
 		// Return S3 url
-		return `${ACCR_AWS_ASSETS_URL}/${encodeURIComponent(key)}`;
+		return `${Config.ACCR_AWS_ASSETS_URL}/${encodeURIComponent(key)}`;
 	}
 
 	public async cleanUnusedImagesFromExistingUrls(
@@ -89,7 +82,7 @@ export class ImageUploader {
 		}, [] as string[]);
 		try {
 			const listCommand = new ListObjectsV2Command({
-				Bucket: ACCR_AWS_ASSETS_BUCKET,
+				Bucket: Config.ACCR_AWS_ASSETS_BUCKET,
 			});
 			const { Contents } = await this.s3Client.send(listCommand);
 
@@ -103,7 +96,7 @@ export class ImageUploader {
 
 				if (fileKey && !bucketKeys.includes(fileKey)) {
 					const deleteCommand = new DeleteObjectCommand({
-						Bucket: ACCR_AWS_ASSETS_BUCKET,
+						Bucket: Config.ACCR_AWS_ASSETS_BUCKET,
 						Key: fileKey,
 					});
 					await this.s3Client.send(deleteCommand);
