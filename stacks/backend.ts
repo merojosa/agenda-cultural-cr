@@ -7,6 +7,9 @@ export function BackendStack({ stack }: StackContext) {
 		runtime: 'nodejs18.x',
 		copyFiles: [{ from: 'apps/backend/templates/basic.html', to: 'templates/basic.html' }],
 		url: true,
+		nodejs: {
+			install: ['sharp'],
+		},
 		layers: [
 			lambda.LayerVersion.fromLayerVersionArn(
 				stack,
