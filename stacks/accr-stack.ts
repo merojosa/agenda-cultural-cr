@@ -1,8 +1,37 @@
-import { Config, Cron, Function, type StackContext } from 'sst/constructs';
+import {
+	Config,
+	Cron,
+	Function,
+	SvelteKitSite,
+	type StackContext,
+	type Stack,
+} from 'sst/constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
-export function BackendStack({ stack }: StackContext) {
+export function AccrStack({ stack }: StackContext) {
 	const DATABASE_URL = new Config.Secret(stack, 'DATABASE_URL');
+	const { ogFunctionUrl } = createBackendStack(stack, DATABASE_URL);
+	const { webUrl } = createWebStack(stack, DATABASE_URL, ogFunctionUrl);
+
+	stack.addOutputs({ generateOG: ogFunctionUrl });
+	stack.addOutputs({
+		url: webUrl,
+	});
+}
+
+function createWebStack(stack: Stack, databaseUrlSecret: Config.Secret, ogUrl: string | undefined) {
+	const site = new SvelteKitSite(stack, 'site', {
+		path: 'apps/web',
+		environment: {
+			VITE_APP_OG_URL: ogUrl ?? '',
+		},
+		bind: [databaseUrlSecret],
+	});
+
+	return { webUrl: site.url } as const;
+}
+
+function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 	const ACCR_AWS_REGION = new Config.Secret(stack, 'ACCR_AWS_REGION');
 	const ACCR_AWS_ASSETS_BUCKET = new Config.Secret(stack, 'ACCR_AWS_ASSETS_BUCKET');
 	const ACCR_AWS_ACCESS_KEY_ID = new Config.Secret(stack, 'ACCR_AWS_ACCESS_KEY_ID');
@@ -46,7 +75,7 @@ export function BackendStack({ stack }: StackContext) {
 					),
 				],
 				bind: [
-					DATABASE_URL,
+					databaseUrlSecret,
 					ACCR_AWS_REGION,
 					ACCR_AWS_ASSETS_BUCKET,
 					ACCR_AWS_ACCESS_KEY_ID,
@@ -58,5 +87,5 @@ export function BackendStack({ stack }: StackContext) {
 		schedule: 'cron(0 0 ? * WED *)',
 	});
 
-	stack.addOutputs({ generateOG: generateOgFunction.url });
+	return { ogFunctionUrl: generateOgFunction.url } as const;
 }

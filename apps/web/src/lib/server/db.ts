@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import { DATABASE_URL } from '$env/static/private';
+import { Config } from 'sst/node/config';
 
-const client = postgres(DATABASE_URL);
+const client = postgres(Config.DATABASE_URL);
 export const db = drizzle(client);

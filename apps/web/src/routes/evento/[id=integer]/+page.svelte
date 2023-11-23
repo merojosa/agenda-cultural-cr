@@ -3,7 +3,6 @@
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { PUBLIC_OG_URL } from '$env/static/public';
 	import { page } from '$app/stores';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 
@@ -36,7 +35,10 @@
 	<title>Agenda Cultural CR | {data.event.title}</title>
 	<meta property="og:title" content={data.event.title} />
 	<meta property="og:type" content="article" />
-	<meta property="og:image" content={`${PUBLIC_OG_URL}?title=${data.event.title}`} />
+	<meta
+		property="og:image"
+		content={`${import.meta.env.VITE_APP_OG_URL}?title=${data.event.title}`}
+	/>
 	<meta property="og:url" content={$page.url.href} />
 </svelte:head>
 

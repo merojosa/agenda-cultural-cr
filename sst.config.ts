@@ -1,6 +1,5 @@
 import type { SSTConfig } from 'sst';
-import { WebStack } from './stacks/web';
-import { BackendStack } from './stacks/backend';
+import { AccrStack } from './stacks/accr-stack';
 
 export default {
 	config() {
@@ -10,7 +9,6 @@ export default {
 		};
 	},
 	stacks(app) {
-		app.stack(WebStack, { stackName: `${app.stage}-accr-web` });
-		app.stack(BackendStack, { stackName: `${app.stage}-accr-backend` });
+		app.stack(AccrStack, { stackName: `${app.stage}-accr-stack` });
 	},
 } satisfies SSTConfig;
