@@ -1,9 +1,13 @@
 <script lang="ts">
-	import { Calendar, Link2, Theater } from 'lucide-svelte';
+	import { Calendar, Link2, Theater, Mail } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { DateTime } from 'luxon';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { page } from '$app/stores';
+	import WhatsAppIcon from '$lib/icons/whatsapp.svg?raw';
+	import FacebookIcon from '$lib/icons/facebook.svg?raw';
+	import TelegramIcon from '$lib/icons/telegram.svg?raw';
+	import TwitterIcon from '$lib/icons/twitter.svg?raw';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 
 	export let data: PageData;
@@ -62,16 +66,52 @@
 					</Button>
 				</li>
 			</ul>
+
 			<Separator />
-			<p class="text-lg">
-				Recordá visitar el sitio oficial para validar la información y comprar/conseguir las
-				entradas. Si querés saber cómo recolectamos la información de los eventos, hacé clic <Button
-					class="h-fit p-0 text-lg font-bold"
-					href="/recoleccion"
-					variant="link"
-					target="_blank">aquí.</Button
-				>
-			</p>
+
+			<div class="flex flex-col gap-6">
+				<ul class="flex flex-row items-center justify-evenly">
+					<li class="fill-foreground [&>*>svg]:h-12">
+						<a
+							href={`https://web.whatsapp.com/send?text=${$page.url.href}`}
+							data-action="share/whatsapp/share"
+							target="_blank"
+							>{@html WhatsAppIcon}
+						</a>
+					</li>
+					<li class="fill-foreground [&>*>svg]:h-12">
+						<a href={`https://twitter.com/intent/tweet?text=${$page.url.href}`} target="_blank">
+							{@html TwitterIcon}
+						</a>
+					</li>
+					<li class="fill-foreground [&>*>svg]:h-12">
+						<a
+							href={`https://www.facebook.com/sharer/sharer.php?u=${$page.url.href}`}
+							target="_blank"
+						>
+							{@html FacebookIcon}
+						</a>
+					</li>
+					<li class="fill-foreground [&>*>svg]:h-12">
+						<a href={`https://t.me/share/url?url=${$page.url.href}`} target="_blank">
+							{@html TelegramIcon}
+						</a>
+					</li>
+					<li class="[&>*>*]:h-12 [&>*>*]:w-12">
+						<a href={`mailto:?body=${$page.url.href}`} target="_blank"> <Mail /> </a>
+					</li>
+				</ul>
+
+				<p class="text-lg">
+					Recordá visitar el sitio oficial para validar la información y comprar/conseguir las
+					entradas. Si querés saber cómo recolectamos la información de los eventos, hacé clic <Button
+						class="h-fit p-0 text-lg font-bold"
+						href="/recoleccion"
+						variant="link"
+						target="_blank">aquí.</Button
+					>
+				</p>
+			</div>
 		</div>
 		{#if data.event.imageUrl}
 			<div class="flex flex-1 flex-col gap-6">

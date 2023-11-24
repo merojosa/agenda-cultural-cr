@@ -32,5 +32,6 @@ module.exports = {
 	rules: {
 		'no-var': 'off',
 		'@typescript-eslint/consistent-type-imports': 'error',
+		'svelte/no-at-html-tags': 'off',
 	},
 };
