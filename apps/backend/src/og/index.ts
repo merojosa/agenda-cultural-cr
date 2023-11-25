@@ -3,6 +3,8 @@ import { html } from 'satori-html';
 import sharp from 'sharp';
 import fs from 'node:fs/promises';
 import { ApiHandler } from 'sst/node/api';
+import Path from 'node:path';
+
 export const generateOG = ApiHandler(async (event) => {
 	if (!event.queryStringParameters || !event.queryStringParameters['title']) {
 		return {
@@ -10,7 +12,9 @@ export const generateOG = ApiHandler(async (event) => {
 		};
 	}
 
-	const content = (await fs.readFile('templates/basic.html')).toString('utf-8');
+	const content = (await fs.readFile(Path.join(__dirname, 'templates/basic.html'))).toString(
+		'utf-8'
+	);
 	const parsedContent = content.replace('{{title}}', event.queryStringParameters['title']);
 	const markup = html(parsedContent);
 

@@ -1,44 +1,30 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 	"pipeline": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": [".svelte-kit/**", "dist/**"]
+		"db-schema#build": {
+			"outputs": ["dist/**"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["db-schema#build"]
 		},
 		"test": {
 			"dependsOn": ["lint", "typecheck"]
 		},
 		"lint": {},
-		"dev": {
-			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"]
-		},
-		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#from-dependent-workspaces
-		"backend#run": {
-			"dependsOn": ["build"]
-		},
-		"backend#deploy:dev": {
-			"dependsOn": ["build"]
-		},
-		"db#generate": {
-			"dependsOn": ["^build"]
-		},
-		"db#seed:dev": {
-			"dependsOn": ["^build"]
-		},
-		"sst:deploy:dev": {
-			"dependsOn": ["build"]
-		},
-		"web#sync": {
-			"outputs": [".svelte-kit/**"]
-		},
 		"topo": {
 			"dependsOn": ["^topo"]
 		},
 		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#dependencies-outside-of-a-task
 		"typecheck": {
 			"dependsOn": ["web#sync", "topo"]
+		},
+		"db#generate": {
+			"dependsOn": ["^build"]
+		},
+		"db#seed:dev": {
+			"dependsOn": ["^build"]
 		}
 	}
 }

@@ -47,7 +47,12 @@ function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 	const generateOgFunction = new Function(stack, 'generate-og', {
 		handler: 'apps/backend/src/og/index.generateOG',
 		runtime: 'nodejs18.x',
-		copyFiles: [{ from: 'apps/backend/templates/basic.html', to: 'templates/basic.html' }],
+		copyFiles: [
+			{
+				from: 'apps/backend/src/og/templates/basic.html',
+				to: 'apps/backend/src/og/templates/basic.html',
+			},
+		],
 		url: true,
 		nodejs: {
 			install: ['sharp'],
