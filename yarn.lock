@@ -8558,10 +8558,10 @@ sst-aws-cdk@2.110.1-1:
   optionalDependencies:
     fsevents "2.3.2"
 
-sst@2.36.5:
-  version "2.36.5"
-  resolved "https://registry.yarnpkg.com/sst/-/sst-2.36.5.tgz#faeffc561c42738ee67bfb306ae555cf02ebd220"
-  integrity sha512-L2x2bxjvE3g988xYX7/IUwg2AwGAWjXyR6gqFZSnSzNlOh2TQWbwxem2VY5rffzBab+RVM5Bnr4FSueMzQ5o1w==
+sst@2.36.7:
+  version "2.36.7"
+  resolved "https://registry.yarnpkg.com/sst/-/sst-2.36.7.tgz#5d892273bb87c3abaa064642b2aa654b6893cc17"
+  integrity sha512-SPuUelrMVjECOYfLxJpbJZW+42MjcFTYm/M6nfDndsCzsF2CBdziw6x3/5D2TzDNMooIDV6c3vyj08u5CEhvTw==
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha" "^2.110.1-alpha.0"
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha" "^2.110.1-alpha.0"
@@ -8818,10 +8818,10 @@ svelte-hmr@^0.15.3:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.3.tgz#df54ccde9be3f091bf5f18fc4ef7b8eb6405fbe6"
   integrity sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==
 
-svelte-kit-sst@2.36.5:
-  version "2.36.5"
-  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.36.5.tgz#19f60f75be6e312306ca85b7ddedd18555407ca9"
-  integrity sha512-7OcQvSkMxUFKiBo2XqGnt8yNdN11wPco5cAhlMmuSglDeElelOo0cVJJD4dx9ehFKViMyRDeII3DO5dCYabl9w==
+svelte-kit-sst@2.36.7:
+  version "2.36.7"
+  resolved "https://registry.yarnpkg.com/svelte-kit-sst/-/svelte-kit-sst-2.36.7.tgz#b4d9ca63877f855f0a77a5be25c5ea8dea08beb7"
+  integrity sha512-G3JMfiRykjGByLqQd3NZo2H1CZice8nRVYu1XAgIjsjLvr/4cxtJP/P/3VIwLVq34BTYatsDHMMtfHEh/FVzgw==
 
 svelte-preprocess@^5.1.0:
   version "5.1.0"
