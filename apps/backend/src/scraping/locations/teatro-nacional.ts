@@ -106,7 +106,7 @@ export class TeatroNacional implements BackendLocation {
 				return playDays;
 			},
 			year,
-			month
+			month,
 		);
 
 		return teatroNacionalDays;
@@ -116,7 +116,7 @@ export class TeatroNacional implements BackendLocation {
 		browser: Browser,
 		rootPage: Page,
 		titlePlay: string | undefined,
-		datetimePlay: DateTime
+		datetimePlay: DateTime,
 	): Promise<{ description: string; source: string; imgUrl?: string } | null> {
 		await rootPage.hover('h2'); // Move mouse to somewhere else
 		const tooltipSelector = '.tooltipster-base.tooltipster-default:not(:empty)';
@@ -139,7 +139,7 @@ export class TeatroNacional implements BackendLocation {
 				return null;
 			},
 			datetimePlay.toFormat('h:mm a'),
-			titlePlay
+			titlePlay,
 		);
 
 		if (!(h3Result instanceof ElementHandle)) {
@@ -192,7 +192,7 @@ export class TeatroNacional implements BackendLocation {
 		try {
 			var imgUrlElement = await newPage.$eval(
 				'section > .generalWrap > div > a > img',
-				(element?: Element) => element?.getAttribute('src')
+				(element?: Element) => element?.getAttribute('src'),
 			);
 		} catch {
 			var imgUrlElement: string | null | undefined = undefined;
@@ -211,68 +211,71 @@ export class TeatroNacional implements BackendLocation {
 		const teatroNacionalDays = await this.getTeatroNacionalBasicData(
 			page,
 			currentYear,
-			currentMonth
+			currentMonth,
 		);
 
 		if (!teatroNacionalDays.length) {
 			throw new Error('No days length');
 		}
 
-		const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(async (seed, curr) => {
-			const awaitedSeed = await seed;
+		const teatroNacionalPlaysDbPromise = teatroNacionalDays.reduce(
+			async (seed, curr) => {
+				const awaitedSeed = await seed;
 
-			for (const play of curr.plays) {
-				const date = DateTime.fromObject({
-					year: curr.year,
-					month: curr.month,
-					day: curr.day,
-				});
-
-				const time =
-					play.hours !== undefined && play.minutes !== undefined
-						? DateTime.fromObject({ hour: play.hours, minute: play.minutes })
-						: null;
-
-				if (!time?.isValid || !date.isValid) {
-					this.logger.warn(
-						{ date, time, url: play.title },
-						'Event excluded due to invalid date and/or time'
-					);
-					continue;
-				}
-
-				// Here's the problem
-				const descriptionSourceImgUrl = await this.getDescriptionSourceImgUrl(
-					browser,
-					page,
-					play.title,
-					DateTime.fromObject({
-						year: date.year,
-						month: date.month,
-						day: date.day,
-						hour: time.hour,
-						minute: time.minute,
-					})
-				);
-
-				if (descriptionSourceImgUrl && play.title) {
-					awaitedSeed.eventEntities.push({
-						backendId: backendIdValues.teatroNacional,
-						title: play.title.trim(),
-						date,
-						time,
-						description: descriptionSourceImgUrl.description,
-						source: descriptionSourceImgUrl.source,
-						imageUrl: descriptionSourceImgUrl.imgUrl,
+				for (const play of curr.plays) {
+					const date = DateTime.fromObject({
+						year: curr.year,
+						month: curr.month,
+						day: curr.day,
 					});
-					if (descriptionSourceImgUrl.imgUrl) {
-						awaitedSeed.imageUrlsCollector.add(descriptionSourceImgUrl.imgUrl);
+
+					const time =
+						play.hours !== undefined && play.minutes !== undefined
+							? DateTime.fromObject({ hour: play.hours, minute: play.minutes })
+							: null;
+
+					if (!time?.isValid || !date.isValid) {
+						this.logger.warn(
+							{ date, time, url: play.title },
+							'Event excluded due to invalid date and/or time',
+						);
+						continue;
+					}
+
+					// Here's the problem
+					const descriptionSourceImgUrl = await this.getDescriptionSourceImgUrl(
+						browser,
+						page,
+						play.title,
+						DateTime.fromObject({
+							year: date.year,
+							month: date.month,
+							day: date.day,
+							hour: time.hour,
+							minute: time.minute,
+						}),
+					);
+
+					if (descriptionSourceImgUrl && play.title) {
+						awaitedSeed.eventEntities.push({
+							backendId: backendIdValues.teatroNacional,
+							title: play.title.trim(),
+							date,
+							time,
+							description: descriptionSourceImgUrl.description,
+							source: descriptionSourceImgUrl.source,
+							imageUrl: descriptionSourceImgUrl.imgUrl,
+						});
+						if (descriptionSourceImgUrl.imgUrl) {
+							awaitedSeed.imageUrlsCollector.add(descriptionSourceImgUrl.imgUrl);
+						}
 					}
 				}
-			}
 
-			return awaitedSeed;
-		}, Promise.resolve({ imageUrlsCollector: new Set(), eventEntities: [] } as ScrapingResult));
+				return awaitedSeed;
+			},
+			Promise.resolve({ imageUrlsCollector: new Set(), eventEntities: [] } as ScrapingResult),
+		);
 
 		return teatroNacionalPlaysDbPromise;
 	}

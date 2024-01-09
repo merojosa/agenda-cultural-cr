@@ -79,7 +79,7 @@
 					'flex',
 					'flex-col',
 					'gap-3',
-					'p-4'
+					'p-4',
 				)}
 			>
 				<Button
@@ -91,7 +91,7 @@
 						class={cn(
 							event.title.length > 35 ? 'line-clamp-2' : 'line-clamp-1',
 							!event.imageUrl && 'line-clamp-6',
-							'leading-normal'
+							'leading-normal',
 						)}
 						tag="h2">{event.title}</Card.Title
 					>
@@ -102,7 +102,7 @@
 						event.title.length > 35 ? 'line-clamp-6' : 'line-clamp-[7]',
 						!event.imageUrl && 'line-clamp-[10]',
 						'leading-normal',
-						'text-ellipsis'
+						'text-ellipsis',
 					)}>{formatDescription(event.description)}</Card.Description
 				>
 			</Card.Content>

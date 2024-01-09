@@ -25,6 +25,7 @@
 		},
 		"db#seed:dev": {
 			"dependsOn": ["^build"]
-		}
+		},
+		"web#sync": {}
 	}
 }

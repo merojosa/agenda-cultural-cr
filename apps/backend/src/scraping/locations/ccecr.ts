@@ -138,7 +138,7 @@ export class Ccecr implements BackendLocation {
 			day: number;
 			hours: number;
 			minutes: number;
-		}[]
+		}[],
 	) {
 		if (!dates.length || !time) {
 			return dates;
@@ -149,7 +149,7 @@ export class Ccecr implements BackendLocation {
 		if (words[0]?.endsWith('pm') || words[0]?.endsWith('am') || words[0]?.endsWith('md')) {
 			const formatted = DateTime.fromFormat(
 				words[0].toLocaleLowerCase().replace('md', 'pm'),
-				'h:mma'
+				'h:mma',
 			);
 
 			if (!formatted.isValid) {
@@ -178,7 +178,7 @@ export class Ccecr implements BackendLocation {
 			title: string | undefined;
 			url: string | undefined;
 			imageUrl: string | null;
-		}[]
+		}[],
 	) {
 		const events = [] as EventEntity[];
 		const imageUrlsCollector = new Set<string>();
@@ -195,7 +195,7 @@ export class Ccecr implements BackendLocation {
 			await page.waitForSelector('h1');
 			const content = await page.evaluate(() => {
 				const descriptionsHtmls = Array.from(document.querySelectorAll('div.texto p'), (element) =>
-					element.textContent ? element.innerHTML : ''
+					element.textContent ? element.innerHTML : '',
 				);
 
 				const possiblesDateTime = document.querySelectorAll('div.ficha_fila');
@@ -257,7 +257,7 @@ export class Ccecr implements BackendLocation {
 				} else {
 					this.logger.warn(
 						{ date, time, url: parsedData.data.url },
-						'Event excluded due to invalid date or time'
+						'Event excluded due to invalid date or time',
 					);
 				}
 			});
@@ -280,7 +280,7 @@ export class Ccecr implements BackendLocation {
 				const title = element.querySelector('div.post_info > a')?.innerHTML;
 
 				return { title, url, imageUrl: imageUrlMatch?.[1] ?? null };
-			})
+			}),
 		);
 		const details = await this.scrapDetails(page, initialData);
 
@@ -301,8 +301,8 @@ export class Ccecr implements BackendLocation {
 			const startMonth = DateTime.local().startOf('month');
 			await page.goto(
 				`https://ccecr.org/tipo/actividades/?fecha-inicio=${startMonth.toFormat(
-					'yyyy-LL-dd'
-				)}&fecha-fin=${startMonth.plus({ months: 2 }).toFormat('yyyy-LL-dd')}`
+					'yyyy-LL-dd',
+				)}&fecha-fin=${startMonth.plus({ months: 2 }).toFormat('yyyy-LL-dd')}`,
 			);
 			await page.waitForSelector('h1', { timeout: 10_000 });
 

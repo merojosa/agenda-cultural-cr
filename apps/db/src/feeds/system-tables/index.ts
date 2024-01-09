@@ -85,7 +85,7 @@ export async function systemTables(db: PostgresJsDatabase) {
 			.onConflictDoUpdate({
 				target: schema.locationTable.id,
 				set: { ...data.location[backendIdValueKey as keyof typeof schema.backendIdValues] },
-			})
+			}),
 	);
 	await Promise.all(locationInserts);
 
@@ -101,7 +101,7 @@ export async function systemTables(db: PostgresJsDatabase) {
 				set: {
 					...data.automaticLocation[backendIdValueKey as keyof typeof schema.backendIdValues],
 				},
-			})
+			}),
 	);
 	await Promise.all(automaticLocationInserts);
 }

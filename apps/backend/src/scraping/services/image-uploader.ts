@@ -60,7 +60,7 @@ export class ImageUploader {
 				Bucket: Config.ACCR_AWS_ASSETS_BUCKET,
 				Body: compressedImage,
 				ContentType: 'image/webp',
-			})
+			}),
 		);
 
 		// Return S3 url
@@ -70,7 +70,7 @@ export class ImageUploader {
 	public async cleanUnusedImagesFromExistingUrls(
 		urls: {
 			imageUrl: string | null;
-		}[]
+		}[],
 	) {
 		const bucketKeys = urls.reduce((seed, urlObject) => {
 			if (urlObject.imageUrl) {

@@ -13,7 +13,7 @@ export const generateOG = ApiHandler(async (event) => {
 	}
 
 	const content = (await fs.readFile(Path.join(__dirname, 'templates/basic.html'))).toString(
-		'utf-8'
+		'utf-8',
 	);
 	const parsedContent = content.replace('{{title}}', event.queryStringParameters['title']);
 	const markup = html(parsedContent);

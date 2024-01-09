@@ -20,14 +20,14 @@
 			return upperCaseFirstLetter(
 				DateTime.fromJSDate(date, { zone: 'utc' })
 					.plus({ hours: Number(hours), minutes: Number(minutes) })
-					.toFormat("cccc dd 'de' LLLL, hh:mm a", { locale: 'es-ES' })
+					.toFormat("cccc dd 'de' LLLL, hh:mm a", { locale: 'es-ES' }),
 			);
 		}
 
 		return upperCaseFirstLetter(
 			DateTime.fromJSDate(date, { zone: 'utc' }).toFormat("cccc dd 'de' LLLL", {
 				locale: 'es-ES',
-			})
+			}),
 		);
 	}
 </script>

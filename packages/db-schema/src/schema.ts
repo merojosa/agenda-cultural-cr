@@ -39,7 +39,7 @@ export const eventTable = pgTable(
 	},
 	(table) => ({
 		unq: unique().on(table.title, table.date, table.time, table.locationId, table.eventTypeId),
-	})
+	}),
 );
 
 export const eventTypeTable = pgTable('event_type', {

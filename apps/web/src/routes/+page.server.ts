@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ setHeaders }) => {
 		})
 		.from(eventTable)
 		.where(
-			between(eventTable.date, today.toJSDate(), today.plus({ weeks: 2 }).endOf('day').toJSDate())
+			between(eventTable.date, today.toJSDate(), today.plus({ weeks: 2 }).endOf('day').toJSDate()),
 		)
 		.orderBy(eventTable.date, eventTable.time);
 

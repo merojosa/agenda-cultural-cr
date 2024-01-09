@@ -41,7 +41,7 @@ function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 	const sharpLayer = lambda.LayerVersion.fromLayerVersionArn(
 		stack,
 		'sharp-layer',
-		'arn:aws:lambda:us-east-1:637732166235:layer:sharp-v0_32_5:4'
+		'arn:aws:lambda:us-east-1:637732166235:layer:sharp-v0_32_5:4',
 	);
 
 	const generateOgFunction = new Function(stack, 'generate-og', {
@@ -76,7 +76,7 @@ function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 					lambda.LayerVersion.fromLayerVersionArn(
 						stack,
 						'chromium',
-						'arn:aws:lambda:us-east-1:637732166235:layer:chromium-v115:2'
+						'arn:aws:lambda:us-east-1:637732166235:layer:chromium-v115:2',
 					),
 				],
 				bind: [

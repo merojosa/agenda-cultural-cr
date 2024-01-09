@@ -27,13 +27,13 @@ export const load: PageServerLoad = async ({ params, setHeaders }) => {
 			.where(eq(eventTable.id, Number(params.id)));
 	} catch (err) {
 		console.error(err);
-		throw error(404, {
+		return error(404, {
 			message: 'Event not found',
 		});
 	}
 
 	if (!eventQuery.length) {
-		throw error(404, {
+		return error(404, {
 			message: 'Event not found',
 		});
 	}

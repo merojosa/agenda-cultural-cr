@@ -106,7 +106,7 @@ export class TeatroElTriciclo implements BackendLocation {
 							// Log the warning only if functionValue.S is false
 							this.logger.warn({ functionValue }, 'Event excluded');
 						}
-					}
+					},
 				);
 			}
 		});

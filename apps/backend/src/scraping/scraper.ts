@@ -18,7 +18,7 @@ export class Scraper {
 	constructor(
 		private db: PostgresJsDatabase<typeof schema>,
 		private scrapingBackendLocations: ScrapingBackendLocations,
-		private imageUploader: ImageUploader
+		private imageUploader: ImageUploader,
 	) {
 		this.db = db;
 		this.scrapingBackendLocations = scrapingBackendLocations;
@@ -35,12 +35,12 @@ export class Scraper {
 			(arrayPromises, currentAutomaticLocation) => {
 				if (currentAutomaticLocation.backendId !== null) {
 					arrayPromises.push(
-						this.scrapingBackendLocations[currentAutomaticLocation.backendId].getData()
+						this.scrapingBackendLocations[currentAutomaticLocation.backendId].getData(),
 					);
 				}
 				return arrayPromises;
 			},
-			[] as Promise<ScrapingResult>[]
+			[] as Promise<ScrapingResult>[],
 		);
 
 		return Promise.allSettled(scrapingResultPromises);
@@ -56,7 +56,7 @@ export class Scraper {
 			if (scrapingResult.status === 'fulfilled') {
 				scrapingSuccess.push(...scrapingResult.value.eventEntities);
 				scrapingResult.value.imageUrlsCollector.forEach((urlCollector) =>
-					imagesUrlsCollector.add(urlCollector)
+					imagesUrlsCollector.add(urlCollector),
 				);
 			} else {
 				scrapingFailures.push(scrapingResult.reason);
@@ -77,7 +77,7 @@ export class Scraper {
 	private async updateDb(
 		scrapingSuccess: EventEntity[],
 		s3UrlsCollector: Map<string, string>,
-		failedScrapingBackendLocationsIds: Set<FailedScrapingLocations>
+		failedScrapingBackendLocationsIds: Set<FailedScrapingLocations>,
 	) {
 		const insertedEvents = await this.db
 			.insert(eventTable)
@@ -92,7 +92,7 @@ export class Scraper {
 					eventTypeId: DB_IDS.eventType.teatro,
 					locationId: DB_IDS.location[event.backendId],
 					imageUrl: s3UrlsCollector.get(event.imageUrl || ''),
-				}))
+				})),
 			)
 			.onConflictDoUpdate({
 				target: [
@@ -113,7 +113,7 @@ export class Scraper {
 		const insertedEventsIds = insertedEvents.map((insertedEvent) => insertedEvent.id);
 		const failedScrapingBackendLocationsIdsArray = Array.from(
 			failedScrapingBackendLocationsIds,
-			(value) => DB_IDS.location[value]
+			(value) => DB_IDS.location[value],
 		);
 
 		// 1) Remove the events that were not inserted
@@ -127,9 +127,9 @@ export class Scraper {
 						eventTable.locationId,
 						failedScrapingBackendLocationsIdsArray.length
 							? failedScrapingBackendLocationsIdsArray
-							: [-1]
-					)
-				)
+							: [-1],
+					),
+				),
 			);
 	}
 

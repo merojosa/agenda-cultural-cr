@@ -58,10 +58,10 @@ export class Espressivo implements BackendLocation {
 		const jsonStringData = await page.evaluate(() =>
 			Array.from(
 				document.querySelectorAll(
-					'table.tribe-events-calendar > tbody > tr > td > div[data-tribejson]'
+					'table.tribe-events-calendar > tbody > tr > td > div[data-tribejson]',
 				),
-				(element) => element.getAttribute('data-tribejson')
-			)
+				(element) => element.getAttribute('data-tribejson'),
+			),
 		);
 
 		const eventEntities = [] as EventEntity[];
@@ -98,7 +98,7 @@ export class Espressivo implements BackendLocation {
 
 				if (Array.isArray(error.issues)) {
 					const differentErrorOtherThanPrivateEvent = error.issues.find(
-						(issue) => issue.message !== PRIVATE_EVENT_MESSAGE
+						(issue) => issue.message !== PRIVATE_EVENT_MESSAGE,
 					);
 
 					// If there is an error that is not the private event one, print it.
@@ -130,7 +130,7 @@ export class Espressivo implements BackendLocation {
 			const currentMonthData = await this.scrapEspressivoData(page);
 
 			await page.goto(
-				`https://espressivo.cr/calendario/${today.plus({ months: 1 }).toFormat('y-LL')}`
+				`https://espressivo.cr/calendario/${today.plus({ months: 1 }).toFormat('y-LL')}`,
 			);
 			await page.waitForSelector('h1', { timeout: 10000 });
 
