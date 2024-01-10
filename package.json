@@ -24,11 +24,5 @@
 		"sst": "2.39.2",
 		"svelte-kit-sst": "2.39.2",
 		"turbo": "^1.11.3"
-	},
-	"workspaces": {
-		"packages": [
-			"packages/*",
-			"apps/*"
-		]
 	}
 }
