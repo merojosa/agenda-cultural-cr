@@ -16,7 +16,6 @@
 		"topo": {
 			"dependsOn": ["^topo"]
 		},
-		// https://turbo.build/repo/docs/core-concepts/monorepos/task-dependencies#dependencies-outside-of-a-task
 		"typecheck": {
 			"dependsOn": ["web#sync", "topo"]
 		},

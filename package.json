@@ -8,7 +8,7 @@
 		"typecheck": "turbo run typecheck",
 		"format": "prettier --write .",
 		"db:generate": "turbo run db#generate",
-		"db:deploy:dev": "yarn workspace db deploy:dev",
+		"db:deploy:dev": "pnpm run deploy:dev --filter db",
 		"db:seed:dev": "turbo run db#seed:dev",
 		"sst:deploy:dev": "sst deploy --stage dev",
 		"deploy:dev": "turbo run deploy:dev"

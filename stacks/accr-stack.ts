@@ -26,6 +26,7 @@ function createWebStack(stack: Stack, databaseUrlSecret: Config.Secret, ogUrl: s
 			VITE_APP_OG_URL: ogUrl ?? '',
 		},
 		bind: [databaseUrlSecret],
+		runtime: 'nodejs20.x',
 	});
 
 	return { webUrl: site.url } as const;
@@ -46,7 +47,7 @@ function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 
 	const generateOgFunction = new Function(stack, 'generate-og', {
 		handler: 'apps/backend/src/og/index.generateOG',
-		runtime: 'nodejs18.x',
+		runtime: 'nodejs20.x',
 		copyFiles: [
 			{
 				from: 'apps/backend/src/og/templates/basic.html',
@@ -65,7 +66,7 @@ function createBackendStack(stack: Stack, databaseUrlSecret: Config.Secret) {
 		job: {
 			function: {
 				handler: 'apps/backend/src/scraping/index.scrapData',
-				runtime: 'nodejs18.x',
+				runtime: 'nodejs20.x',
 				nodejs: {
 					install: ['sharp', '@sparticuz/chromium'],
 				},
