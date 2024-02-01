@@ -23,6 +23,6 @@
 		"prettier-plugin-tailwindcss": "^0.5.11",
 		"sst": "2.39.13",
 		"svelte-kit-sst": "2.39.13",
-		"turbo": "^1.11.3"
+		"turbo": "^1.12.2"
 	}
 }
