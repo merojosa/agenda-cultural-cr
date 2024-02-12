@@ -1,50 +1,20 @@
-import {
-	ScrapingError,
-	type BackendLocation,
-	type ScrapingResult,
-	type EventEntity,
-} from '#scraping/scraping-types';
+import { ScrapingError, type BackendLocation, type ScrapingResult } from '#scraping/scraping-types';
 import { logger } from '#scraping/services/logger';
-import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
-import { DateTime } from 'luxon';
 import type { Logger } from 'pino';
-import type { Page } from 'puppeteer-core';
 import { z } from 'zod';
 
-const PRIVATE_EVENT_MESSAGE = 'Private event';
-
-const espressivoData = z.object({
-	title: z.string().transform((anchor) => {
-		const titleFromAnchor = htmlToPlainText(anchor);
-		const title = titleFromAnchor.split('\n')[0];
-		return (title ?? titleFromAnchor).trim();
-	}),
-	permalink: z.string(),
-	imageSrc: z.string(),
-	// The private events have an empty excerpt, so with min(1) we make sure that the event is public
-	excerpt: z
-		.string()
-		.min(1, PRIVATE_EVENT_MESSAGE)
-		.transform((htmlText) => htmlToPlainText(htmlText).trim()),
-	startTime: z.string().transform((espressivoDate) => {
-		const [month, ...rest] = espressivoDate.split(' ');
-
-		if (!month || !rest) {
-			throw new Error(`Date error: ${espressivoDate}`);
-		}
-
-		const restText = rest.join(' ').trim();
-		const restLuxon = DateTime.fromFormat(restText, 'd @ h:mm a');
-
-		const luxonDate = restLuxon.set({ month: spanishMonths[month as keyof typeof spanishMonths] });
-
-		if (!luxonDate.isValid) {
-			throw new Error(`Date error, luxon. Month: ${month}, restText: ${restText}`);
-		}
-
-		return luxonDate;
-	}),
+const eventsListSchema = z.object({
+	swEvent: z.array(
+		z.object({
+			['ID']: z
+				.string()
+				.transform((id) => `https://boleteria.espressivo.cr/eventperformances.asp?evt=${id}`),
+			['Description']: z.string(),
+			['Img_1']: z.string().transform((img) => `https://boleteria.espressivo.cr/uplimage/${img}`),
+			['Event']: z.string(),
+		}),
+	),
 });
 
 export class Espressivo implements BackendLocation {
@@ -54,98 +24,28 @@ export class Espressivo implements BackendLocation {
 		this.logger = logger.child({ id: Espressivo.name });
 	}
 
-	private async scrapEspressivoData(page: Page): Promise<ScrapingResult> {
-		const jsonStringData = await page.evaluate(() =>
-			Array.from(
-				document.querySelectorAll(
-					'table.tribe-events-calendar > tbody > tr > td > div[data-tribejson]',
-				),
-				(element) => element.getAttribute('data-tribejson'),
-			),
+	private async getCurrentEvents() {
+		const eventsFetch = await fetch(
+			'https://boleteria.espressivo.cr/include/widgets/events/EventList.asp?category=&page=1',
 		);
+		const events = await eventsFetch.json();
 
-		const eventEntities = [] as EventEntity[];
-		const imageUrlsCollector = new Set<string>();
+		return eventsListSchema.parseAsync(events);
+	}
 
-		for (const jsonString of jsonStringData) {
-			try {
-				if (!jsonString) {
-					continue;
-				}
-
-				const parsedJsonFromString = JSON.parse(jsonString);
-				const parsedEvent = espressivoData.parse(parsedJsonFromString);
-
-				const lowerdCaseTitle = parsedEvent.title.toLowerCase();
-				// Remove private events
-				if (
-					!lowerdCaseTitle.includes('función privada') &&
-					!lowerdCaseTitle.includes('evento privado')
-				) {
-					eventEntities.push({
-						backendId: backendIdValues.espressivo,
-						title: parsedEvent.title,
-						date: parsedEvent.startTime,
-						time: parsedEvent.startTime,
-						description: parsedEvent.excerpt,
-						source: parsedEvent.permalink,
-						imageUrl: parsedEvent.imageSrc,
-					});
-					imageUrlsCollector.add(parsedEvent.imageSrc);
-				}
-			} catch (err) {
-				const error = err as Record<string, unknown>;
-
-				if (Array.isArray(error.issues)) {
-					const differentErrorOtherThanPrivateEvent = error.issues.find(
-						(issue) => issue.message !== PRIVATE_EVENT_MESSAGE,
-					);
-
-					// If there is an error that is not the private event one, print it.
-					if (differentErrorOtherThanPrivateEvent) {
-						this.logger.error({ error: String(err) }, 'Error parsing event');
-					}
-				}
-			}
-		}
-
-		return { eventEntities: eventEntities, imageUrlsCollector };
+	private scrapEspressivoEvent(url: string) {
+		console.log('BREAKPOINT', url);
 	}
 
 	public async getData(): Promise<ScrapingResult> {
 		try {
-			var browser = await launchNewBrowser();
+			var eventsList = await this.getCurrentEvents();
 		} catch (error) {
 			throw new ScrapingError(backendIdValues.espressivo, String(error));
 		}
 
-		try {
-			const page = await browser.newPage();
-			await page.setViewport({ width: 1920, height: 1080 });
+		eventsList.swEvent.map((event) => this.scrapEspressivoEvent(event.ID));
 
-			const today = DateTime.local();
-			await page.goto(`https://espressivo.cr/calendario/${today.toFormat('y-LL')}`);
-			await page.waitForSelector('h1', { timeout: 10000 });
-
-			const currentMonthData = await this.scrapEspressivoData(page);
-
-			await page.goto(
-				`https://espressivo.cr/calendario/${today.plus({ months: 1 }).toFormat('y-LL')}`,
-			);
-			await page.waitForSelector('h1', { timeout: 10000 });
-
-			const nextMonthData = await this.scrapEspressivoData(page);
-
-			const mergedEntities = currentMonthData.eventEntities.concat(nextMonthData.eventEntities);
-			const mergedCollector = new Set([
-				...currentMonthData.imageUrlsCollector,
-				...nextMonthData.imageUrlsCollector,
-			]);
-			return { eventEntities: mergedEntities, imageUrlsCollector: mergedCollector };
-		} catch (error) {
-			throw new ScrapingError(backendIdValues.teatroNacional, String(error));
-		} finally {
-			browser.close();
-		}
+		return { eventEntities: [], imageUrlsCollector: new Set() };
 	}
 }
