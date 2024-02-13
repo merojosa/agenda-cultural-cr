@@ -1,10 +1,29 @@
 import type { backendIdValues } from 'db-schema';
 import type { DateTime } from 'luxon';
+import type { Logger } from 'pino';
+import { logger } from './services/logger';
 
 export type ScrapingResult = {
 	eventEntities: EventEntity[];
 	imageUrlsCollector: Set<string>;
 };
+
+export abstract class BackendLocationTest {
+	protected logger: Logger;
+	constructor(id: keyof typeof backendIdValues) {
+		this.logger = logger.child({ id });
+	}
+	protected abstract getData(): Promise<ScrapingResult>;
+
+	public async scrapData() {
+		const results = await this.getData();
+		this.logger.info({
+			eventEntitiesLength: results.eventEntities.length,
+			imageCollectorSize: results.imageUrlsCollector.size,
+		});
+		return results;
+	}
+}
 
 export interface BackendLocation {
 	getData(): Promise<ScrapingResult>;

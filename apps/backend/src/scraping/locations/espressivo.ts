@@ -1,7 +1,5 @@
-import { ScrapingError, type BackendLocation, type ScrapingResult } from '#scraping/scraping-types';
-import { logger } from '#scraping/services/logger';
+import { ScrapingError, type ScrapingResult, BackendLocationTest } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
-import type { Logger } from 'pino';
 import { z } from 'zod';
 
 const eventsListSchema = z.object({
@@ -17,13 +15,10 @@ const eventsListSchema = z.object({
 	),
 });
 
-export class Espressivo implements BackendLocation {
-	private logger: Logger;
-
+export class Espressivo extends BackendLocationTest {
 	constructor() {
-		this.logger = logger.child({ id: Espressivo.name });
+		super('espressivo');
 	}
-
 	private async getCurrentEvents() {
 		const eventsFetch = await fetch(
 			'https://boleteria.espressivo.cr/include/widgets/events/EventList.asp?category=&page=1',
@@ -37,7 +32,7 @@ export class Espressivo implements BackendLocation {
 		console.log('BREAKPOINT', url);
 	}
 
-	public async getData(): Promise<ScrapingResult> {
+	protected async getData(): Promise<ScrapingResult> {
 		try {
 			var eventsList = await this.getCurrentEvents();
 		} catch (error) {
@@ -49,3 +44,7 @@ export class Espressivo implements BackendLocation {
 		return { eventEntities: [], imageUrlsCollector: new Set() };
 	}
 }
+
+const test = new Espressivo();
+
+test.scrapData();
