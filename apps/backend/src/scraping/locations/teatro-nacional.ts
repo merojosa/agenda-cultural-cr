@@ -1,10 +1,8 @@
 import { type Browser, ElementHandle, type Page } from 'puppeteer-core';
 import { DateTime } from 'luxon';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
-import { type BackendLocation, ScrapingError, type ScrapingResult } from '#scraping/scraping-types';
+import { ScrapingError, type ScrapingResult, BackendLocation } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
-import type { Logger } from 'pino';
-import { logger } from '#scraping/services/logger';
 
 type TeatroNacionalDay = {
 	day: number;
@@ -19,11 +17,9 @@ type BasicPlay = {
 	minutes?: number;
 };
 
-export class TeatroNacional implements BackendLocation {
-	private logger: Logger;
-
+export class TeatroNacional extends BackendLocation {
 	constructor() {
-		this.logger = logger.child({ id: TeatroNacional.name });
+		super('teatroNacional');
 	}
 
 	private getCurrentYear(page: Page) {

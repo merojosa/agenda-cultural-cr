@@ -35,7 +35,7 @@ export class Scraper {
 			(arrayPromises, currentAutomaticLocation) => {
 				if (currentAutomaticLocation.backendId !== null) {
 					arrayPromises.push(
-						this.scrapingBackendLocations[currentAutomaticLocation.backendId].getData(),
+						this.scrapingBackendLocations[currentAutomaticLocation.backendId].scrapData(),
 					);
 				}
 				return arrayPromises;

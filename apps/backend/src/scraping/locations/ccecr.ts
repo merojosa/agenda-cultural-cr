@@ -1,14 +1,12 @@
 import {
 	ScrapingError,
-	type BackendLocation,
 	type ScrapingResult,
 	type EventEntity,
+	BackendLocation,
 } from '#scraping/scraping-types';
-import { logger } from '#scraping/services/logger';
 import { htmlToPlainText, launchNewBrowser, spanishMonths } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
-import type { Logger } from 'pino';
 import type { Page } from 'puppeteer-core';
 import { z } from 'zod';
 
@@ -18,11 +16,9 @@ const initialDataSchema = z.object({
 	imageUrl: z.string().optional(),
 });
 
-export class Ccecr implements BackendLocation {
-	private logger: Logger;
-
+export class Ccecr extends BackendLocation {
 	constructor() {
-		this.logger = logger.child({ id: Ccecr.name });
+		super('ccecr');
 	}
 
 	private processCcecrDate(dateText: string | undefined | null) {

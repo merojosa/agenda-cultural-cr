@@ -1,4 +1,4 @@
-import { ScrapingError, type ScrapingResult, BackendLocationTest } from '#scraping/scraping-types';
+import { ScrapingError, type ScrapingResult, BackendLocation } from '#scraping/scraping-types';
 import { backendIdValues } from 'db-schema';
 import { z } from 'zod';
 
@@ -6,7 +6,7 @@ const eventsListSchema = z.object({
 	swEvent: z.array(
 		z.object({
 			['ID']: z
-				.string()
+				.number()
 				.transform((id) => `https://boleteria.espressivo.cr/eventperformances.asp?evt=${id}`),
 			['Description']: z.string(),
 			['Img_1']: z.string().transform((img) => `https://boleteria.espressivo.cr/uplimage/${img}`),
@@ -15,7 +15,7 @@ const eventsListSchema = z.object({
 	),
 });
 
-export class Espressivo extends BackendLocationTest {
+export class Espressivo extends BackendLocation {
 	constructor() {
 		super('espressivo');
 	}

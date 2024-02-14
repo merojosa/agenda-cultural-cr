@@ -1,18 +1,14 @@
-import { type BackendLocation, ScrapingError, type ScrapingResult } from '#scraping/scraping-types';
-import { logger } from '#scraping/services/logger';
+import { ScrapingError, type ScrapingResult, BackendLocation } from '#scraping/scraping-types';
 import { htmlToPlainText } from '#scraping/utils/scraping-utils';
 import { backendIdValues } from 'db-schema';
 import { DateTime } from 'luxon';
-import type { Logger } from 'pino';
 
 const BASE_URL = 'https://www.teatroeltriciclo.com';
 const API_URL = `${BASE_URL}/boleteria/CarteleraPublica`;
 
-export class TeatroElTriciclo implements BackendLocation {
-	private logger: Logger;
-
+export class TeatroElTriciclo extends BackendLocation {
 	constructor() {
-		this.logger = logger.child({ id: TeatroElTriciclo.name });
+		super('teatroElTriciclo');
 	}
 
 	private transformDatetimeToTime(value: string) {

@@ -8,7 +8,7 @@ export type ScrapingResult = {
 	imageUrlsCollector: Set<string>;
 };
 
-export abstract class BackendLocationTest {
+export abstract class BackendLocation {
 	protected logger: Logger;
 	constructor(id: keyof typeof backendIdValues) {
 		this.logger = logger.child({ id });
@@ -23,10 +23,6 @@ export abstract class BackendLocationTest {
 		});
 		return results;
 	}
-}
-
-export interface BackendLocation {
-	getData(): Promise<ScrapingResult>;
 }
 
 export type ScrapingBackendLocations = Record<
