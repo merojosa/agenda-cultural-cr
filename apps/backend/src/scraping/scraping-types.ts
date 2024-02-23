@@ -2,6 +2,7 @@ import type { backendIdValues } from 'db-schema';
 import type { DateTime } from 'luxon';
 import type { Logger } from 'pino';
 import { logger } from './services/logger';
+import pRetry from 'p-retry';
 
 export type ScrapingResult = {
 	eventEntities: EventEntity[];
@@ -10,13 +11,15 @@ export type ScrapingResult = {
 
 export abstract class BackendLocation {
 	protected logger: Logger;
+
 	constructor(id: keyof typeof backendIdValues) {
 		this.logger = logger.child({ id });
 	}
+
 	protected abstract getData(): Promise<ScrapingResult>;
 
 	public async scrapData() {
-		const results = await this.getData();
+		const results = await pRetry(this.getData, { retries: 4 });
 		this.logger.info({
 			eventEntitiesLength: results.eventEntities.length,
 			imageCollectorSize: results.imageUrlsCollector.size,

@@ -13,6 +13,7 @@
 		"drizzle-orm": "^0.29.0",
 		"html-to-text": "^9.0.5",
 		"luxon": "^3.4.3",
+		"p-retry": "^6.2.0",
 		"pino": "^8.16.1",
 		"postgres": "^3.4.3",
 		"puppeteer-core": "^21.0.3",
